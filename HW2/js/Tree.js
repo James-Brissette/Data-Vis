@@ -9,16 +9,20 @@ class Tree {
     
 
     constructor(json) {
+        let r = new Node();
         let elements = [];
         json.forEach(function(item) {
             let n = new Node(item.name,item.parent);
+            if (n.parentName === 'root') {
+                r = n;
+            }
             let i = elements.findIndex(j => j.name === item.parent);
             if (i > -1) {
-                n.parentNode = elements[i];
-                //elements[i].children.push(n);                
+                n.parentNode = elements[i];               
             }          
             elements.push(n);
         });
+        this.root = r;
         this.elements = elements;
     }
 
@@ -26,40 +30,34 @@ class Tree {
      * Function that builds a tree from a list of nodes with parent refs
      */
     buildTree() {
+    
         // note: in this function you will assign positions and levels by making calls to assignPosition() and assignLevel()
         let elements = this.elements;
         elements.forEach(function(item) {
            if (item.parentNode != null) {
                item.parentNode.children.push(item);
            }
-            
-            //Handles the root of the tree where there is no parent but d3 will reference the parent
-            //to calculate where to draw the line in renderTree()
-            if (item.parentNode === null) {
-                item.parentNode = item;
-            }
         });
-        
-        let i = elements.findIndex(i => i.parentName === "root")
-        
-        this.assignLevel(elements[i],0);
-        this.assignPosition(elements[i],0);
+            
+        //Handles the root of the tree where there is no parent but d3 will reference the parent
+        //to calculate where to draw the line in renderTree()
+        if (this.root.parentNode === null) {
+            this.root.parentNode = this.root;
+        }
+                
+        this.assignLevel(this.root,0);
+        this.assignPosition(this.root,0);
         this.renderTree();
-
-
     }
 
     /**
      * Recursive function that assign levels to each node
      */
     assignLevel(node, level) {
-        if (node.children != null) { 
-            node.children.forEach(function(item) {
-                this.assignLevel(item,level + 1);                
-            });
+        if (node.children.length != 0) {
+            node.children.forEach(n => this.assignLevel(n,level + 1));
         }
         node.level = level;
-        return;  
     }
 
     /**
@@ -70,13 +68,8 @@ class Tree {
         if (node.children.length === 0) { 
             return position + 1;
         }
-
-        node.children.forEach(function(item) {
-            position = this.assignPosition(item,position)
-        });
-
-        return position;
-        
+        node.children.forEach(n => position = this.assignPosition(n,position));
+        return position;     
     }
 
     /**
@@ -84,8 +77,8 @@ class Tree {
      */
     renderTree() { 
         let elements = this.elements;       
-        let svg = d3.select('svg');
-        let xscale = 140;
+        let svg = d3.select('body').append('svg');
+        let xscale = 150;
         let yscale = 100;
         
         svg
@@ -115,7 +108,14 @@ class Tree {
             .attr('cx', d => d.level * xscale)
             .attr('cy', d => d.position * yscale)
             .attr('r', 40);
-       
+
+        svg.selectAll('.nodeGroup').selectAll("text")
+            .data(elements)
+            .enter().append('text')
+            .attr('x', d => d.level * xscale)
+            .attr('y', d => d.position * yscale)
+            .attr('class', 'label')
+            .text(d => d.name);
     }
 
 }
