@@ -6,9 +6,10 @@ class Tree {
      * note: Node objects will have a name, parentNode, parentName, children, level, and position
      * @param {json[]} json - array of json objects with name and parent fields
      */
-    elements = [];
+    
 
     constructor(json) {
+        let elements = [];
         json.forEach(function(item) {
             let n = new Node(item.name,item.parent);
             let i = elements.findIndex(j => j.name === item.parent);
@@ -18,7 +19,7 @@ class Tree {
             }          
             elements.push(n);
         });
-            
+        this.elements = elements;
     }
 
     /**
@@ -26,6 +27,7 @@ class Tree {
      */
     buildTree() {
         // note: in this function you will assign positions and levels by making calls to assignPosition() and assignLevel()
+        let elements = this.elements;
         elements.forEach(function(item) {
            if (item.parentNode != null) {
                item.parentNode.children.push(item);
@@ -40,8 +42,10 @@ class Tree {
         
         let i = elements.findIndex(i => i.parentName === "root")
         
-        assignLevel(elements[i],0);
-        assignPosition(elements[i],0);
+        this.assignLevel(elements[i],0);
+        this.assignPosition(elements[i],0);
+        this.renderTree();
+
 
     }
 
@@ -51,10 +55,11 @@ class Tree {
     assignLevel(node, level) {
         if (node.children != null) { 
             node.children.forEach(function(item) {
-                assignLevel(item,level + 1)                
+                this.assignLevel(item,level + 1);                
             });
         }
-        node.level = level;     
+        node.level = level;
+        return;  
     }
 
     /**
@@ -67,7 +72,7 @@ class Tree {
         }
 
         node.children.forEach(function(item) {
-            position = assignPosition(item,position)
+            position = this.assignPosition(item,position)
         });
 
         return position;
@@ -77,7 +82,8 @@ class Tree {
     /**
      * Function that renders the tree
      */
-    renderTree() {        
+    renderTree() { 
+        let elements = this.elements;       
         let svg = d3.select('svg');
         let xscale = 140;
         let yscale = 100;
@@ -87,12 +93,13 @@ class Tree {
             .attr('width', 1200);
         
         svg.append('g')
-            .attr('class', 'nodeGroup')
-            .attr('transform', 'translate(50, 50) scale(140, 100)');
-        
-        svg.append('g')
             .attr('class', 'lineGroup')
-            .attr('transform', 'translate(50, 50) scale(140, 100)');
+            .attr('transform', 'translate(50, 50)');
+
+        svg.append('g')
+            .attr('class', 'nodeGroup')
+            .attr('transform', 'translate(50, 50)');
+        
         
          svg.selectAll('.lineGroup').selectAll('line')
             .data(elements)
