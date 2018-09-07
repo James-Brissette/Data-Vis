@@ -80,42 +80,49 @@ class Tree {
         let svg = d3.select('body').append('svg');
         let xscale = 150;
         let yscale = 100;
+        let trans = 50;
         
         svg
             .attr('height', 1200)
             .attr('width', 1200);
         
-        svg.append('g')
-            .attr('class', 'lineGroup')
-            .attr('transform', 'translate(50, 50)');
-
-        svg.append('g')
-            .attr('class', 'nodeGroup')
-            .attr('transform', 'translate(50, 50)');
-        
-        
-         svg.selectAll('.lineGroup').selectAll('line')
+        svg.selectAll('line')
             .data(elements)
             .enter().append('line')
-            .attr('x2', d => d.parentNode.level * xscale)
-            .attr('y2', d => d.parentNode.position * yscale)
-            .attr('x1', d => d.level * xscale)
-            .attr('y1', d => d.position * yscale);
-        
-        svg.selectAll('.nodeGroup').selectAll("circle")
+            .attr('x2', d => d.parentNode.level * xscale + trans)
+            .attr('y2', d => d.parentNode.position * yscale + trans)
+            .attr('x1', d => d.level * xscale + trans)
+            .attr('y1', d => d.position * yscale + trans);
+
+        let nodeGroup = svg.selectAll("g")
             .data(elements)
-            .enter().append('circle')
+            .enter().append('g')
+            .attr('class', 'nodeGroup')
+
+        nodeGroup.append('circle')
             .attr('cx', d => d.level * xscale)
             .attr('cy', d => d.position * yscale)
             .attr('r', 40);
 
-        svg.selectAll('.nodeGroup').selectAll("text")
+        nodeGroup.append('text')
+            .attr('x', d => d.level * xscale)
+            .attr('y', d => d.position * yscale)
+            .attr('class', 'label')
+            .text(d => d.name);
+
+        svg.selectAll('g')
+            .attr('transform', 'translate(' + trans + ',' + trans + ')');
+        
+        
+         
+
+        /* svg.selectAll('.nodeGroup').selectAll("text")
             .data(elements)
             .enter().append('text')
             .attr('x', d => d.level * xscale)
             .attr('y', d => d.position * yscale)
             .attr('class', 'label')
-            .text(d => d.name);
+            .text(d => d.name); */
     }
 
 }
