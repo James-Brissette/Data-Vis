@@ -82,8 +82,8 @@ class Tree {
         let yscale = 100;
         
         svg
-            .attr('height', 1200)
-            .attr('width', 1200);
+            .attr('height', 10000)
+            .attr('width', 10000);
         
         svg.append('g')
             .attr('class', 'lineGroup')
