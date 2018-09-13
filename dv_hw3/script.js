@@ -9,7 +9,7 @@ function staircase() {
     charta = document.getElementById("aBarChart").children;
     length = 10;
     for (let i = 0; i < charta.length; i++) {
-        charta[i].style.width = length;
+        charta[i].setAttribute('width',length);
         length += 10;
     }
 }
@@ -69,10 +69,16 @@ function update(data) {
     // ****** TODO: PART III (you will also edit in PART V) ******
 
     // TODO: Select and update the 'a' bar chart bars
-    let aBars = d3.selectAll('#aBarChart > rect')
-        .data(data)
+
+    let aBars = d3.selectAll('#aBarChart > rect').data(data);
+    aBarsEnter = aBars.enter().append('rect')
+        .attr('width', "0")
+
+    aBars.exit().remove()
+    aBars = aBars.merge(aBarsEnter);
+    aBars
         .attr('width', d => aScale(d.a))
-        .classed('bar', true)
+        .classed('bar', true);
 
     // TODO: Select and update the 'b' bar chart bars
     let bBars = d3.selectAll('#bBarChart > rect')
@@ -118,8 +124,8 @@ function update(data) {
     // TODO: Select and update the scatterplot points
     let tooltip = d3.select('#scatterplot').select('.tooltip')
     let points = d3.selectAll('#scatterplot > circle')
-        .data(data)
-    points.enter().append('circle').merge(points)
+        .data(data);
+    points = points.enter().append('circle').merge(points)
     points.exit().remove()
     
     points
