@@ -16,13 +16,13 @@ function staircase() {
 
 window.onload = function (e) {
     changeData().then(bindColorEvent);
-    document.tooltip({show: null});
 }
 
 function bindColorEvent() {
     let bars = document.getElementsByClassName('bar');
     for (let i = 0; i < bars.length; i++) {
         color = bars[i].style.fill
+        
         bars[i].addEventListener("mouseover", function(e) {
             bars[i].style.fill = "#000000"
         });
@@ -31,6 +31,7 @@ function bindColorEvent() {
         });
     }
 }
+d3.select('#aBarChart').selectAll('rect')
 
 /**
  * Render the visualizations
@@ -48,7 +49,7 @@ function update(data) {
      * We need to explicitly convert values to numbers so that comparisons work
      * when we call d3.max()
      **/
-
+    
     for (let d of data) {
         d.a = +d.a; //unary operator converts string to number
         d.b = +d.b; //unary operator converts string to number
@@ -70,22 +71,32 @@ function update(data) {
 
     // TODO: Select and update the 'a' bar chart bars
 
-    let aBars = d3.selectAll('#aBarChart > rect').data(data);
-    aBarsEnter = aBars.enter().append('rect')
-        .attr('width', "0")
+    let aBars = d3.select('#aBarChart').selectAll('rect')
+        .classed('bar', true).data(data);
+    aBarsEnter = aBars.enter().append('rect').classed('bar', true);
 
-    aBars.exit().remove()
+    aBars.exit().remove();
     aBars = aBars.merge(aBarsEnter);
+    console.log(aBars);
     aBars
         .attr('width', d => aScale(d.a))
-        .classed('bar', true);
+        .attr('height', 10)
+        .attr('x', 0)
+        .attr('y', (d,i) => 10*(i+1));
+        
 
     // TODO: Select and update the 'b' bar chart bars
-    let bBars = d3.selectAll('#bBarChart > rect')
-        .data(data)
+    let bBars = d3.select('#bBarChart').selectAll('rect').data(data);
+    bBarsEnter = bBars.enter().append('rect').classed('bar',true);
+    
+    bBars.exit().remove();
+    bBars = bBars.merge(bBarsEnter)
         .attr('width', d => bScale(d.b))
-        .classed('bar', true)
+        .attr('height', 10)
+        .attr('x', 0)
+        .attr('y', (d,i) => 10*(i+1))
 
+    bindColorEvent();
     // TODO: Select and update the 'a' line chart path using this line generator
 
     let aLineGenerator = d3.line()
@@ -123,14 +134,17 @@ function update(data) {
 
     // TODO: Select and update the scatterplot points
     let tooltip = d3.select('#scatterplot').select('.tooltip')
-    let points = d3.selectAll('#scatterplot > circle')
-        .data(data);
-    points = points.enter().append('circle').merge(points)
+    let points = d3.select('#scatterplot').selectAll('circle').data(data);
+    pointsEnter = points.enter().append('circle');
     points.exit().remove()
+    points = pointsEnter.merge(points);
+    
+    
     
     points
         .attr('cx', d => aScale(d.a))
         .attr('cy', d => bScale(d.b))
+        .attr('r', 5)
         .on('mouseover', function(d) {
             d3.select('.tooltip')
             .text('(' + d.a + ', ' + d.b + ')')
