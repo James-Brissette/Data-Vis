@@ -49,8 +49,8 @@ loadData().then(data => {
         // ******* TODO: PART I *******
 
         // You need to pass the world topo data to the drawMap() function as a parameter, along with the starting activeYear.
-        
-        worldMap.drawMap(mapData);
+        let world = topojson.feature(mapData, mapData.objects.countries)
+        worldMap.drawMap(world);
     });
 
     // This clears a selection by listening for a click

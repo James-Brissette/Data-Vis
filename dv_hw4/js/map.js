@@ -45,6 +45,7 @@ class Map {
      * @param world the json data with the shape of all countries and a string for the activeYear
      */
     drawMap(world) {
+        console.log(world.feature);
         //note that projection is global!
 
         // ******* TODO: PART I *******
@@ -65,7 +66,7 @@ class Map {
 
 
         let countries = [] 
-        world['objects']['countries']['geometries'].forEach(country => {
+        world.features.forEach(country => {
             let region_idx = this.data["population"].map(a => a.geo).indexOf(country.id);
             let region = this.data["population"].map(a => a.region)[region_idx];
             let c = new CountryData(country.type,country.arcs,country.id,region);
@@ -73,12 +74,9 @@ class Map {
         });
 
         let path = d3.geoPath().projection(this.projection);
-        let svg = d3.select()
-        d3.select('#map-chart').append('svg')
-            .attr('id','map');
 
         let map = d3.select('#map').selectAll('path')
-            .data(world['objects']['countries']['geometries'])
+            .data(world.features)
             .enter()
             .append('path')
             .attr('d', path);
