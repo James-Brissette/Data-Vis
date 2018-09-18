@@ -37,6 +37,7 @@ class Map {
         this.nameArray = data.population.map(d => d.geo.toUpperCase());
         this.populationData = data.population;
         this.updateCountry = updateCountry;
+        this.data = data;
     }
 
     /**
@@ -60,8 +61,27 @@ class Map {
         // You need to match the country with the region. This can be done using .map()
         // We have provided a class structure for the data called CountryData that you should assign the paramters to in your mapping
 
-        //TODO - Your code goes here - 
+        //TODO - Your code goes here -
 
+
+        let countries = [] 
+        world['objects']['countries']['geometries'].forEach(country => {
+            let region_idx = this.data["population"].map(a => a.geo).indexOf(country.id);
+            let region = this.data["population"].map(a => a.region)[region_idx];
+            let c = new CountryData(country.type,country.arcs,country.id,region);
+            countries.push(c);
+        });
+
+        let path = d3.geoPath().projection(this.projection);
+        let svg = d3.select()
+        d3.select('#map-chart').append('svg')
+            .attr('id','map');
+
+        let map = d3.select('#map').selectAll('path')
+            .data(world['objects']['countries']['geometries'])
+            .enter()
+            .append('path')
+            .attr('d', path);
 
     }
 

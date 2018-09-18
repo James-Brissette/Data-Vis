@@ -17,7 +17,7 @@ loadData().then(data => {
         that.activeCountry = countryID;
 
         //TODO - Your code goes here -
-        updateTextDescription() 
+        infoBox.updateTextDescription() 
 
     }
 
@@ -49,9 +49,8 @@ loadData().then(data => {
         // ******* TODO: PART I *******
 
         // You need to pass the world topo data to the drawMap() function as a parameter, along with the starting activeYear.
-
-        //TODO - Your code goes here - 
-
+        
+        worldMap.drawMap(mapData);
     });
 
     // This clears a selection by listening for a click
