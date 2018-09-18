@@ -135,6 +135,11 @@ path.hidden {
     pointer-events: none;
 }
 
+.graticule.outline { 
+    stroke: #000000;
+    stroke-width: 2px;
+}
+
 .graticule {
     fill: none;
     stroke: #777;
@@ -160,6 +165,10 @@ path.hidden {
     padding: 5px;
     display: inline-block;
     float: left;
+}
+
+#map > path:not([class]) {
+    fill:#D9D9D9; 
 }
 
 .innerWrapper {

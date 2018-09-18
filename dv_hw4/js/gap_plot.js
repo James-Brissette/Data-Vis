@@ -52,7 +52,7 @@ class GapPlot {
 
         //TODO - Your code goes here - 
 
-
+        this.drawPlot();
         // ******* TODO: PART 3 *******
         /**
          For part 4 of the homework, you will be using the other 3 parameters.
@@ -82,11 +82,23 @@ class GapPlot {
 
 
         //TODO - Your code goes here - 
-
+        
 
          The dropdown menus have been created for you!
 
          */
+
+         let xScale = d3.scaleLinear()
+            .domain([0,50])
+            .range([0,10])
+            .nice();
+
+        let yScale = d3.scaleLinear()
+            .domain([0,50])
+            .range([0,10])
+
+        let xAxis = d3.axisBottom();
+        let yAxis = d3.axisLeft();
 
         d3.select('#scatter-plot')
             .append('div').attr('id', 'chart-view');
@@ -103,6 +115,11 @@ class GapPlot {
             .append('svg').classed('plot-svg', true)
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
+        
+        d3.select('#chart-view')
+            .append('g')
+            .classed('x axis', true)
+            .call(xAxis);
 
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
 

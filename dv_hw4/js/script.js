@@ -50,6 +50,7 @@ loadData().then(data => {
 
         // You need to pass the world topo data to the drawMap() function as a parameter, along with the starting activeYear.
         let world = topojson.feature(mapData, mapData.objects.countries)
+        console.log(world.features);
         worldMap.drawMap(world);
     });
 

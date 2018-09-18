@@ -65,13 +65,14 @@ class Map {
         //TODO - Your code goes here -
 
 
-        let countries = [] 
+        let countries = []; 
         world.features.forEach(country => {
-            let region_idx = this.data["population"].map(a => a.geo).indexOf(country.id);
-            let region = this.data["population"].map(a => a.region)[region_idx];
-            let c = new CountryData(country.type,country.arcs,country.id,region);
-            countries.push(c);
+            let region_idx = this.data['population'].map(a => a.geo).indexOf(country.id.toLowerCase());
+            let region = this.data['population'].map(a => a.region)[region_idx];
+            let c = new CountryData(country.type,country.id,country.properties,country.geometry,region);
+            countries[country.id] = c;
         });
+        console.log(countries);
 
         let path = d3.geoPath().projection(this.projection);
 
@@ -79,8 +80,19 @@ class Map {
             .data(world.features)
             .enter()
             .append('path')
+            .attr('d', path)
+            .attr('class', d => (d.id === 'undefined') ? 'unassigned' : countries[d.id].region);
+
+        let graticule = d3.geoGraticule();
+        d3.select('#map').append('path')
+            .datum(graticule)
+            .attr('class','graticule')
             .attr('d', path);
 
+        d3.select('#map').append('path')
+            .datum(graticule.outline)
+            .attr('class','graticule outline')
+            .attr('d', path);
     }
 
     /**
