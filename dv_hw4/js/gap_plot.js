@@ -218,6 +218,8 @@ class GapPlot {
         Pay attention to the parameters needed in each of the functions
         
         */
+        
+        
         let ind = [];
         let counter = 0;
         let data_keys = Object.keys(this.data);
@@ -311,18 +313,22 @@ class GapPlot {
 
         circles = circlesEnter.merge(circles);
         
+        let thisGapPlot = this;
+        
         circles
             .attr('cx', d => xScale(d.xVal))
             .attr('cy', d => yScale(d.yVal))
             .attr('r', d => circleSizer(d))
             .attr('class', d => d.region)
             .attr('id', d => d.id)
-            .on('mouseenter', function(d, GapPlot) {
-                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(function(d){return this.tooltipRender(d);});
-            })
-            .on('mouseleave', function(d,i) {
-                d3.selectAll('.tooltip').remove();
+            .on('mouseenter', d => {
+                d3.select('.tooltip').append('div').classed('tip', true)
+                .html(thisGapPlot.tooltipRender(d));
+                console.log(thisGapPlot.tooltipRender(d))
             });
+//            .on('mouseleave', function(d,i) {
+//                d3.selectAll('.tip').remove();
+//            });
 
         this.drawDropDown(circleSizeIndicator, xIndicator, yIndicator);
     }
