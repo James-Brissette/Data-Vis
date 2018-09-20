@@ -13,11 +13,14 @@ loadData().then(data => {
      * @param countryID the ID object for the newly selected country
      */
     function updateCountry(countryID) {
-
         that.activeCountry = countryID;
 
         //TODO - Your code goes here -
-        infoBox.updateTextDescription() 
+        worldMap.clearHighlight();
+        worldMap.updateHighlightClick(that.activeCountry);
+        gapPlot.clearHighlight()
+        gapPlot.updateHighlightClick(that.activeCountry);
+        // infoBox.updateTextDescription() 
 
     }
 
@@ -32,7 +35,8 @@ loadData().then(data => {
     function updateYear(year) {
 
         //TODO - Your code goes here - 
-        updateTextDescription()
+        //updateTextDescription()
+        gapPlot.updatePlot(year,gapPlot.indicators[0],gapPlot.indicators[1],gapPlot.indicators[2]);
 
     }
     // Creates the view objects
@@ -57,7 +61,14 @@ loadData().then(data => {
     // This clears a selection by listening for a click
     document.addEventListener("click", function(e) {
         e.stopPropagation();
-        updateCountry(null, null);
+      
+        if (e.target.nodeName === 'path' || e.target.nodeName === 'circle') {
+            updateCountry(e.target.id);
+            console.log('detected good click');
+        } else {
+            updateCountry(null);
+        }
+        
     });
 
     gapPlot.updatePlot(this.activeYear, 'pop', 'pop', 'pop');

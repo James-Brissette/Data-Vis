@@ -75,13 +75,15 @@ class Map {
         console.log(countries);
 
         let path = d3.geoPath().projection(this.projection);
-
+        let thisMap = this;
         let map = d3.select('#map').selectAll('path')
             .data(world.features)
             .enter()
             .append('path')
             .attr('d', path)
-            .attr('class', d => (d.id === 'undefined') ? 'unassigned' : countries[d.id].region);
+            .attr('class', d => (d.id === 'undefined') ? 'unassigned' : countries[d.id].region)
+            .attr('id', d => (d.id === 'undefined') ? 'unassigned' : d.id.toLowerCase());
+            //.on('click', d => thisMap.updateCountry(d.id));
 
         let graticule = d3.geoGraticule();
         d3.select('#map').append('path')
@@ -107,8 +109,8 @@ class Map {
         // d3 selection and .classed to set these classes on here.
         //
 
-        //TODO - Your code goes here - 
-
+        d3.selectAll('#' + activeCountry).classed('selected-country',true);
+        console.log(activeCountry);
     }
 
     /**
@@ -124,7 +126,7 @@ class Map {
         // d3 selection and .classed to set these classes off here.
 
         //TODO - Your code goes here - 
-
-
+        d3.selectAll('.selected-country').classed('selected-country', false);
+        console.log("removing");
     }
 }

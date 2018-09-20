@@ -50,10 +50,12 @@ class GapPlot {
 
         this.data = data;
         this.countries = data["life-expectancy"].map(a => a.country);
-
+        this.indicators = [];
         //TODO - Your code goes here - 
         
         this.drawPlot();
+        this.updateYear = updateYear;
+        
         // ******* TODO: PART 3 *******
         /**
          For part 4 of the homework, you will be using the other 3 parameters.
@@ -137,7 +139,7 @@ class GapPlot {
         svgGroup.append('g').classed('circles', true)
             .attr('transform','translate(' + (xmargin + 10) + ',' + (ymargin) + ') scale(1,1)');
         
-        
+        this.drawYearBar();
 
         /* This is the setup for the dropdown menu- no need to change this */
 
@@ -218,7 +220,7 @@ class GapPlot {
         Pay attention to the parameters needed in each of the functions
         
         */
-        
+        this.indicators = [xIndicator, yIndicator, circleSizeIndicator];
         
         let ind = [];
         let counter = 0;
@@ -245,9 +247,12 @@ class GapPlot {
             
             plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
         });
-        console.log(plot_data);
+
+        
         let xmargin = 45;
         let ymargin = 10;
+
+        //Determines the appropriate scale for the X and Y axes
         let xMax = 0;
         this.data[ind[xIndicator]].forEach(function(e) {
             for (let i = 1800; i<=2020; i++) {
@@ -258,7 +263,6 @@ class GapPlot {
             .domain([0,xMax])
             .range([0,this.width])
             .nice();
-
         d3.select('.x.axis')
             .attr('transform','translate(' + xmargin + ',' + (this.height + ymargin) + ')')
             .call(d3.axisBottom().scale(xScale)); 
@@ -273,24 +277,28 @@ class GapPlot {
             .domain([yMax,0])
             .range([0,this.height])
             .nice();
-
         d3.select('.y.axis')
             .attr('transform','translate(' + xmargin + ',' + ymargin + ')')
             .call(d3.axisLeft().scale(yScale).tickFormat(d3.format('.3s')));
 
+        //Calculate the min and max circle size for the circle sizer function
         let minSize = 10000000;
         this.data[ind[circleSizeIndicator]].forEach(function(e) {
             for (let i = 1800; i<=2020; i++) {
                 minSize = Math.min(minSize, e[i]);
             }
         });
-        
         let maxSize = 0;
         this.data[ind[circleSizeIndicator]].forEach(function(e) {
             for (let i = 1800; i<=2020; i++) {
                 maxSize = Math.max(maxSize, e[i]);
             }
         });
+
+        //Update the plot activeYear text
+        d3.select(".background-text").select('text').text(activeYear);
+
+
         /**
          *  Function to determine the circle radius by circle size
          *  This is the function to size your circles, you don't need to do anything to this
@@ -306,15 +314,11 @@ class GapPlot {
 
         let circles = d3.select('.circles').selectAll('circle')
             .data(Object.values(plot_data));
-
         let circlesEnter = circles.enter().append('circle');
-
         circles.exit().remove();
-
         circles = circlesEnter.merge(circles);
-        
+    
         let thisGapPlot = this;
-        
         circles
             .attr('cx', d => xScale(d.xVal))
             .attr('cy', d => yScale(d.yVal))
@@ -322,15 +326,21 @@ class GapPlot {
             .attr('class', d => d.region)
             .attr('id', d => d.id)
             .on('mouseenter', d => {
-                d3.select('.tooltip').append('div').classed('tip', true)
+                d3.select('.tooltip')
+                .style('opacity',1)
+                .style('background', 'none').append('div').classed('tooltip', true)
+                .style('left', (xScale(d.xVal)-30) +'px')
+                .style('top', (yScale(d.yVal)-30) +'px')
+                .style('border','1px solid grey')
                 .html(thisGapPlot.tooltipRender(d));
-                console.log(thisGapPlot.tooltipRender(d))
-            });
-//            .on('mouseleave', function(d,i) {
-//                d3.selectAll('.tip').remove();
-//            });
+                console.log('Need to fix this so it relocates... ' + thisGapPlot.tooltipRender(d))
+            })
+           .on('mouseleave', function(d,i) {
+                d3.select('.tooltip').style('opacity',0).selectAll('.tooltip').remove();
+           });
 
         this.drawDropDown(circleSizeIndicator, xIndicator, yIndicator);
+        this.drawLegend(minSize,maxSize);
     }
 
     /**
@@ -454,6 +464,8 @@ class GapPlot {
         let that = this;
 
         //TODO - Your code goes here - 
+        
+        let xScale = d3.scaleLinear().domain([1800, 2020]).range([0,1]);
 
         //Slider to change the activeYear of the data
         let yearScale = d3.scaleLinear().domain([1800, 2020]).range([30, 730]);
@@ -464,7 +476,7 @@ class GapPlot {
             .attr('type', 'range')
             .attr('min', 1800)
             .attr('max', 2020)
-            .attr('value', this.activeYear);
+            .attr('value', this.activeYear)
 
         let sliderLabel = d3.select('.slider-wrap')
             .append('div').classed('slider-label', true)
@@ -475,10 +487,11 @@ class GapPlot {
         sliderText.attr('x', yearScale(this.activeYear));
         sliderText.attr('y', 25);
 
+        let slider = d3.select('.slider').node()
         yearSlider.on('input', function() {
-
-
+            that.updateYear(slider.value);
         });
+
     }
 
     /**
@@ -531,7 +544,9 @@ class GapPlot {
         // you will need to call it from the updateHighlight function in script.js
         */
 
-        //TODO - Your code goes here - 
+        let activeClass = d3.select('circle#' + activeCountry).attr('class').split(' ')[0];
+        d3.select('#chart-view').selectAll('circle').classed('hidden',true);
+        d3.select('#chart-view').selectAll('circle.' + activeClass).classed('hidden',false)
 
     }
 
@@ -547,7 +562,7 @@ class GapPlot {
         // the colors and markers for hosts/teams/winners, you can use
         // d3 selection and .classed to set these classes off here.
 
-        //TODO - Your code goes here - 
+        d3.select('#chart-view').selectAll('circle').classed('hidden',false)
     }
 
     /**

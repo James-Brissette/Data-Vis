@@ -167,6 +167,10 @@ path.hidden {
     float: left;
 }
 
+/*#map > path {
+    stroke:#FFF;
+    stroke-width: .25px;
+}*/
 #map > path:not([class]) {
     fill:#D9D9D9; 
 }
@@ -346,7 +350,7 @@ div.tooltip {
     padding: 2px;
     background: white;
     stroke: gray;
-    border-radius: 8px;
+    border-radius: 8px 8px 0px 8px;
     pointer-events: none;
 }
 
