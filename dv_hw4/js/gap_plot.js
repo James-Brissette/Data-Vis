@@ -133,7 +133,9 @@ class GapPlot {
             .call(yAxis);
         svgGroup.append('g').classed('x axis', true)
             .attr('transform','translate(' + xmargin + ',' + (this.height + ymargin) + ')')
-            .call(xAxis.tickFormat(d3.format('.3s')));    
+            .call(xAxis.tickFormat(d3.format('.3s')));
+        svgGroup.append('g').classed('circles', true)
+            .attr('transform','translate(' + (xmargin + 10) + ',' + (ymargin) + ') scale(1,1)');
         
         
 
@@ -241,7 +243,7 @@ class GapPlot {
             
             plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
         });
-
+        console.log(plot_data);
         let xmargin = 45;
         let ymargin = 10;
         let xMax = 0;
@@ -280,14 +282,13 @@ class GapPlot {
                 minSize = Math.min(minSize, e[i]);
             }
         });
-
+        
         let maxSize = 0;
         this.data[ind[circleSizeIndicator]].forEach(function(e) {
             for (let i = 1800; i<=2020; i++) {
                 maxSize = Math.max(maxSize, e[i]);
             }
         });
-
         /**
          *  Function to determine the circle radius by circle size
          *  This is the function to size your circles, you don't need to do anything to this
@@ -301,21 +302,27 @@ class GapPlot {
             return d.circleSize ? cScale(d.circleSize) : 3;
         };
 
-        d3.select('.wrapper-group').append('g').classed('circles', true)
-        let circles = d3.select('.circles')
+        let circles = d3.select('.circles').selectAll('circle')
             .data(Object.values(plot_data));
 
-        let circleEnter = circles.enter().append('circle');
-        circles.exit().remove()
+        let circlesEnter = circles.enter().append('circle');
 
-        circles = circles.merge(circleEnter);
+        circles.exit().remove();
+
+        circles = circlesEnter.merge(circles);
 
         circles
             .attr('cx', d => xScale(d.xVal))
             .attr('cy', d => yScale(d.yVal))
-            .attr('r', d => circleSizer(d.circleSize))
+            .attr('r', d => circleSizer(d))
             .attr('class', d => d.region)
-            .attr('id', d => d.id);
+            .attr('id', d => d.id)
+            .on('mouseenter', function(d,i) {
+                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(this.tooltipRender(d));
+            })
+            .on('mouseleave', function(d,i) {
+                d3.selectAll('.tooltip').remove();
+            });
 
         this.drawDropDown(circleSizeIndicator, xIndicator, yIndicator);
     }

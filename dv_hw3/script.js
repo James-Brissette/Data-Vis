@@ -15,11 +15,21 @@ function staircase() {
 }
 
 window.onload = function (e) {
-    changeData().then(bindColorEvent);
+    changeData();
 }
 
+function removeColorEvent() {
+    //cloneNode method also eliminates all eventListeners previously attached
+    let bars = document.getElementsByClassName('bar');
+
+    for (let i = 0; i < bars.length; i++) {
+        let new_rect = bars[i].cloneNode(true);
+        bars[i].parentNode.replaceChild(new_rect,bars[i]);
+    }
+}
 function bindColorEvent() {
     let bars = document.getElementsByClassName('bar');
+
     for (let i = 0; i < bars.length; i++) {
         color = bars[i].style.fill
         
@@ -70,31 +80,59 @@ function update(data) {
     // ****** TODO: PART III (you will also edit in PART V) ******
 
     // TODO: Select and update the 'a' bar chart bars
-
+    removeColorEvent();
     let aBars = d3.select('#aBarChart').selectAll('rect')
         .classed('bar', true).data(data);
-    aBarsEnter = aBars.enter().append('rect').classed('bar', true);
-
-    aBars.exit().remove();
-    aBars = aBars.merge(aBarsEnter);
-    console.log(aBars);
-    aBars
-        .attr('width', d => aScale(d.a))
+    let aBarsEnter = aBars.enter().append('rect')
+        .classed('bar', true)
+        .attr('width', 0)
         .attr('height', 10)
         .attr('x', 0)
         .attr('y', (d,i) => 10*(i+1));
+
+    aBars.exit()
+        .style('opacity',1)
+        .transition()
+        .duration(500)
+        .attr('width',0)
+        .remove();
+
+    aBars = aBarsEnter.merge(aBars);
+    
+    aBars.transition()
+        .duration(500)
+        .attr('width', d => aScale(d.a))
+        .attr('height', 10)
+        .attr('x', 0)
+        .attr('y', (d,i) => 10*(i+1))
+        .style('opacity',1);
         
 
     // TODO: Select and update the 'b' bar chart bars
-    let bBars = d3.select('#bBarChart').selectAll('rect').data(data);
-    bBarsEnter = bBars.enter().append('rect').classed('bar',true);
+    let bBars = d3.select('#bBarChart').selectAll('rect')
+        .classed('bar', true).data(data);
+    let bBarsEnter = bBars.enter().append('rect')
+        .classed('bar', true)
+        .attr('width', 0)
+        .attr('height', 10)
+        .attr('x', 0)
+        .attr('y', (d,i) => 10*(i+1));
     
-    bBars.exit().remove();
-    bBars = bBars.merge(bBarsEnter)
+    bBars.exit()
+        .style('opacity',1)
+        .transition()
+        .duration(500)
+        .attr('width',0)
+        .remove();
+
+    bBars = bBarsEnter.merge(bBars)
+    bBars.transition()
+        .duration(500)
         .attr('width', d => bScale(d.b))
         .attr('height', 10)
         .attr('x', 0)
         .attr('y', (d,i) => 10*(i+1))
+        .style('opacity',1);
 
     bindColorEvent();
     // TODO: Select and update the 'a' line chart path using this line generator
@@ -103,7 +141,8 @@ function update(data) {
         .x((d, i) => iScale(i))
         .y((d) => aScale(d.a));
 
-    let aPath = d3.select('#linesA > path')
+    let aPath = d3.select('#linesA > path').transition()
+        .duration(500)
         .attr('d', d => aLineGenerator(data))
 
     // TODO: Select and update the 'b' line chart path (create your own generator)
@@ -111,8 +150,8 @@ function update(data) {
     .x((d, i) => iScale(i))
     .y((d) => bScale(d.b));
 
-    let bPath = d3.select('#linesB > path')
-    .attr('d', d => bLineGenerator(data))
+    let bPath = d3.select('#linesB > path').transition().duration(500)
+    .attr('d', d => bLineGenerator(data));
 
     // TODO: Select and update the 'a' area chart path using this area generator
     let aAreaGenerator = d3.area()
@@ -120,7 +159,7 @@ function update(data) {
         .y0(0)
         .y1(d => aScale(d.a));
 
-    let aChart = d3.select('#aAreaChart')
+    let aChart = d3.select('#aAreaChart').transition().duration(500)
         .attr('d', d => aAreaGenerator(data))
 
     // TODO: Select and update the 'b' area chart path (create your own generator)
@@ -129,32 +168,42 @@ function update(data) {
         .y0(0)
         .y1(d => bScale(d.b));
     
-    let bChart = d3.select('#bAreaChart')
+    let bChart = d3.select('#bAreaChart').transition().duration(500)
         .attr('d', d => bAreaGenerator(data));
 
     // TODO: Select and update the scatterplot points
     let tooltip = d3.select('#scatterplot').select('.tooltip')
     let points = d3.select('#scatterplot').selectAll('circle').data(data);
-    pointsEnter = points.enter().append('circle');
-    points.exit().remove()
+    pointsEnter = points.enter().append('circle')
+        .attr('cy', 160)
+        .attr('cx', Math.floor(Math.random() * 150))
+        .style('opacity',0);
+
+    points.exit()
+        .style('opacity',1)
+        .transition()
+        .duration(500)
+        .style('opacity',0)
+        .remove();
+
     points = pointsEnter.merge(points);
-    
-    
-    
     points
-        .attr('cx', d => aScale(d.a))
-        .attr('cy', d => bScale(d.b))
-        .attr('r', 5)
+        .on('click', d => console.log('(' + d.a + ',' + d.b + ')'))
+        .on('mouseout', function(d) {
+            d3.select('.tooltip')
+            .attr('opacity',0)
+        })
         .on('mouseover', function(d) {
             d3.select('.tooltip')
             .text('(' + d.a + ', ' + d.b + ')')
             .attr('opacity',1)
         })
-        .on('mouseout', function(d) {
-            d3.select('.tooltip')
-            .attr('opacity',0)
-        })
-        .on('click', d => console.log('(' + d.a + ',' + d.b + ')'));
+        .transition().duration(500)
+        .attr('cx', d => aScale(d.a))
+        .attr('cy', d => bScale(d.b))
+        .attr('r', 5)
+        .style('opacity',1);  
+        
 
     // ****** TODO: PART IV ******
     function updateToolTip(d) {
