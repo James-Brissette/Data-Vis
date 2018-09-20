@@ -318,7 +318,7 @@ class GapPlot {
             .attr('class', d => d.region)
             .attr('id', d => d.id)
             .on('mouseenter', function(d, GapPlot) {
-                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(tooltipRender(d));
+                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(function(d){return this.tooltipRender(d);});
             })
             .on('mouseleave', function(d,i) {
                 d3.selectAll('.tooltip').remove();
