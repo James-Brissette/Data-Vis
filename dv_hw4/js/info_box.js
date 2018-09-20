@@ -43,7 +43,7 @@ class InfoBox {
          */
 
         //TODO - Your code goes here - 
-        let countryData = {}
+        // let countryData = {}
         Object.keys(data).forEach(function(key) {
             let idx = data[key].map(a => a.country).indexOf(activeCountry);
             countryData[key] =  data[key][idx][activeYear];

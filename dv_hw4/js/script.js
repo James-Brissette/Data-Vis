@@ -59,6 +59,9 @@ loadData().then(data => {
         e.stopPropagation();
         updateCountry(null, null);
     });
+
+    gapPlot.updatePlot(this.activeYear, 'pop', 'pop', 'pop');
+    
 });
 
 // ******* DATA LOADING *******
@@ -101,3 +104,4 @@ async function loadData() {
         'fertility-rate': tfr
     };
 }
+

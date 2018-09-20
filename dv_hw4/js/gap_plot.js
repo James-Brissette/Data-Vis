@@ -49,9 +49,10 @@ class GapPlot {
         this.activeYear = activeYear;
 
         this.data = data;
+        this.countries = data["life-expectancy"].map(a => a.country);
 
         //TODO - Your code goes here - 
-
+        
         this.drawPlot();
         // ******* TODO: PART 3 *******
         /**
@@ -89,17 +90,21 @@ class GapPlot {
          */
 
          let xScale = d3.scaleLinear()
-            .domain([0,50])
-            .range([0,10])
+            .domain([0,1000])
+            .range([0,this.width])
             .nice();
 
         let yScale = d3.scaleLinear()
-            .domain([0,50])
-            .range([0,10])
+            .domain([1000,0])
+            .range([0,this.height])
+            .nice();
 
-        let xAxis = d3.axisBottom();
-        let yAxis = d3.axisLeft();
-
+            
+        let xmargin = 35;
+        let ymargin = 10;
+        
+        let xAxis = d3.axisBottom().scale(xScale);
+        let yAxis = d3.axisLeft().scale(yScale);
         d3.select('#scatter-plot')
             .append('div').attr('id', 'chart-view');
 
@@ -115,14 +120,22 @@ class GapPlot {
             .append('svg').classed('plot-svg', true)
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
-        
-        d3.select('#chart-view')
-            .append('g')
-            .classed('x axis', true)
-            .call(xAxis);
 
         let svgGroup = d3.select('#chart-view').select('.plot-svg').append('g').classed('wrapper-group', true);
-
+        svgGroup.append('g').classed('background-text', true).append('text')
+            .text(this.activeYear)
+            .attr('x',this.width / 5)
+            .attr('y',this.height / 3)
+            .attr('font-size',90)
+            .attr('fill', '#999999');
+        svgGroup.append('g').classed('y axis', true)
+            .attr('transform','translate(' + xmargin + ',' + ymargin + ')')
+            .call(yAxis);
+        svgGroup.append('g').classed('x axis', true)
+            .attr('transform','translate(' + xmargin + ',' + (this.height + ymargin) + ')')
+            .call(xAxis.tickFormat(d3.format('.3s')));    
+        
+        
 
         /* This is the setup for the dropdown menu- no need to change this */
 
@@ -161,8 +174,6 @@ class GapPlot {
             .append('svg')
             .append('g')
             .attr('transform', 'translate(10, 0)');
-
-
     }
 
     /**
@@ -174,7 +185,7 @@ class GapPlot {
      * @param circleSizeIndicator identifies the values to use for the circle size
      */
     updatePlot(activeYear, xIndicator, yIndicator, circleSizeIndicator) {
-
+        
         // ******* TODO: PART 2 *******
 
         /*
@@ -205,8 +216,77 @@ class GapPlot {
         Pay attention to the parameters needed in each of the functions
         
         */
+        let ind = [];
+        let counter = 0;
+        let data_keys = Object.keys(this.data);
+        let data = this.data;
 
-        //TODO - Your code goes here - 
+        data_keys.map(a => new Set(this.data[a].map(b => b.indicator))).forEach(function(e) {
+            ind[Array.from(e)[0]] = data_keys[counter];
+            ++counter;
+        })
+
+        let plot_data = [];
+        this.countries.forEach(function(c) {
+            let xidx = data[ind[xIndicator]].map(a => a.country).indexOf(c);
+            
+            let yidx = data[ind[yIndicator]].map(a => a.country).indexOf(c);
+            let cidx = data[ind[circleSizeIndicator]].map(a => a.country).indexOf(c);
+
+            let id = data['life-expectancy'].map(a => a.geo)[data['life-expectancy'].map(a => a.country).indexOf(c)];
+            let region = data['population'].map(a => a.region)[data['population'].map(a => a.country).indexOf(c)];
+            let xVal = (xidx === -1) ? 0 : data[ind[xIndicator]][xidx][activeYear];
+            let yVal = (yidx === -1) ? 0 : data[ind[yIndicator]][yidx][activeYear];
+            let circleSize = (cidx === -1) ? 0 : data[ind[circleSizeIndicator]][cidx][activeYear];
+            
+            plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
+        });
+
+        let xmargin = 45;
+        let ymargin = 10;
+        let xMax = 0;
+        this.data[ind[xIndicator]].forEach(function(e) {
+            for (let i = 1800; i<=2020; i++) {
+                xMax = Math.max(xMax, e[i]);
+            }
+        });
+        let xScale = d3.scaleLinear()
+            .domain([0,xMax])
+            .range([0,this.width])
+            .nice();
+
+        d3.select('.x.axis')
+            .attr('transform','translate(' + xmargin + ',' + (this.height + ymargin) + ')')
+            .call(d3.axisBottom().scale(xScale)); 
+        
+        let yMax = 0;
+        this.data[ind[yIndicator]].forEach(function(e) {
+            for (let i = 1800; i<=2020; i++) {
+                yMax = Math.max(yMax, e[i]);
+            }
+        });
+        let yScale = d3.scaleLinear()
+            .domain([yMax,0])
+            .range([0,this.height])
+            .nice();
+
+        d3.select('.y.axis')
+            .attr('transform','translate(' + xmargin + ',' + ymargin + ')')
+            .call(d3.axisLeft().scale(yScale).tickFormat(d3.format('.3s')));
+
+        let minSize = 10000000;
+        this.data[ind[circleSizeIndicator]].forEach(function(e) {
+            for (let i = 1800; i<=2020; i++) {
+                minSize = Math.min(minSize, e[i]);
+            }
+        });
+
+        let maxSize = 0;
+        this.data[ind[circleSizeIndicator]].forEach(function(e) {
+            for (let i = 1800; i<=2020; i++) {
+                maxSize = Math.max(maxSize, e[i]);
+            }
+        });
 
         /**
          *  Function to determine the circle radius by circle size
@@ -221,7 +301,23 @@ class GapPlot {
             return d.circleSize ? cScale(d.circleSize) : 3;
         };
 
+        d3.select('.wrapper-group').append('g').classed('circles', true)
+        let circles = d3.select('.circles')
+            .data(Object.values(plot_data));
 
+        let circleEnter = circles.enter().append('circle');
+        circles.exit().remove()
+
+        circles = circles.merge(circleEnter);
+
+        circles
+            .attr('cx', d => xScale(d.xVal))
+            .attr('cy', d => yScale(d.yVal))
+            .attr('r', d => circleSizer(d.circleSize))
+            .attr('class', d => d.region)
+            .attr('id', d => d.id);
+
+        this.drawDropDown(circleSizeIndicator, xIndicator, yIndicator);
     }
 
     /**
