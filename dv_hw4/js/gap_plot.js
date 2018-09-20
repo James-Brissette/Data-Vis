@@ -310,15 +310,15 @@ class GapPlot {
         circles.exit().remove();
 
         circles = circlesEnter.merge(circles);
-
+        
         circles
             .attr('cx', d => xScale(d.xVal))
             .attr('cy', d => yScale(d.yVal))
             .attr('r', d => circleSizer(d))
             .attr('class', d => d.region)
             .attr('id', d => d.id)
-            .on('mouseenter', function(d,i) {
-                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(this.tooltipRender(d));
+            .on('mouseenter', function(d, GapPlot) {
+                d3.select('.circles').append('g').classed('tooltip',true).appendHTML(tooltipRender(d));
             })
             .on('mouseleave', function(d,i) {
                 d3.selectAll('.tooltip').remove();
