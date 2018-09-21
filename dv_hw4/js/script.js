@@ -62,15 +62,18 @@ loadData().then(data => {
     document.addEventListener("click", function(e) {
         e.stopPropagation();
         console.log(e);
+
+        //Update on click for relevant plot
         if (e.target.nodeName === 'path' || e.target.nodeName === 'circle') {
             gapPlot.activeCountry = [e.target.id, e.target.__data__.region];
-            gapPlot.selectionActive = 'selected-country';
             updateCountry(e.target.id);
             
-            console.log('detected good click');
-        } else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SELECT'){
+        } //Ignore clicks on dropdowns and slider
+        else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SELECT'){
             return;
-        } else {
+            
+        } //All other clicks clear selection
+        else {
             gapPlot.selectionActive = '';
             updateCountry(null);
             
