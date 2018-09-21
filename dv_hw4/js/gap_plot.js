@@ -338,7 +338,6 @@ class GapPlot {
                 .style('top', (yScale(d.yVal)-30) +'px')
                 .style('border','1px solid grey')
                 .html(thisGapPlot.tooltipRender(d));
-                console.log('Need to fix this so it relocates... ' + thisGapPlot.tooltipRender(d))
             })
            .on('mouseleave', function(d,i) {
                 d3.select('.tooltip').style('opacity',0).selectAll('.tooltip').remove();
@@ -471,6 +470,7 @@ class GapPlot {
         //TODO - Your code goes here - 
         
         let xScale = d3.scaleLinear().domain([1800, 2020]).range([0,1]);
+        let colorScale = d3.scaleLinear().domain([1800,1900, 2000,2020]).range(['#b28b8b','#8083ba','#d3d3d3','#86a58d']);
 
         //Slider to change the activeYear of the data
         let yearScale = d3.scaleLinear().domain([1800, 2020]).range([30, 730]);
@@ -495,6 +495,9 @@ class GapPlot {
         let slider = d3.select('.slider').node()
         yearSlider.on('input', function() {
             that.updateYear(slider.value);
+            sliderText.attr('x', yearScale(slider.value));
+            sliderText.text(slider.value);
+            d3.selectAll('.neutral').style('fill',colorScale(slider.value));
         });
 
     }
@@ -551,7 +554,8 @@ class GapPlot {
 
         let activeClass = d3.select('circle#' + activeCountry).attr('class').split(' ')[0];
         d3.select('#chart-view').selectAll('circle').classed('hidden',true);
-        d3.select('#chart-view').selectAll('circle.' + activeClass).classed('hidden',false)
+        d3.select('#chart-view').selectAll('circle.' + activeClass).classed('hidden',false);
+        d3.select('#chart-view').selectAll('circle.neutral').classed('hidden',false);
 
     }
 

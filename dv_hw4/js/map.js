@@ -45,7 +45,6 @@ class Map {
      * @param world the json data with the shape of all countries and a string for the activeYear
      */
     drawMap(world) {
-        console.log(world.feature);
         //note that projection is global!
 
         // ******* TODO: PART I *******
@@ -69,11 +68,11 @@ class Map {
         world.features.forEach(country => {
             let region_idx = this.data['population'].map(a => a.geo).indexOf(country.id.toLowerCase());
             let region = this.data['population'].map(a => a.region)[region_idx];
+            if (region === undefined) { region = 'unassigned'}
             let c = new CountryData(country.type,country.id,country.properties,country.geometry,region);
             countries[country.id] = c;
         });
-        console.log(countries);
-
+        
         let path = d3.geoPath().projection(this.projection);
         let thisMap = this;
         let map = d3.select('#map').selectAll('path')
@@ -81,8 +80,8 @@ class Map {
             .enter()
             .append('path')
             .attr('d', path)
-            .attr('class', d => (d.id === 'undefined') ? 'unassigned' : countries[d.id].region)
-            .attr('id', d => (d.id === 'undefined') ? 'unassigned' : d.id.toLowerCase());
+            .attr('class', d => countries[d.id].region === 'undefined' ? 'unassigned' : countries[d.id].region)
+            .attr('id', d => d.id.toLowerCase());
             //.on('click', d => thisMap.updateCountry(d.id));
 
         let graticule = d3.geoGraticule();
@@ -110,7 +109,6 @@ class Map {
         //
 
         d3.selectAll('#' + activeCountry).classed('selected-country',true);
-        console.log(activeCountry);
     }
 
     /**
@@ -127,6 +125,5 @@ class Map {
 
         //TODO - Your code goes here - 
         d3.selectAll('.selected-country').classed('selected-country', false);
-        console.log("removing");
     }
 }

@@ -22,7 +22,9 @@ class InfoBox {
      * @param data the full data array
      */
     constructor(data) {
-
+        this.data = data;
+        this.countries = data["life-expectancy"].map(a => a.country);
+        d3.select('#country-detail').append('g').classed('info-box', true);
     }
 
     /**
@@ -43,11 +45,28 @@ class InfoBox {
          */
 
         //TODO - Your code goes here - 
-        // let countryData = {}
-        // Object.keys(data).forEach(function(key) {
-        //     let idx = data[key].map(a => a.country).indexOf(activeCountry);
-        //     countryData[key] =  data[key][idx][activeYear];
-        // });
+        let countryData = []
+        this.countries.forEach(function(c) {
+            let idx = data[ind[xIndicator]].map(a => a.country).indexOf(c);
+
+            let id = data['life-expectancy'].map(a => a.geo)[data['life-expectancy'].map(a => a.country).indexOf(c)];
+            let region = data['population'].map(a => a.region)[data['population'].map(a => a.country).indexOf(c)];
+            let xVal = (xidx === -1) ? 0 : data[ind[xIndicator]][xidx][activeYear];
+            let yVal = (yidx === -1) ? 0 : data[ind[yIndicator]][yidx][activeYear];
+            let circleSize = (cidx === -1) ? 0 : data[ind[circleSizeIndicator]][cidx][activeYear];
+            
+            plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
+        });
+
+
+        Object.keys(this.data).forEach(function(key) {
+            let idx = this.data[key].map(a => a.country).indexOf(activeCountry);
+            countryData[key] =  this.data[key][idx][activeYear];
+        });
+        console.log(countryData);
+
+        d3.select('.info-box').append('text').text('Population');
+        d3.select('.info-box').append('text').text('Population');
         
 
     }

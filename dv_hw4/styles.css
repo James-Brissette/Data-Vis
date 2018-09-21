@@ -171,9 +171,24 @@ path.hidden {
     stroke:#FFF;
     stroke-width: .25px;
 }*/
-#map > path:not([class]) {
-    fill:#D9D9D9; 
+
+.unassigned {
+    fill: #D9D9D9;
 }
+
+path.unassigned.selected-country,
+circle.unassigned.selected-country {
+    fill: rgb(136, 135, 135);
+    /*  stroke-width: 1px;*/
+    /* stroke: #000000;*/
+}
+
+i.unassigned {
+    color: #D9D9D9;
+}
+
+
+
 
 .innerWrapper {
     width: 790px;

@@ -15,12 +15,13 @@ loadData().then(data => {
     function updateCountry(countryID) {
         that.activeCountry = countryID;
 
-        //TODO - Your code goes here -
         worldMap.clearHighlight();
+        gapPlot.clearHighlight();
+        if (countryID === null) return;
+
         worldMap.updateHighlightClick(that.activeCountry);
-        gapPlot.clearHighlight()
         gapPlot.updateHighlightClick(that.activeCountry);
-        // infoBox.updateTextDescription() 
+        infoBox.updateTextDescription(countryID.toUpperCase); 
 
     }
 
@@ -36,6 +37,7 @@ loadData().then(data => {
 
         //TODO - Your code goes here - 
         //updateTextDescription()
+        gapPlot.activeYear = year;
         gapPlot.updatePlot(year,gapPlot.indicators[0],gapPlot.indicators[1],gapPlot.indicators[2]);
 
     }
@@ -54,7 +56,6 @@ loadData().then(data => {
 
         // You need to pass the world topo data to the drawMap() function as a parameter, along with the starting activeYear.
         let world = topojson.feature(mapData, mapData.objects.countries)
-        console.log(world.features);
         worldMap.drawMap(world);
     });
 
