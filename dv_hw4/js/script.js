@@ -61,12 +61,19 @@ loadData().then(data => {
     // This clears a selection by listening for a click
     document.addEventListener("click", function(e) {
         e.stopPropagation();
-      
+        console.log(e);
         if (e.target.nodeName === 'path' || e.target.nodeName === 'circle') {
+            gapPlot.activeCountry = [e.target.id, e.target.__data__.region];
+            gapPlot.selectionActive = 'selected-country';
             updateCountry(e.target.id);
+            
             console.log('detected good click');
+        } else if (e.target.nodeName === 'INPUT' || e.target.nodeName === 'SELECT'){
+            return;
         } else {
+            gapPlot.selectionActive = '';
             updateCountry(null);
+            
         }
         
     });

@@ -55,6 +55,7 @@ class GapPlot {
         
         this.drawPlot();
         this.updateYear = updateYear;
+        this.activeCountry = 0;
         
         // ******* TODO: PART 3 *******
         /**
@@ -323,7 +324,11 @@ class GapPlot {
             .attr('cx', d => xScale(d.xVal))
             .attr('cy', d => yScale(d.yVal))
             .attr('r', d => circleSizer(d))
-            .attr('class', d => d.region)
+            .attr('class', d => 
+                d.id.toLowerCase() === thisGapPlot.activeCountry[0] ? 
+                d.region + ' selected-country' : 
+                d.region === thisGapPlot.activeCountry[1] ? d.region : 
+                thisGapPlot.activeCountry === 0 ? d.region : d.region + ' hidden')
             .attr('id', d => d.id)
             .on('mouseenter', d => {
                 d3.select('.tooltip')
