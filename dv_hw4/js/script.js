@@ -17,11 +17,16 @@ loadData().then(data => {
 
         worldMap.clearHighlight();
         gapPlot.clearHighlight();
-        if (countryID === null) return;
+        infoBox.clearHighlight();
+
+        if (countryID === null) {
+            gapPlot.activeCountry = 0;
+            return;
+        }
 
         worldMap.updateHighlightClick(that.activeCountry);
         gapPlot.updateHighlightClick(that.activeCountry);
-        infoBox.updateTextDescription(countryID.toUpperCase); 
+        infoBox.updateTextDescription(countryID,that.activeYear); 
 
     }
 
@@ -34,11 +39,14 @@ loadData().then(data => {
      *  @param year the new year we need to set to the other views
      */
     function updateYear(year) {
-
+        that.activeYear = year;
         //TODO - Your code goes here - 
-        //updateTextDescription()
+        infoBox.clearHighlight();
         gapPlot.activeYear = year;
         gapPlot.updatePlot(year,gapPlot.indicators[0],gapPlot.indicators[1],gapPlot.indicators[2]);
+
+        if (that.activeCountry === null) return;
+        infoBox.updateTextDescription(that.activeCountry,year);
 
     }
     // Creates the view objects

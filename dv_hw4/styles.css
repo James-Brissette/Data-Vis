@@ -124,6 +124,46 @@ path.hidden {
     font-weight: bold;
 }
 
+.info-box > div > p:first-child {
+    font-size: 20px;
+    margin-left: 25px;
+}
+.info-box > div > p {
+    font-size: 13px;
+    margin: 5px;
+    font-weight: bold;
+}
+
+/*.attr('filter', region === 'americas' ? 'invert(.7) sepia(.5) saturate(3) hue-rotate(40deg)' :
+                            region === 'asia' ? 'invert(.7) sepia(.5) saturate(3) hue-rotate(160deg)' :
+                            region === 'europe' ? 'invert(.7) sepia(.6) saturate(300) hue-rotate(330deg)' :
+                            region === 'africa' ? 'invert(.7) sepia(.5) saturate(3) hue-rotate(0deg)' :
+                            'invert(.7)') 
+*/
+
+.info-box > svg {
+    position: absolute;
+}
+.info-box > svg.americas {
+    filter: invert(.7) sepia(.5) saturate(3) hue-rotate(40deg);
+}
+
+.info-box > svg.africa {
+    filter: invert(.7) sepia(.5) saturate(3) hue-rotate(0deg);
+}
+
+.info-box > svg.asia {
+    filter: invert(.7) sepia(.5) saturate(3) hue-rotate(160deg);
+}
+
+.info-box > svg.europe {
+    filter: invert(.7) sepia(.6) saturate(300) hue-rotate(330deg);
+}
+
+.info-box > svg.unassigned {
+    filter: invert(.7);
+}
+
 .stroke {
     fill: none;
     stroke: #000;
@@ -175,6 +215,7 @@ path.hidden {
 .unassigned {
     fill: #D9D9D9;
 }
+
 
 path.unassigned.selected-country,
 circle.unassigned.selected-country {

@@ -232,6 +232,7 @@ class GapPlot {
             ind[Array.from(e)[0]] = data_keys[counter];
             ++counter;
         })
+        console.log(ind);
 
         let plot_data = [];
         this.countries.forEach(function(c) {
@@ -470,7 +471,7 @@ class GapPlot {
         //TODO - Your code goes here - 
         
         let xScale = d3.scaleLinear().domain([1800, 2020]).range([0,1]);
-        let colorScale = d3.scaleLinear().domain([1800,1900, 2000,2020]).range(['#b28b8b','#8083ba','#d3d3d3','#86a58d']);
+        let colorScale = d3.scaleLinear().domain([1800,1900, 2000,2020]).range(['red','blue','black','orange']);
 
         //Slider to change the activeYear of the data
         let yearScale = d3.scaleLinear().domain([1800, 2020]).range([30, 730]);
@@ -497,7 +498,7 @@ class GapPlot {
             that.updateYear(slider.value);
             sliderText.attr('x', yearScale(slider.value));
             sliderText.text(slider.value);
-            d3.selectAll('.neutral').style('fill',colorScale(slider.value));
+            d3.selectAll('.info').style('color',colorScale(slider.value));
         });
 
     }

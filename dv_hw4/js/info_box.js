@@ -24,7 +24,8 @@ class InfoBox {
     constructor(data) {
         this.data = data;
         this.countries = data["life-expectancy"].map(a => a.country);
-        d3.select('#country-detail').append('g').classed('info-box', true);
+        d3.select('#country-detail').append('div').classed('info-box', true);
+        
     }
 
     /**
@@ -45,28 +46,59 @@ class InfoBox {
          */
 
         //TODO - Your code goes here - 
-        let countryData = []
-        this.countries.forEach(function(c) {
-            let idx = data[ind[xIndicator]].map(a => a.country).indexOf(c);
+        let data = this.data;
+        let popidx = data['population'].map(a => a.geo).indexOf(activeCountry);
+        let idx = data['life-expectancy'].map(a => a.geo).indexOf(activeCountry);
+        let country = data['life-expectancy'][idx]['country'];
+        let region = popidx === -1 ? 'unassigned' : data['population'][popidx]['region'];
 
-            let id = data['life-expectancy'].map(a => a.geo)[data['life-expectancy'].map(a => a.country).indexOf(c)];
-            let region = data['population'].map(a => a.region)[data['population'].map(a => a.country).indexOf(c)];
-            let xVal = (xidx === -1) ? 0 : data[ind[xIndicator]][xidx][activeYear];
-            let yVal = (yidx === -1) ? 0 : data[ind[yIndicator]][yidx][activeYear];
-            let circleSize = (cidx === -1) ? 0 : data[ind[circleSizeIndicator]][cidx][activeYear];
+        let pop = new InfoBoxData(country,region,'population', popidx === -1 ? 'undefined' : data['population'][popidx][activeYear]);
+        let gdppc_cppp = new InfoBoxData(country,region,'gdp',data['gdp'][idx][activeYear]);
+        let lex = new InfoBoxData(country,region,'life-expectancy',data['life-expectancy'][idx][activeYear]);
+        let tfr = new InfoBoxData(country,region,'fertility-rate',data['fertility-rate'][idx][activeYear]);
+        let u5mr = new InfoBoxData(country,region,'child-mortality',data['child-mortality'][idx][activeYear]);
+
+        //code snippet from https://bl.ocks.org/mbostock/1014829
+        // d3.select('.info-box').append('svg').attr('xlink:href','data/earth.svg').attr('width', 200)
+        // .attr('height', 200);
+        // d3.xml("earth.svg", function(error, xml) {
+        //     document.getElementsByClassName('info-box').appendChild(xml.documentElement);
+        //   });
+
+        d3.select(".info-box").append("svg").attr('height',20).attr('width',20)
+            .attr('class',region)
+            .append('svg:image')
+            .attr("xlink:href","earth.svg")
+            .attr("width", 20)
+            .attr("height", 20)
+
+        d3.select('.info-box').append('div').html(
+            '<p>'+country+'</p>'+
+            '<p>Population: ' + pop.value + '</p>'+
+            '<p>GDP per capita: ' + gdppc_cppp.value + '</p>'+
+            '<p>Child mortality (under age five): ' + u5mr.value+ '</p>'+
+            '<p>Life expectancy: ' + lex.value+ '</p>'+
+            '<p>Total fertility rate: ' + tfr.value+ '</p>');
+
+        
+            // d3.select('.info-box').append('g').append('text').text("Population :" + pop);     
+            // let id = data['life-expectancy'].map(a => a.geo)[data['life-expectancy'].map(a => a.country).indexOf(c)];
+            // let region = data['population'].map(a => a.region)[data['population'].map(a => a.country).indexOf(c)];
+            // let xVal = (xidx === -1) ? 0 : data[ind[xIndicator]][xidx][activeYear];
+            // let yVal = (yidx === -1) ? 0 : data[ind[yIndicator]][yidx][activeYear];
+            // let circleSize = (cidx === -1) ? 0 : data[ind[circleSizeIndicator]][cidx][activeYear];
             
-            plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
-        });
+            // plot_data[c] = new PlotData(c, xVal, yVal, id, region, circleSize);
 
 
-        Object.keys(this.data).forEach(function(key) {
-            let idx = this.data[key].map(a => a.country).indexOf(activeCountry);
-            countryData[key] =  this.data[key][idx][activeYear];
-        });
-        console.log(countryData);
+        // Object.keys(this.data).forEach(function(key) {
+        //     let idx = this.data[key].map(a => a.country).indexOf(activeCountry);
+        //     countryData[key] =  this.data[key][idx][activeYear];
+        // });
+        // console.log(countryData);
 
-        d3.select('.info-box').append('text').text('Population');
-        d3.select('.info-box').append('text').text('Population');
+        // d3.select('.info-box').append('text').text('Population');
+        // d3.select('.info-box').append('text').text('Population');
         
 
     }
@@ -75,8 +107,7 @@ class InfoBox {
      * Removes or makes invisible the info box
      */
     clearHighlight() {
-
-        //TODO - Your code goes here - 
+        d3.select('.info-box').html('');
     }
 
 }
