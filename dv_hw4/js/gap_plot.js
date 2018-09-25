@@ -108,6 +108,8 @@ class GapPlot {
         
         let xAxis = d3.axisBottom().scale(xScale);
         let yAxis = d3.axisLeft().scale(yScale);
+
+
         d3.select('#scatter-plot')
             .append('div').attr('id', 'chart-view');
 
@@ -236,6 +238,7 @@ class GapPlot {
 
         let plot_data = [];
         this.countries.forEach(function(c) {
+            
             let xidx = data[ind[xIndicator]].map(a => a.country).indexOf(c);
             
             let yidx = data[ind[yIndicator]].map(a => a.country).indexOf(c);
