@@ -86,13 +86,14 @@ def margin_perceptron(data, rate, w, b, t, mu):
                     w[key-1] += decayed_r*yi*example[key]
             b += rate*yi
             decayed_r = rate / (1+t)
-            print('At t=' + str(t) + ' rate = ' + str(rate) + '/' + str(1+t) + '=' + str(decayed_r))
+#            print('At t=' + str(t) + ' rate = ' + str(rate) + '/' + str(1+t) + '=' + str(decayed_r))
         
         t += 1
     print('mistakes = ' + str(mistakes))
     return w, b, t
 
 def average_perceptron(data, rate, w, b, avg_w, avg_b):
+    mistakes = 0
     for example in data:
         yi = 0;
         pred = 0;
@@ -109,20 +110,57 @@ def average_perceptron(data, rate, w, b, avg_w, avg_b):
                 continue
             else:
                 if (yi * pred) <= 0:
-                    print('updating w')
+#                    print('updating w')
                     w[key-1] += rate*yi*example[key]
-                print('updating a')
+#                print('updating a')
                 avg_w[key-1] += rate*yi*example[key]
                 
         if (yi * pred) <= 0:
+            mistakes += 1
             b += rate*yi
         avg_b += rate*yi
-        print('')
+    
+    print('mistakes = ' + str(mistakes))
     return w, b, avg_w, avg_b
 
-def aggressive_perceptron():
+def aggressive_perceptron(data, rate, w, b, t, mu):
+    mistakes = 0
+    xTx = 0
     
-    return
+    for example in data:
+        yi = 0;
+        pred = 0;
+        for key in list(example.keys()):
+            if key == 'label':
+                yi = example[key];
+            else:
+                pred += w[key-1]*example[key]
+        pred += b
+        
+#       Calculate xTx for calculating the learning rate
+        print(str(example))
+        for key in list(example.keys()):
+            if key == 'label':
+                continue
+            xTx += example[key] * example[key]
+        print(str(xTx))
+        rate = (mu - (yi*pred))/(xTx + 1)
+            
+        if (yi * pred) <= mu:
+            mistakes += 1
+            for key in list(example.keys()):
+                if key == 'label':
+                    continue
+                else:
+                    w[key-1] += rate*yi*example[key]
+                    
+            b += rate*yi
+#            print('At t=' + str(t) + ' rate = ' + str(rate) + '/' + str(1+t) + '=' + str(decayed_r))
+        
+        xTx = 0
+        t += 1
+    print('mistakes = ' + str(mistakes))
+    return w, b, t
 
 
 # Need to clarify with the TA exactly how the cross validation is to be run
@@ -185,7 +223,8 @@ mu = 0
 avg_w = np.zeros(DATA_DIM)
 avg_b = 0
 
-#simple_perceptron(data, rate, w, b)
-#decaying_perceptron(data, rate, w, b, t)
-#margin_perceptron(data, rate, w, b, t, mu)
+simple_perceptron(data, rate, w, b)
+decaying_perceptron(data, rate, w, b, t)
+margin_perceptron(data, rate, w, b, t, mu)
+aggressive_perceptron(data, rate, w, b, t, mu)
 x,y,z,aa = average_perceptron(data, rate, w, b, avg_w, avg_b)
