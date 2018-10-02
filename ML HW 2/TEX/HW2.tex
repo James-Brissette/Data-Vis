@@ -13,38 +13,46 @@
 	
 	\section{Linear Classifiers and Boolean Functions}
 		\begin{enumerate}
-			\item $ $
-			\item $ $
-			\item $ $
-			\item $ $
-			\item $ $
+			\item $\neg x_1 \vee x_2 \vee \neg x_3 $: Linearly separable $\rightarrow (1-x_1)+x_2 + (1-x_3) \geq 1$
+			\item $(x_1 \vee x_2) \wedge x_3$: Linearly separable $\rightarrow \frac{1}{2}(x_1 + x_2) + x_3 \geq 1.5$
+			\item $(x_1 \wedge \neg x_2) \vee \neg x_3$: Linearly separable $\rightarrow \frac{1}{2}(x_1 + (1-x_2))+(1-x_3) \geq 1$
+			\item $x_1$ xor $x_2$ xor $x_3$: Not linearly separable.
+			\item $x_1 \wedge \neg x_2 \wedge x_3$: Linearly separable $\rightarrow x_1 + (1-x_2) + x_3 \geq 3$
 		\end{enumerate}
 	
 	\section{Feature transformations}
 		\begin{enumerate}
-			\item 
-			\item 
+			\item My function is $\phi ( x_{1} , x_{2} ) = ( x_{1}^{4} , x_{2}^{3} )$, which maps $x_{1}$ and $x_{2}$ to $x_{1}^{4}$ and $x_{2}^{3}$ respectively. And in this space the function is linearly separable as $$\phi(fr(x_1,x_2)) = \begin{cases}
+			+1 \quad 17x_1+16x_2 \leq r \\
+			-1 \quad otherwise
+			\end{cases}$$
+			\item We can see that since the original function $17x_1^4-16x_2^3$ was $\leq r$, it follows the linear classifier for the new function is equivalent to $-w^T\phi (x_1,x_2) \geq b$
 		\end{enumerate}
 	
 	\section{Mistake Bound Model of Learning}
 		\begin{enumerate}
 			\item $ $
 			\begin{enumerate}
-				\item
-				\item
+				\item Since the concept class C consists of one function for every combination of $z$, which is $\{0,1\}^n$, $\vert C_1 \vert = 2^n$ 
+				\item The algorithm would proceed as follows:\\
+				\textit{\textbf{Observe example \\
+				predict 0\\
+				if correct, no update, continue\\
+				if incorrect, learning ends as the  target function has been learned.}}\\ \\
+				Since there is only one target function, and given that the function only evaluates to 1 for one single instance of the sample space (when x = z), there will never be a mistake so long as the learner continues to predict 0. When the learner finally encounters $z$, it will update and can continue to progress with the assurance that since $z$ has been found, there will never be another mistake. 
 			\end{enumerate}
-			\item A linear classifier compatible with the given data set is given by the below
+			\item $ $
 			\begin{enumerate}
-				\item
-				\item
+				\item If we assume in the worst case that nature is adversarial, then the CON algorithm will make $n-1$ mistakes. Because there are $n$ function where $f_i(x) = x_i$. Suppose our target function is $f_n$ and out randomly drawn function was $f_1$, we would then have a mistake, and proceed to randomly choose from $C - \{f_1\}$. This would continue $n-1$ times until at last the last function left in $C$ to evaluate was the target function $f$.
+				\item Since the halving algorithm predicts the majority label, $f_i$ would predict with the majority on every example except $x_i$, and would be correct every time. The majority will always predict 0 and will not incur any mistakes since there is in fact only one correct function. The only mistake will occur when $f_i$ predicts 0 with the majority on example $x_i$ when in fact it is correct. At that point the halving algorithm will eliminate all functions $f\in C$ which are not consistent, a set containing ONLY $f_i$, and learning ends after one mistake.
 			\end{enumerate}
 		\end{enumerate}
 	
 	\section{The Perceptron Algorithm and its Variants}
 		\begin{enumerate}
-			\item
-			\item
-			\item Noting that the random initialization may sometimes give different results with respect to the best hyper-parameters, in most cases I ran the 5-fold cross validation (for ten epochs each) several times and averaged them to see, on average, which parameters were actually the best. My results were as follows:\\ \\
+			\item I used python3 to implement the Perceptron algorithm variants. I chose not to represent the data in a full 19-dimensional vector given how sparse the data is (imagine there were 100 dimensions). Instead I used an array of dictionaries where each entry in the array corresponds to a row item in the data, and each item is itself a dictionary whose key-value pairs correspond to the attributes and respective values. For examples, if the entry were to read: +1 3:15 4:29 13:30 .. the dictionary structure would appear: \{label: 1, 3:15, 4:29, 13:30\}. This implementation didn't allow me to leverage numpys vector library, but the additional overhead involved in looping was minimal and is more memory efficient. In terms of evaluating each of the variants, I chose to create a cross validation function to handle identifying the best hyper-parameters, one dedicated function for each variant, as well as one test function for each to evaluate the best parameter combinations on the test set.
+			\item Given the most frequent label in the training set (+1), the accuracy on the development set is .56, and the test set is .525
+			\item Noting that the random initialization may sometimes give different results with respect to the best hyper-parameters, in most cases I ran the 5-fold cross validation (for ten epochs each) several times and averaged them to see, on average, which parameters were \textit{actually} the best (however, the below results are based on a single random instance of the algorithm on the data). My results were as follows:\\ \\
 			\textbf{Simple Perceptron}    \\
 			a) rate = \{.01\}  \\
 			b) cross-validation accuracy using rate=.01 was \textbf{0.612733}\\
@@ -135,7 +143,6 @@
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{aggressive_plot}
 			\end{center}
-			\item
 		\end{enumerate}
 	
 \end{document}

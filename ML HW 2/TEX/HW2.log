@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.11)  1 OCT 2018 17:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.11)  2 OCT 2018 10:41
 entering extended mode
 **./HW2.tex
 (HW2.tex
@@ -296,94 +296,105 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 12.
 ("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 49.
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omscmr.fd"
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 49.
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--53
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--53
+Underfull \hbox (badness 10000) in paragraph at lines 37--43
 
  []
 
 [1
 
 {C:/Users/James/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<simple_plot.png, id=11, 382.42876pt x 252.945pt>
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 53.
+
+("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--61
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 55--61
+
+ []
+
+[2]
+<simple_plot.png, id=20, 382.42876pt x 252.945pt>
 File: simple_plot.png Graphic file (type png)
 <use simple_plot.png>
-Package pdftex.def Info: simple_plot.png  used on input line 63.
+Package pdftex.def Info: simple_plot.png  used on input line 71.
 (pdftex.def)             Requested size: 297.91368pt x 197.05315pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--71
+Underfull \hbox (badness 10000) in paragraph at lines 73--79
 
  []
 
-<decaying_plot.png, id=13, 382.42876pt x 252.945pt>
+<decaying_plot.png, id=22, 382.42876pt x 252.945pt>
 File: decaying_plot.png Graphic file (type png)
 <use decaying_plot.png>
-Package pdftex.def Info: decaying_plot.png  used on input line 81.
+Package pdftex.def Info: decaying_plot.png  used on input line 89.
 (pdftex.def)             Requested size: 297.91368pt x 197.05315pt.
-[2 <./simple_plot.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 83--89
+[3 <./simple_plot.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 91--97
 
  []
 
-<margin_plot.png, id=19, 382.42876pt x 252.945pt>
+<margin_plot.png, id=27, 382.42876pt x 252.945pt>
 File: margin_plot.png Graphic file (type png)
 <use margin_plot.png>
-Package pdftex.def Info: margin_plot.png  used on input line 99.
+Package pdftex.def Info: margin_plot.png  used on input line 107.
 (pdftex.def)             Requested size: 297.91368pt x 197.05315pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--107
+Underfull \hbox (badness 10000) in paragraph at lines 109--115
 
  []
 
-[3 <./decaying_plot.png> <./margin_plot.png>]
-<average_plot.png, id=25, 382.42876pt x 252.945pt>
+[4 <./decaying_plot.png> <./margin_plot.png>]
+<average_plot.png, id=33, 382.42876pt x 252.945pt>
 File: average_plot.png Graphic file (type png)
 <use average_plot.png>
-Package pdftex.def Info: average_plot.png  used on input line 118.
+Package pdftex.def Info: average_plot.png  used on input line 126.
 (pdftex.def)             Requested size: 297.91368pt x 197.05315pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 120--126
+Underfull \hbox (badness 10000) in paragraph at lines 128--134
 
  []
 
-[4 <./average_plot.png>]
-<aggressive_plot.png, id=31, 382.42876pt x 252.945pt>
+[5 <./average_plot.png>]
+<aggressive_plot.png, id=38, 382.42876pt x 252.945pt>
 File: aggressive_plot.png Graphic file (type png)
 <use aggressive_plot.png>
-Package pdftex.def Info: aggressive_plot.png  used on input line 136.
+Package pdftex.def Info: aggressive_plot.png  used on input line 144.
 (pdftex.def)             Requested size: 297.91368pt x 197.05315pt.
- [5 <./aggressive_plot.png>] (HW2.aux) ) 
+ [6 <./aggressive_plot.png>] (HW2.aux) ) 
 Here is how much of TeX's memory you used:
- 2908 strings out of 492973
- 41011 string characters out of 3126692
- 110714 words of memory out of 3000000
- 6728 multiletter control sequences out of 15000+200000
- 11045 words of font info for 42 fonts, out of 3000000 for 9000
+ 2912 strings out of 492973
+ 41062 string characters out of 3126692
+ 112714 words of memory out of 3000000
+ 6730 multiletter control sequences out of 15000+200000
+ 11750 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,7n,32p,416b,258s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,7n,32p,1086b,258s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/James/AppData/Local/Programs/
 MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/James/AppData/Lo
 cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Jam
-es/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-<C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmmi8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/James/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/James/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on HW2.pdf (5 pages, 162456 bytes).
+es/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pf
+b><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmex10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/James/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/James/AppData/Loc
+al/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/James
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:
+/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mr8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmti10.pfb>
+Output written on HW2.pdf (6 pages, 212960 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 80 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
