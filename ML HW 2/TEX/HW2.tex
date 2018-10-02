@@ -23,10 +23,10 @@
 	\section{Feature transformations}
 		\begin{enumerate}
 			\item My function is $\phi ( x_{1} , x_{2} ) = ( x_{1}^{4} , x_{2}^{3} )$, which maps $x_{1}$ and $x_{2}$ to $x_{1}^{4}$ and $x_{2}^{3}$ respectively. And in this space the function is linearly separable as $$\phi(fr(x_1,x_2)) = \begin{cases}
-			+1 \quad 17x_1+16x_2 \leq r \\
+			+1 \quad 17x_1-16x_2 \leq r \\
 			-1 \quad otherwise
 			\end{cases}$$
-			\item We can see that since the original function $17x_1^4-16x_2^3$ was $\leq r$, it follows the linear classifier for the new function is equivalent to $-w^T\phi (x_1,x_2) \geq b$
+			\item We can see that since the original function $17x_1^4-16x_2^3$ was $\leq r$, it follows the linear classifier for the new function is equivalent to $-w^T\phi (x_1,x_2) \geq b$ where out weight vector $w$ is given by [17 -16] and $b=-r$
 		\end{enumerate}
 	
 	\section{Mistake Bound Model of Learning}
@@ -52,56 +52,58 @@
 		\begin{enumerate}
 			\item I used python3 to implement the Perceptron algorithm variants. I chose not to represent the data in a full 19-dimensional vector given how sparse the data is (imagine there were 100 dimensions). Instead I used an array of dictionaries where each entry in the array corresponds to a row item in the data, and each item is itself a dictionary whose key-value pairs correspond to the attributes and respective values. For examples, if the entry were to read: +1 3:15 4:29 13:30 .. the dictionary structure would appear: \{label: 1, 3:15, 4:29, 13:30\}. This implementation didn't allow me to leverage numpys vector library, but the additional overhead involved in looping was minimal and is more memory efficient. In terms of evaluating each of the variants, I chose to create a cross validation function to handle identifying the best hyper-parameters, one dedicated function for each variant, as well as one test function for each to evaluate the best parameter combinations on the test set.
 			\item Given the most frequent label in the training set (+1), the accuracy on the development set is .56, and the test set is .525
-			\item Noting that the random initialization may sometimes give different results with respect to the best hyper-parameters, in most cases I ran the 5-fold cross validation (for ten epochs each) several times and averaged them to see, on average, which parameters were \textit{actually} the best (however, the below results are based on a single random instance of the algorithm on the data). My results were as follows:\\ \\
+			\item Noting that the random initialization may sometimes give different results with respect to the best hyper-parameters, in most cases I ran the 5-fold cross validation (for ten epochs each) several times and averaged them to see, on average, which parameters were \textit{actually} the best (however, the below results are based on a single random instance of the algorithm on the data). For ease of grading, I initialized the random seed to 1234 in order to have repeatable test runs. My results were as follows:\\ \\
 			\textbf{Simple Perceptron}    \\
-			a) rate = \{.01\}  \\
-			b) cross-validation accuracy using rate=.01 was \textbf{0.612733}\\
-			c) total number of updates on the training set was \textbf{6015}\\
-			d) the best accuracy on the development set came with using 16 epochs and yielded an accuracy of \textbf{.735} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
+			a) rate = \{.1\}  \\
+			b) cross-validation accuracy using rate=.1 was \textbf{0.61333}\\
+			c) total number of updates on the training set was \textbf{6026}\\
+			d) the best accuracy on the development set came with using 12 epochs and yielded an accuracy of \textbf{.765} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
 			\begin{gather}
-				w = [-4.790801  , -6.310801  , 18.629199  ,  0.809199  , -9.290801,\\
-				-8.960801  , -3.480801  ,  1.899199  ,  0.75067916, -1.05087573,\\
-				0.91483852,  1.0267039 ,  3.30614975,  1.8007971 ,  0.88184558,\\
-				0.41990239, -2.7867524 , -0.66128905, -2.170801  ] \\
-				b = -4.567802999999947
+				[-5.268682  , -6.708682  , 19.291318  ,  0.761318  , -9.648682  ,\\
+       -8.948682  , -3.218682  ,  1.871318  ,  0.12729463, -0.08059336,\\
+        1.05738386,  0.16120544,  3.12386446,  2.01868857,  0.9683586 ,\\
+        0.46600629, -3.01700207, -0.73008194, -2.128682  ] \\
+				b = -3.6329519999999667
 			\end{gather}
-			e) using the weight vector and bias from epoch 16 to predict on the test set, the algorithm reported an accuracy of \textbf{.587065} \\
+			e) using the weight vector and bias from epoch 12 to predict on the test set, the algorithm reported an accuracy of \textbf{.592040} \\
 			f)
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{simple_plot}
 			\end{center}
 			~\\
 			\textbf{Decaying Perceptron}    \\
-			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal initial rate = \{1\}  \\
-			b) cross-validation accuracy using rate=1 was \textbf{0.664533}\\
-			c) total number of updates on the training set was \textbf{5113}\\
-			d) the best accuracy on the development set came with using 17 epochs and yielded an accuracy of \textbf{.71} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
+			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal initial rate = 1  \\
+			b) cross-validation accuracy using rate=1 was \textbf{0.681333}\\
+			c) total number of updates on the training set was \textbf{4314}\\
+			d) the best accuracy on the development set came with using 6 epochs and yielded an accuracy of \textbf{.75} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
 			\begin{gather}
-			w = [-0.52830582, -0.62562476,  4.58366762,  1.83460061, -0.48774808,\\
-			-2.43257835, -2.71244112, -1.11330101,  0.85833871, -1.40136228,\\
-			-2.3033998 , -1.70711248,  0.57267534,  0.43230634,  0.20699507,\\
-			0.06603351, -0.31253566, -0.08022425, -0.59702606] \\
-			b = -32.005986
+			w = [ -6.10613189,  -7.66302416,  21.92743329,   0.49574096,\\
+       -10.78001363,  -8.78491743,  -2.74323505,  -1.64237966,\\
+         0.08385119,  -2.51841626,   4.09065277,   0.11088972,\\
+         2.98168452,   1.99799225,   0.97096297,   0.47180217,\\
+        -3.50512156,  -0.85424241,  -1.84955919] \\
+			b = 3.007048000000001
 			\end{gather}
-			e) using the weight vector and bias from epoch 17 to predict on the test set, the algorithm reported an accuracy of \textbf{.71144} \\
+			e) using the weight vector and bias from epoch 6 to predict on the test set, the algorithm reported an accuracy of \textbf{.736318} \\
 			f)
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{decaying_plot}
 			\end{center}
 			~\\
 			\textbf{Margin Perceptron}    \\
-			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal combination of hyper-parameters to be margin=.01, rate=1  \\
-			b) cross-validation accuracy using margin=.01, rate=1 was \textbf{0.6880}\\
-			c) total number of updates on the training set was \textbf{4930}\\
-			d) the best accuracy on the development set came with using 14 epochs and yielded an accuracy of \textbf{.6} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
+			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal combination of hyper-parameters to be margin=.01, rate=.1  \\
+			b) cross-validation accuracy using margin=.01, rate=1 was \textbf{0.681333}\\
+			c) total number of updates on the training set was \textbf{4784}\\
+			d) the best accuracy on the development set came with using 14 epochs and yielded an accuracy of \textbf{.74} (see below for the plot used to determine the best epoch to use). This yielded a weight vector, bias combination as follows:\\
 			\begin{gather}
-			w = [-0.54624921, -0.95548707,  2.26801139,  0.52011042, -1.45902761,\\
-			-1.02471788,  0.10777735, -0.68208914, -0.01616318, -0.57514031,\\
-			0.97513725,  0.30675042,  0.21458043,  0.21317788,  0.17914802,\\
-			0.07836919, -0.30403893, -0.05202941,  0.01070719] \\
-			b = -1.008271999999998
+			w = [ -5.52290597,  -9.167429  ,  27.1623427 ,   2.71369141,\\
+       -10.57019742, -10.36483082,  -6.25503214,  -6.43667752,\\
+        -0.13033783,  -1.05421796,   2.44502523,   0.99051612,\\
+         4.07930821,   2.18911149,   1.03575576,   0.50662002,\\
+        -3.73971353,  -0.91322305,  -2.11006745] \\
+			b = -12.992952000000002
 			\end{gather}
-			e) using the weight vector and bias from epoch 14 to predict on the test set, the algorithm reported an accuracy of \textbf{.721393} \\
+			e) using the weight vector and bias from epoch 14 to predict on the test set, the algorithm reported an accuracy of \textbf{.706468} \\
 			f)
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{margin_plot}
@@ -109,36 +111,37 @@
 			~\\
 			\textbf{Averaged Perceptron}    \\
 			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal initialization of the hyper-parameter to be rate=.01  \\
-			b) cross-validation accuracy using rate=.01 was \textbf{0.6840}\\
-			c) total number of updates on the training set was \textbf{5959}\\
-			d) the best accuracy on the development set came with using 12 epochs and yielded an accuracy of \textbf{.735} (see below for the plot used to determine the best epoch to use). This yielded an averaged weight vector and bias combination as follows:\\
+			b) cross-validation accuracy using rate=.01 was \textbf{0.68}\\
+			c) total number of updates on the training set was \textbf{5370}\\
+			d) the best accuracy on the development set came with using 2 epochs and yielded an accuracy of \textbf{.79} (see below for the plot used to determine the best epoch to use). This yielded an averaged weight vector and bias combination as follows:\\
 			\begin{gather}
-			avg_w = [-39297.52976   , -49249.90396   , 180277.36      ,  25541.91      ,\\
-         -71399.98      , -91189.06      , -56378.89      ,   1073.7       ,\\
-           5291.2546671 , -28886.41068276,  16675.62511214,  12328.1483673 ,\\
-          21168.53398624,   8564.77647009,   3173.97610439,   1201.88086327,\\
-         -22542.91907643,  -5259.25862048,  -5631.41756   ] \\
-			avg_b = 4.559999999999947
+			avg_w = [-1.09699957e+05, -1.62929829e+05,  3.91940721e+05, -1.86135988e+04,\\
+       -2.11560441e+05, -1.49544642e+05, -4.14728821e+04,  1.53519572e+04,\\
+        5.53541271e+03, -2.39957542e+04,  5.32795078e+03, -1.55674461e+02,\\
+        4.51343788e+04,  2.02588990e+04,  7.68113024e+03,  3.23552673e+03,\\
+       -7.23859805e+04, -1.77787760e+04, -1.47332186e+04] \\
+			avg_b = 0.7600000000000005
 			\end{gather}
-			e) using the weight vector and bias from epoch 12 to predict on the test set, the algorithm reported an accuracy of \textbf{.726368} \\
+			e) using the weight vector and bias from epoch 2 to predict on the test set, the algorithm reported an accuracy of \textbf{.761194} \\
 			f)
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{average_plot}
 			\end{center}
 			~\\
 			\textbf{Aggressive Perceptron}    \\
-			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal initialization of the hyper-parameter to be margin=.1  \\
-			b) cross-validation accuracy using margin=.1 was \textbf{0.6667}\\
-			c) total number of updates on the training set was \textbf{450}\\
-			d) the best accuracy on the development set came with using 16 epochs and yielded an accuracy of \textbf{.75} (see below for the plot used to determine the best epoch to use). This yielded an averaged weight vector and bias combination as follows:\\
+			a) For the specific combination of the random shuffling of the training data and the initial weight vector and bias, I found the optimal initialization of the hyper-parameter to be margin=.01  \\
+			b) cross-validation accuracy using margin=.1 was \textbf{0.62267}\\
+			c) total number of updates on the training set was \textbf{201}\\
+			d) the best accuracy on the development set came with using 3 epochs and yielded an accuracy of \textbf{.78} (see below for the plot used to determine the best epoch to use). This yielded an averaged weight vector and bias combination as follows:\\
 			\begin{gather}
-			w = [-0.00364741, -0.02665061,  0.03840352,  0.00146818, -0.02537675,\\
-         -0.01593747,  0.0012163 , -0.00015176, -0.00049352, -0.00296716,\\
-         -0.0025369 ,  0.00382602,  0.00923817,  0.00805557,  0.00699792,\\
-          0.00613048, -0.00274205,  0.00251772, -0.01891303]\\
-			b = 4.559999999999947
+			w = [ -7.6928314 , -13.59355951,  19.20728003,  -5.67217679,\\
+       -12.60455981,  -3.55135434,   1.62398873,   0.56381289,\\
+         0.3981029 ,   0.17702984,  -1.97917926,  -1.39918214,\\
+         4.05054488,   2.79402866,   1.58171767,   0.8406619 ,\\
+        -5.24727701,  -1.37110012,  -3.24841468]\\
+			b = -0.07425752238948019
 			\end{gather}
-			e) using the weight vector and bias from epoch 16 to predict on the test set, the algorithm reported an accuracy of \textbf{.791045} (This initially seemed high to me considering the other algorithms, so I ran it a few more times to estimate the average accuracy and indeed noticed the probability of this level of accuracy is very low, though this is indeed what the result was!)\\
+			e) using the weight vector and bias from epoch 3 to predict on the test set, the algorithm reported an accuracy of \textbf{.766169}\\
 			f)
 			\begin{center}
 				\includegraphics[width=0.7\linewidth]{aggressive_plot}

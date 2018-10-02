@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 DATA_DIR = './dataset/'
 CV_DIR = './dataset/CVSplits'
 DATA_DIM = 19
-
+np.random.seed(1234)
 
 def simple_perceptron(data, rate, w, b, mistakes):
     for example in data:
@@ -183,9 +183,11 @@ def simple_cross_validate(epochs):
             
             
             average_acc[rate] += (1 - (mistakes / len(validation_set))) / cvfolds
-            
+        
+    print('### Cross Validation for Simple Perceptron ###')
     print('Optimal Rate: ' + str(list(average_acc.keys())[list(average_acc.values()).index(max(average_acc.values()))]))
     print('Maximum Cross-Validation accuracy: ' + str(max(average_acc.values())))
+    print('')
     return average_acc
 
 def simple_train(epochs,rate,w,b,training_set,dev_set,mistakes):
@@ -197,12 +199,14 @@ def simple_train(epochs,rate,w,b,training_set,dev_set,mistakes):
         tracker[i] = [accuracy, (w,b)]
     
     
-    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    print('### Test for Simple Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     
     idx = list(tracker.values()).index(max(tracker.values()))
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
     print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+    print('')
     return tracker
 
 
@@ -239,8 +243,10 @@ def decaying_cross_validate(epochs):
             
             average_acc[rate] += (1 - (mistakes / len(validation_set))) / cvfolds
     
+    print('### Cross Validation for Decaying Perceptron ###')
     print('Optimal Rate: ' + str(list(average_acc.keys())[list(average_acc.values()).index(max(average_acc.values()))]))
-    print('Maximum Cross-Validation accuracy: ' + str(max(average_acc.values())))      
+    print('Maximum Cross-Validation accuracy: ' + str(max(average_acc.values())))    
+    print('')
     return average_acc
 
 def decaying_train(epochs,rate,w,b,t,training_set,dev_set, mistakes):
@@ -252,12 +258,14 @@ def decaying_train(epochs,rate,w,b,t,training_set,dev_set, mistakes):
         tracker[i] = [accuracy, (w,b)]
     
     
-    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    print('### Test for Decaying Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     
     idx = list(tracker.values()).index(max(tracker.values()))
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
     print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+    print('')
     return tracker
 
 
@@ -313,9 +321,11 @@ def margin_cross_validate(epochs):
     else:
         out = c
         
+    print('### Cross Validation for Margin Perceptron ###')    
     print('Optimal Margin: ' + str(out[0]))      
     print('Optimal Rate: ' + str(list(average_acc.keys())[out[2]]))
-    print('Maximum Cross-Validation accuracy: ' + str(out[1]))        
+    print('Maximum Cross-Validation accuracy: ' + str(out[1]))     
+    print('')
     return average_acc
 
 def margin_train(epochs,rate,w,b,t,margin,training_set,dev_set, mistakes):
@@ -327,12 +337,14 @@ def margin_train(epochs,rate,w,b,t,margin,training_set,dev_set, mistakes):
         tracker[i] = [accuracy, (w,b)]
     
     
-    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    print('### Test for Margin Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     
     idx = list(tracker.values()).index(max(tracker.values()))
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
     print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+    print('')
     return tracker
 
 
@@ -369,8 +381,10 @@ def average_cross_validate(epochs):
             
             average_acc[rate] += (1 - (mistakes / len(validation_set))) / cvfolds
         
+    print('### Cross Validation for Average Perceptron ###')
     print('Optimal Rate: ' + str(list(average_acc.keys())[list(average_acc.values()).index(max(average_acc.values()))]))
     print('Maximum Cross-Validation accuracy: ' + str(max(average_acc.values()))) 
+    print('')
     return average_acc
 
 def average_train(epochs,rate,w,b, avg_w, avg_b, training_set, dev_set, mistakes):
@@ -381,12 +395,14 @@ def average_train(epochs,rate,w,b, avg_w, avg_b, training_set, dev_set, mistakes
         accuracy = 1 - (predict(dev_set,avg_w,avg_b) / len(dev_set))
         tracker[i] = [accuracy, (avg_w,avg_b)]
     
-    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    print('### Test for Average Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     
     idx = list(tracker.values()).index(max(tracker.values()))
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
     print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+    print('')
     return tracker
 
 
@@ -420,8 +436,10 @@ def aggressive_cross_validate(epochs):
             
             average_acc[margin] += (1 - (mistakes / len(validation_set))) / cvfolds
      
+    print('### Cross Validation for Aggressive Perceptron ###')
     print('Optimal Margin: ' + str(list(average_acc.keys())[list(average_acc.values()).index(max(average_acc.values()))]))
     print('Maximum Cross-Validation accuracy: ' + str(max(average_acc.values()))) 
+    print('')
     return average_acc
 
 def aggressive_train(epochs,w,b,margin,training_set,dev_set,test_set, mistakes):
@@ -433,12 +451,14 @@ def aggressive_train(epochs,w,b,margin,training_set,dev_set,test_set, mistakes):
         tracker[i] = [accuracy, (w,b)]
     
     
-    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    
+    print('### Test for Aggressive Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     idx = list(tracker.values()).index(max(tracker.values()))
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
     print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
-    
+    print('')
     return tracker
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -499,16 +519,16 @@ test_set = loadData(DATA_DIR + 'diabetes.test')
 
 
 #=============================================================================
-#accuracy = simple_cross_validate(10)
-#accuracy = decaying_cross_validate(10)
-#accuracy = margin_cross_validate(10)
-#accuracy = average_cross_validate(10)
-#accuracy = aggressive_cross_validate(10)
+accuracy = simple_cross_validate(10)
+accuracy = decaying_cross_validate(10)
+accuracy = margin_cross_validate(10)
+accuracy = average_cross_validate(10)
+accuracy = aggressive_cross_validate(10)
 
-#tracker = simple_train(20,.01,w,b,data,dev_set,mistakes)
-#tracker = decaying_train(20,1,w,b,t,data,dev_set, mistakes)
-#tracker = margin_train(20,1,w,b,t,0.01,data,dev_set, mistakes)
-#tracker = average_train(20,.01,w,b,avg_w, avg_b,data,dev_set, mistakes)
-#tracker = aggressive_train(20,w,b,0.1,data,dev_set, test_set, mistakes)
+tracker = simple_train(20,.01,w,b,data,dev_set,mistakes)
+tracker = decaying_train(20,1,w,b,t,data,dev_set, mistakes)
+tracker = margin_train(20,1,w,b,t,0.01,data,dev_set, mistakes)
+tracker = average_train(20,.01,w,b,avg_w, avg_b,data,dev_set, mistakes)
+tracker = aggressive_train(20,w,b,0.1,data,dev_set, test_set, mistakes)
 #=============================================================================
 
