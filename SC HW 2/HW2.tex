@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{enumitem}
+
 \setlength\abovedisplayskip{0pt}
 \author{James Brissette}
 \title{CS-6210: HW 2}
@@ -59,13 +60,58 @@
 					$$Y=(\overline{Y}-m\overline{X})+mX$$ Since $V_1=log(v_1)$, we can solve for $v_1$ as:
 					$$V_1= log(v_1)=\overline{Y}-m\overline{X}$$
 					$$v_1=10^{\overline{Y}-m\overline{X}}$$
-					\item Arithmatic done, need to plot curve and estimate for T-Rex
+					\item Plot Curve
+					\item Estimate speed of T-Rex
 				\end{enumerate}
 					
 			\item[9.3]
 				\begin{enumerate} [label={\alph*)}]
-					\item
-				\end{enumerate}
+					\item Given $ZZ^T = \frac{1}{n} \Sigma_{i=1}^{n} s_i(s_i)^T$ and $s_i^* = Z^{-1}s_i$ we can plug into 9.30 and get back the original $ZZ^T$ as follows:
+					\begin{equation}
+						\frac{1}{n} \Sigma_{i=1}^{n} s_i^*(s_i^*)^T = I
+					\end{equation}
+					\begin{equation}
+						\frac{1}{n} \Sigma_{i=1}^{n} Z^{-1}s_i(Z^{-1}s_i)^T = I
+					\end{equation}
+					\begin{equation}
+						\frac{1}{n} \Sigma_{i=1}^{n} Z^{-1}s_i (s_i)^T Z^{-1T}= I
+					\end{equation}
+					\begin{equation}
+						Z^{-1} (\frac{1}{n} \Sigma_{i=1}^{n} s_i (s_i)^T) Z^{-1T}= I
+					\end{equation}
+					\begin{equation}
+						ZZ^{-1} (\frac{1}{n} \Sigma_{i=1}^{n} s_i (s_i)^T) Z^{-1T}Z^T= ZIZ^T
+					\end{equation}
+					\begin{equation}
+						\frac{1}{n} \Sigma_{i=1}^{n} s_i(s_i)^T = ZZ^T
+					\end{equation}
+					
+					\setcounter{equation}{0}
+					\item For this problem we will show that given $\frac{1}{n} \Sigma_{i=1}^{n} s_i(s_i)^T = U \Sigma U^T$ and $s_{i}^{*} = \Sigma^{-\frac{1}{2}} U^T s_i$ we can plug $s_i^*$ into 9.30 and get back the identity matrix $I$:
+						\begin{equation}
+							\frac{1}{n} \Sigma_{i=1}^{n} s_i^*(s_i^*)^T = I
+						\end{equation}
+						\begin{equation}
+							\frac{1}{n} \Sigma_{i=1}^{n} (\Sigma^{-\frac{1}{2}} U^T s_i)(\Sigma^{-\frac{1}{2}} U^T s_i)^T = I
+						\end{equation}
+						\begin{equation}
+							\frac{1}{n} \Sigma_{i=1}^{n} (\Sigma^{-\frac{1}{2}} U^T s_i)(s_i^T  U^{T^T}  \Sigma^{-\frac{1}{2}T}) = I
+						\end{equation}
+						\begin{equation}
+							\Sigma^{-\frac{1}{2}}U^T (\frac{1}{n} \Sigma_{i=1}^{n} s_i(s_i^T))U\Sigma^{-\frac{1}{2}T} = I
+						\end{equation}
+						\begin{equation}
+							\Sigma^{-\frac{1}{2}}U^T (U \Sigma U^T) U\Sigma^{-\frac{1}{2}T} = I
+						\end{equation}
+						\begin{equation}
+							\Sigma^{-\frac{1}{2}}(\Sigma )\Sigma^{-\frac{1}{2}T} = I
+						\end{equation}
+						And since we know $\Sigma$ is a diagonal matrix:
+						\begin{equation}
+							I = I
+						\end{equation}
+						
+ 				\end{enumerate}
 				
 			\item[9.5]
 				\begin{enumerate} [label={\alph*)}]
