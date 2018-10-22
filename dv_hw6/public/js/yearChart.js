@@ -107,6 +107,7 @@ class YearChart {
                 //Call the update methods of electoralVotesChart, votePercentageChart, and tileChart
                 d3.csv('data/Year_Timeline_' + d.YEAR + '.csv').then(electionResult => {
                     console.log('Triggered Update for year ' + d.YEAR);
+                    console.log(electionResult);
                     that.electoralVoteChart.update(electionResult, that.colorScale);
                     that.tileChart.update(electionResult, that.colorScale);
                     that.votePercentageChart.update(electionResult);
