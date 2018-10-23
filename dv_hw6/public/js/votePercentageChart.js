@@ -10,7 +10,7 @@ class VotePercentageChart {
         
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
-        let divVotePercentageChart = d3.select("#votes-percentage").classed("fullview", true);
+        let divVotePercentageChart = d3.select("#votes-percentage").classed("content", true);
 
         //fetch the svg bounds
         this.svgBounds = divVotePercentageChart.node().getBoundingClientRect();

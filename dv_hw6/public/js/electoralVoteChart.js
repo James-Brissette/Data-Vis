@@ -15,7 +15,7 @@ class ElectoralVoteChart {
         
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
-        let divVoteChart = d3.select("#electoral-vote").classed("fullview", true);
+        let divVoteChart = d3.select("#electoral-vote").classed("content", true);
 
         //fetch the svg bounds
         this.svgBounds = divVoteChart.node().getBoundingClientRect();

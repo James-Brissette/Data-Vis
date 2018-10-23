@@ -9,18 +9,26 @@ class TileChart {
         // Follow the constructor method in yearChart.js
         // assign class 'content' in style.css to tile chart
 
-
-
-
-
-
-
         // Legend
         let legendHeight = 150;
         //add the svg to the div
         let legend = d3.select("#legend").classed("tile_view",true);
 
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
+
+        // Initializes the svg elements required for this chart
+        let tileChart = d3.select("#tiles").classed("content", true);
+
+        //fetch the svg bounds
+        this.svgBounds = tileChart.node().getBoundingClientRect();
+        this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
+        this.svgHeight = 500;
+
+        //add the svg to the div
+        this.svg = tileChart.append("svg")
+            .attr("width", this.svgWidth)
+            .attr("height", this.svgHeight)
+
         // creates svg elements within the div
         this.legendSvg = legend.append("svg")
                             .attr("width",this.svgWidth)
@@ -131,6 +139,27 @@ class TileChart {
             .labelFormat(d3.format('.1r'))
             .scale(colorScale);
 
+        //this.legendSvg.append('g').call(d3.legend);
+
+        let xScale = d3.scaleLinear()
+                        .domain([0,12])
+                        .range([-.5,this.svgWidth]);
+        let yScale = d3.scaleLinear()
+                        .domain([0,8])
+                        .range([0,this.svgHeight]);
+
+        console.log(electionResult);
+        let chart = d3.select('#tiles').select('svg').selectAll('rect').data(electionResult);
+        let chartEnter = chart.enter().append('rect');
+        chart.exit().remove();
+        chart = chartEnter.merge(chart);
+        console.log(xScale(5))
+        chart
+            .attr('x', (d) => xScale(+d['Space']))
+            .attr('y', (d) => yScale(+d['Row']))
+            .attr('width', this.svgWidth / 12)
+            .attr('height', this.svgWidth / 12)
+            .attr('fill', d => colorScale(+d['RD_Difference']));
 
             
 
