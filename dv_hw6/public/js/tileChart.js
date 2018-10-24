@@ -111,6 +111,7 @@ class TileChart {
                      return that.tooltip_render(tooltip_data)
                     });
 
+        this.svg.call(this.tip)
         // ******* TODO: PART IV *******
         // Transform the legend element to appear in the center 
         // make a call to this element for it to display.
@@ -166,16 +167,22 @@ class TileChart {
             .attr('height', this.svgHeight/8)
             .attr('fill', d => colorScale(+d['RD_Difference']))
             .on('mouseenter', this.tip.show)
+            .on('mouseleave', this.tip.hide)
         
         nonSplitTile.append('text').classed('tilestext',true)
             .text(d => d.Abbreviation)
             .attr('x', (d) => xScale(+d['Space'] + .5))
             .attr('y', (d) => yScale(+d['Row'] + .45))
+            .attr('pointer-events','none');
+
         
         nonSplitTile.append('text').classed('tilestext',true)
-        .text(d => d.Total_EV)
-        .attr('x', (d) => xScale(+d['Space'] + .5))
-        .attr('y', (d) => yScale(+d['Row'] + .7))
+            .text(d => d.Total_EV)
+            .attr('x', (d) => xScale(+d['Space'] + .5))
+            .attr('y', (d) => yScale(+d['Row'] + .75))
+            .attr('pointer-events','none');
+
+
         
         //split
         let splitTile = chart.filter(d => {
@@ -187,30 +194,40 @@ class TileChart {
             .attr('y', (d) => yScale(+d['Row']))
             .attr('width', d => (this.svgWidth/12) * (d.D_EV / d.Total_EV))
             .attr('height', this.svgHeight/8)
-            .attr('fill', d => colorScale(-Math.abs(+d['RD_Difference'] * (d.D_EV / d.Total_EV))));
+            .attr('fill', d => colorScale(-Math.abs(+d['RD_Difference'] * (d.D_EV / d.Total_EV))))
+            .on('mouseenter', this.tip.show)
+            .on('mouseleave', this.tip.hide);
 
         splitTile.append('rect').classed('tile',true)
             .attr('x', (d) => xScale(+d['Space'] + (d.D_EV / d.Total_EV)))
             .attr('y', (d) => yScale(+d['Row']))
             .attr('width', d => (this.svgWidth/12) * (d.R_EV / d.Total_EV))
             .attr('height', this.svgHeight/8)
-            .attr('fill', d => colorScale(Math.abs(+d['RD_Difference'] * (d.R_EV / d.Total_EV))));
+            .attr('fill', d => colorScale(Math.abs(+d['RD_Difference'] * (d.R_EV / d.Total_EV))))
+            .on('mouseenter', this.tip.show)
+            .on('mouseleave', this.tip.hide);
 
         splitTile.append('rect').classed('tile independent',true)
             .attr('x', (d) => xScale(+d['Space']) + (d.D_EV / d.Total_EV) + (d.R_EV / d.Total_EV))
             .attr('y', (d) => yScale(+d['Row']))
             .attr('width', d => (this.svgWidth/12) * (d.I_EV / d.Total_EV))
             .attr('height', this.svgHeight/8)
+            .on('mouseenter', this.tip.show)
+            .on('mouseleave', this.tip.hide);
         
         splitTile.append('text').classed('tilestext',true)
             .text(d => d.Abbreviation)
             .attr('x', (d) => xScale(+d['Space'] + .5))
             .attr('y', (d) => yScale(+d['Row'] + .45))
+            .attr('pointer-events','none');
+
         
         splitTile.append('text').classed('tilestext',true)
-        .text(d => d.Total_EV)
-        .attr('x', (d) => xScale(+d['Space'] + .5))
-        .attr('y', (d) => yScale(+d['Row'] + .7))
+            .text(d => d.Total_EV)
+            .attr('x', (d) => xScale(+d['Space'] + .5))
+            .attr('y', (d) => yScale(+d['Row'] + .75))
+            .attr('pointer-events','none');
+
 
 
 

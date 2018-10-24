@@ -10,7 +10,7 @@ class VotePercentageChart {
         
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
-        let divVotePercentageChart = d3.select("#votes-percentage").classed("content", true);
+        let divVotePercentageChart = d3.select("#votes-percentage").classed("sub_content", true);
 
         //fetch the svg bounds
         this.svgBounds = divVotePercentageChart.node().getBoundingClientRect();
@@ -21,7 +21,8 @@ class VotePercentageChart {
         this.svg = divVotePercentageChart.append("svg")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight);
-       
+	   
+		
 		let d = this.svg.append('g').classed('d-chart',true);
 		d.append('text').attr('id','d-percent').classed('votesPercentageText',true);
 		d.append('text').attr('id','d-candidate').classed('votesPercentageText',true);
@@ -79,9 +80,11 @@ class VotePercentageChart {
 		console.log('test')
 	    let text = "<ul>";
 	    tooltip_data.result.forEach((row)=>{
+			if (row.nominee != ' ') {
 			text += "<li class = " + this.chooseClass(row.party)+ ">" 
 				 + row.nominee+":\t\t"+row.votecount+"\t("+row.percentage+")" + 
 				 "</li>"
+			}
 	    });
 	    return text;
 	}
@@ -172,7 +175,7 @@ class VotePercentageChart {
 					.attr('y', this.margin.top + 10)
 					.text(d => d.percentage)
 				d.select('#d-candidate')
-					.attr('x', 200)
+					.attr('x', 120)
 					.attr('y', this.margin.top + 10)
 					.text(d => d.nominee)
 				d.select('rect')
@@ -181,7 +184,7 @@ class VotePercentageChart {
 					.attr('width', d => percentScale( +d.percentage.slice(0,-1)))
 					.attr('height', 20)
 					.attr('class', d => this.chooseClass(d.party))
-					.on('mouseeover', this.tip.show)
+					.on('mouseenter', this.tip.show)
 					.on('mouseout', this.tip.hide);
 					
 				
@@ -190,7 +193,7 @@ class VotePercentageChart {
 					.attr('y', 75)
 					.text(d => d.percentage)
 				r.select('#r-candidate')
-					.attr('x', 200)
+					.attr('x', 120)
 					.attr('y', 75)
 					.text(d => d.nominee)
 				r.select('rect')
@@ -199,6 +202,8 @@ class VotePercentageChart {
 					.attr('width', d => percentScale( +d.percentage.slice(0,-1)))
 					.attr('height', 20)
 					.attr('class', d => this.chooseClass(d.party))
+					.on('mouseenter', this.tip.show)
+					.on('mouseout', this.tip.hide);
 					
 
 				
@@ -207,7 +212,7 @@ class VotePercentageChart {
 					.attr('y', 130)
 					.text(d => d.percentage)
 				i.select('#i-candidate')
-					.attr('x', 200)
+					.attr('x', 120)
 					.attr('y', 130)
 					.text(d => d.nominee)
 				i.select('rect')
@@ -215,7 +220,9 @@ class VotePercentageChart {
 					.attr('y', 135)
 					.attr('width', d => percentScale( +d.percentage.slice(0,-1)))
 					.attr('height', 20)
-					.attr('class', d => this.chooseClass(d.party));
+					.attr('class', d => this.chooseClass(d.party))
+					.on('mouseenter', this.tip.show)
+					.on('mouseout', this.tip.hide);
 
 				let popText  = this.svg.select('#popVotesToWinText');
 				popText

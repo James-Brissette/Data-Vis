@@ -15,7 +15,7 @@ class ElectoralVoteChart {
         
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
-        let divVoteChart = d3.select("#electoral-vote").classed("content", true);
+        let divVoteChart = d3.select("#electoral-vote").classed("sub_content", true);
 
         //fetch the svg bounds
         this.svgBounds = divVoteChart.node().getBoundingClientRect();
@@ -28,10 +28,17 @@ class ElectoralVoteChart {
             .attr("height", this.svgHeight)
        
         this.svg.append('g').classed('d-chart',true).append('text')
+        this.svg.append('g').classed('brush',true).attr('id','d-brush');
         this.svg.append('g').classed('r-chart',true).append('text')
+        this.svg.append('g').classed('brush',true).attr('id','r-brush');
         this.svg.append('g').classed('i-chart',true).append('text')
+        this.svg.append('g').classed('brush',true).attr('id','i-brush');
         this.svg.append('text').attr('id','votesToWinText')
         this.svg.append('line').attr('id','votesToWinLine')
+
+        this.d_brushed = false;
+        this.r_brushed = false;
+        this.i_brushed = false;
     };
 
     /**
@@ -65,9 +72,10 @@ class ElectoralVoteChart {
        // then sort them based on the margin of victory
        
        // Create the stacked bar chart.
+       let that = this;
         let barHeight = 20;
         let buffer = 25;
-        
+
         
         let i_data = electionResult.filter(item => item.RD_Difference == 0)
         let d_data = electionResult.filter(item => item.RD_Difference < 0).sort(function(a,b){return +a.RD_Difference - +b.RD_Difference})
@@ -80,17 +88,33 @@ class ElectoralVoteChart {
 
         let D_EV = d_data.map(a => a.D_EV).reduce(reduce_sum)
         let R_EV = r_data.map(a => a.R_EV).reduce(reduce_sum)
-        console.log(i_data.map(a => a.I_EV))
+        console.log(D_EV)
         let I_EV = i_data.map(a => a.I_EV).length == 0 ? 0 : i_data.map(a => a.I_EV).reduce(reduce_sum)
 
         let voteScale = d3.scaleLinear()
                             .domain([0,Math.max(R_EV,D_EV)])
                             .range([0,this.svgWidth - 100])
 
+        let d_brush = d3.brushX().extent([[0,25], [voteScale(+D_EV), 45  + barHeight]]).on("brush end", d_brushed);
+        let r_brush = d3.brushX().extent([[0,80], [voteScale(+R_EV), 100  + barHeight]]).on("brush end", r_brushed);
+        let i_brush = d3.brushX().extent([[0,135],[voteScale(+I_EV), 155 + barHeight]]).on("brush end", i_brushed);
+        
         console.log(r_data.map(a => a.R_EV).reduce(reduce_sum),d_data.map(a => a.D_EV).reduce(reduce_sum))
 
-        let chart = d3.select('#electoral-vote').select('svg');
+        let chart = d3.select('#electoral-vote').select('svg')
 
+        //Removes brushing on yearChange provided the brushes have been initialized at least once
+        if (this.d_brushed) {
+            d3.select('#d-brush').call(d_brush.move,null);
+        }
+        if (this.r_brushed) {
+            d3.select('#r-brush').call(r_brush.move,null);
+        }
+        if (this.i_brushed) {
+            d3.select('#i-brush').call(i_brush.move,null);
+        }
+
+        //Democrat
         let d_chart = chart.select('.d-chart').selectAll('rect').data(d_data);
         let d_chartEnter = d_chart.enter().append('rect');
         d_chart.exit().remove();
@@ -109,7 +133,10 @@ class ElectoralVoteChart {
             .attr('x', 0)
             .attr('y', 30)
             .attr('class','electoralVoteText democrat')
+        chart.select('#d-brush').call(d_brush)
+        this.d_brushed = true;
 
+        //Republican
         let r_chart = chart.select('.r-chart').selectAll('rect').data(r_data);
         let r_chartEnter = r_chart.enter().append('rect');
         r_chart.exit().remove();
@@ -122,14 +149,18 @@ class ElectoralVoteChart {
             .attr('width', d => voteScale(d.R_EV))
             .attr('height',barHeight)
             .attr('fill', d => colorScale(d.RD_Difference))
-            .attr('class','electoralVotes')
+            .attr('class','electoralVotes');
 
         chart.select('.r-chart').select('text')
             .text(R_EV)
             .attr('x', 0)
             .attr('y', 85)
-            .attr('class','electoralVoteText republican')
+            .attr('class','electoralVoteText republican');
+        chart.select('#r-brush').call(r_brush);
+        this.r_brushed = true;
 
+
+        //Independent
         if (I_EV > 0) {
 
             let i_chart = chart.select('.i-chart').selectAll('rect').data(i_data);
@@ -142,13 +173,15 @@ class ElectoralVoteChart {
                 .attr('x', (d,i) => i - 1 == -1 ? 0 : d3.select(i_chart.nodes()[i-1])._groups['0']['0'].x.baseVal.value + voteScale(d3.select(i_chart.nodes()[i-1])._groups['0']['0'].__data__.I_EV))
                 .attr('width', d => voteScale(d.I_EV))
                 .attr('height',barHeight)
-                .attr('class','electoralVotes independent')
+                .attr('class','electoralVotes independent');
 
             chart.select('.i-chart').select('text')
                 .text(I_EV)
                 .attr('x', 0)
                 .attr('y', 140)
-                .attr('class','electoralVoteText independent')
+                .attr('class','electoralVoteText independent');
+            chart.select('#i-brush').call(i_brush);
+            this.i_brushed = true;
         } else {
             chart.select('.i-chart').select('text')
                 .text('')
@@ -204,6 +237,77 @@ class ElectoralVoteChart {
        //Call the update method of shiftChart and pass the data corresponding to brush selection.
        //HINT: Use the .brush class to style the brush.
 
+       function d_brushed() {
+        let s = d3.event.selection;
+        console.log(s);
+        if (s === null) {
+            that.trendChart.update([null, 'd']);
+            return;
+        }
+        let states = Array.prototype.slice.call(d3.select(".d-chart").selectAll('rect')._groups[0])
+        
+        states = states.filter(state => {
+            let x = state.x.baseVal.value
+            let width = state.width.baseVal.value
+            return (x >= s[0] && x < s[1]) ||
+                    (x + width > s[0] && x <= s[1]) ||
+                    (x <= s[0] && x + width >= s[1])
+        })
+        
+        let d = []
+        states.forEach(state => {
+            d.push({'name': state.__data__.State,'party':'d'})
+        });
+        console.log(d);
+        that.trendChart.update(d)
+    }
+
+    function r_brushed() {
+        let s = d3.event.selection;
+        if (s === null) {
+            that.trendChart.update([null, 'r']);
+            return;
+        }
+        let states = Array.prototype.slice.call(d3.select(".r-chart").selectAll('rect')._groups[0])
+        
+        states = states.filter(state => {
+            let x = state.x.baseVal.value
+            let width = state.width.baseVal.value
+            return (x >= s[0] && x < s[1]) ||
+                    (x + width > s[0] && x <= s[1]) ||
+                    (x <= s[0] && x + width >= s[1])
+        })
+        
+        let d = []
+        states.forEach(state => {
+            d.push({'name': state.__data__.State,'party':'r'})
+        });
+        console.log(d);
+        that.trendChart.update(d)
+    }
+
+    function i_brushed() {
+        let s = d3.event.selection;
+        if (s === null) {
+            that.trendChart.update([null, 'i']);
+            return;
+        }
+        let states = Array.prototype.slice.call(d3.select(".i-chart").selectAll('rect')._groups[0])
+        states = states.filter(state => {
+            let x = state.x.baseVal.value
+            let width = state.width.baseVal.value
+            return (x >= s[0] && x < s[1]) ||
+                    (x + width > s[0] && x <= s[1]) ||
+                    (x <= s[0] && x + width >= s[1])
+        })
+        
+        let d =[]
+        states.forEach(state => {
+            d.push({'name': state.__data__.State,'party':'i'})
+        });
+        console.log(d);
+        that.trendChart.update(d)
+    }
 
 
 
