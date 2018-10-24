@@ -22,7 +22,7 @@ class TileChart {
         //fetch the svg bounds
         this.svgBounds = tileChart.node().getBoundingClientRect();
         this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
-        this.svgHeight = 500;
+        this.svgHeight = this.svgWidth * .5;
 
         //add the svg to the div
         this.svg = tileChart.append("svg")
@@ -85,32 +85,30 @@ class TileChart {
      * @param colorScale global quantile scale based on the winning margin between republicans and democrats
      */
     update (electionResult, colorScale){
-
+        let that = this;
+        let test = electionResult.map(a => [a.Total_EV, a.D_EV, a.R_EV, a.I_EV, a.Year, a.State]);
+        console.log('Testing States')
+        test.forEach(state => {
+            if (state[1] != state[0] && state[2] != state[0] && state[3] != state[0]) {
+                console.log(state[5] + ' in ' + state[4] + ': ' + state)
+            }
+        });
         //for reference:https://github.com/Caged/d3-tip
         //Use this tool tip element to handle any hover over the chart
             this.tip.html((d)=>{
-                    /* populate data in the following format
-                     * tooltip_data = {
-                     * "state": State,
-                     * "winner":d.State_Winner
-                     * "electoralVotes" : Total_EV
-                     * "result":[
-                     * {"nominee": D_Nominee_prop,"votecount": D_Votes,"percentage": D_Percentage,"party":"D"} ,
-                     * {"nominee": R_Nominee_prop,"votecount": R_Votes,"percentage": R_Percentage,"party":"R"} ,
-                     * {"nominee": I_Nominee_prop,"votecount": I_Votes,"percentage": I_Percentage,"party":"I"}
-                     * ]
-                     * }
-                     * pass this as an argument to the tooltip_render function then,
-                     * return the HTML content returned from that method.
-                     * */
-
-
-
-
-
-
-
-
+                     //populate data in the following format
+                     let tooltip_data = {
+                        "state": d.State,
+                        "winner": d.State_Winner,
+                        "electoralVotes" : d.Total_EV,
+                        "result":[
+                                {"nominee": d.D_Nominee_prop,"votecount": d.D_Votes,"percentage": d.D_Percentage,"party":"D"} ,
+                                {"nominee": d.R_Nominee_prop,"votecount": d.R_Votes,"percentage": d.R_Percentage,"party":"R"} ,
+                                {"nominee": d.I_Nominee_prop,"votecount": d.I_Votes,"percentage": d.I_Percentage,"party":"I"}
+                        ]
+                     }
+                     //pass this as an argument to the tooltip_render function then,
+                     return that.tooltip_render(tooltip_data)
                     });
 
         // ******* TODO: PART IV *******
@@ -139,27 +137,110 @@ class TileChart {
             .labelFormat(d3.format('.1r'))
             .scale(colorScale);
 
-        //this.legendSvg.append('g').call(d3.legend);
+        this.legendSvg.append('g').call(legendQuantile);
 
         let xScale = d3.scaleLinear()
                         .domain([0,12])
-                        .range([-.5,this.svgWidth]);
+                        .range([0,this.svgWidth]);
         let yScale = d3.scaleLinear()
                         .domain([0,8])
                         .range([0,this.svgHeight]);
 
-        console.log(electionResult);
-        let chart = d3.select('#tiles').select('svg').selectAll('rect').data(electionResult);
-        let chartEnter = chart.enter().append('rect');
-        chart.exit().remove();
-        chart = chartEnter.merge(chart);
-        console.log(xScale(5))
-        chart
+        d3.select('#tiles').select('svg').selectAll('g').remove()               
+        let chart = d3.select('#tiles').select('svg').selectAll('g').data(electionResult);
+        let chartEnter = chart.enter().append('g')
+        chart.exit().remove()
+        chart = chartEnter.merge(chart)
+
+        //Filter the split states from the non split ones
+
+        //non split
+        let nonSplitTile = chart.filter(d => {
+            let test = [d.Total_EV, d.D_EV, d.R_EV, d.I_EV]
+            return (test[1] == test[0] || test[2] == test[0] || test[3] == test[0])
+        })
+        nonSplitTile.append('rect').classed('tile',true)
             .attr('x', (d) => xScale(+d['Space']))
             .attr('y', (d) => yScale(+d['Row']))
-            .attr('width', this.svgWidth / 12)
-            .attr('height', this.svgWidth / 12)
+            .attr('width', this.svgWidth/12)
+            .attr('height', this.svgHeight/8)
+            .attr('fill', d => colorScale(+d['RD_Difference']))
+            .on('mouseenter', this.tip.show)
+        
+        nonSplitTile.append('text').classed('tilestext',true)
+            .text(d => d.Abbreviation)
+            .attr('x', (d) => xScale(+d['Space'] + .5))
+            .attr('y', (d) => yScale(+d['Row'] + .45))
+        
+        nonSplitTile.append('text').classed('tilestext',true)
+        .text(d => d.Total_EV)
+        .attr('x', (d) => xScale(+d['Space'] + .5))
+        .attr('y', (d) => yScale(+d['Row'] + .7))
+        
+        //split
+        let splitTile = chart.filter(d => {
+            let test = [d.Total_EV, d.D_EV, d.R_EV, d.I_EV]
+            return (test[1] != test[0] && test[2] != test[0] && test[3] != test[0])
+        })
+        splitTile.append('rect').classed('tile',true)
+            .attr('x', (d) => xScale(+d['Space']))
+            .attr('y', (d) => yScale(+d['Row']))
+            .attr('width', d => (this.svgWidth/12) * (d.D_EV / d.Total_EV))
+            .attr('height', this.svgHeight/8)
+            .attr('fill', d => colorScale(-Math.abs(+d['RD_Difference'] * (d.D_EV / d.Total_EV))));
+
+        splitTile.append('rect').classed('tile',true)
+            .attr('x', (d) => xScale(+d['Space'] + (d.D_EV / d.Total_EV)))
+            .attr('y', (d) => yScale(+d['Row']))
+            .attr('width', d => (this.svgWidth/12) * (d.R_EV / d.Total_EV))
+            .attr('height', this.svgHeight/8)
+            .attr('fill', d => colorScale(Math.abs(+d['RD_Difference'] * (d.R_EV / d.Total_EV))));
+
+        splitTile.append('rect').classed('tile independent',true)
+            .attr('x', (d) => xScale(+d['Space']) + (d.D_EV / d.Total_EV) + (d.R_EV / d.Total_EV))
+            .attr('y', (d) => yScale(+d['Row']))
+            .attr('width', d => (this.svgWidth/12) * (d.I_EV / d.Total_EV))
+            .attr('height', this.svgHeight/8)
+        
+        splitTile.append('text').classed('tilestext',true)
+            .text(d => d.Abbreviation)
+            .attr('x', (d) => xScale(+d['Space'] + .5))
+            .attr('y', (d) => yScale(+d['Row'] + .45))
+        
+        splitTile.append('text').classed('tilestext',true)
+        .text(d => d.Total_EV)
+        .attr('x', (d) => xScale(+d['Space'] + .5))
+        .attr('y', (d) => yScale(+d['Row'] + .7))
+
+
+
+
+
+
+
+
+
+
+
+        /* let chartTilesEnter = chartTiles.enter().append('rect').classed('tile', true);
+        chartTiles.exit().remove();
+        chartTiles = chartTilesEnter.merge(chartTiles);
+        console.log(xScale(5))
+        chartTiles
+            .attr('x', (d) => xScale(+d['Space']))
+            .attr('y', (d) => yScale(+d['Row']))
+            .attr('width', this.svgWidth/12)
+            .attr('height', this.svgHeight/8)
             .attr('fill', d => colorScale(+d['RD_Difference']));
+        
+        let chartText = chart.selectAll('text').data(electionResult)
+        let chartTextEnter = chartText.enter().append('text').classed('tilestext', true)
+        chartText.exit().remove()
+        chartText = chartTextEnter.merge(chartText)
+        chartText
+            .text(d => d.Abbreviation)
+            .attr('x', (d) => xScale(+d['Space'] + .5))
+            .attr('y', (d) => yScale(+d['Row'] + .55)) */
 
             
 
