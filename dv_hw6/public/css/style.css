@@ -43,6 +43,9 @@ h1 {
     text-anchor:end;
 }
 
+#trendChart {
+    display: none;
+}
 .nomineeInfoText{
     font-size: 25px;
     text-anchor: start;

@@ -256,7 +256,7 @@ class ElectoralVoteChart {
         
         let d = []
         states.forEach(state => {
-            d.push({'name': state.__data__.State,'party':'d'})
+            d.push({'name': state.__data__.State,'party':'d', 'Abbreviation':state.__data__.Abbreviation})
         });
         console.log(d);
         that.trendChart.update(d)
@@ -280,7 +280,7 @@ class ElectoralVoteChart {
         
         let d = []
         states.forEach(state => {
-            d.push({'name': state.__data__.State,'party':'r'})
+            d.push({'name': state.__data__.State,'party':'r', 'Abbreviation':state.__data__.Abbreviation})
         });
         console.log(d);
         that.trendChart.update(d)
@@ -303,7 +303,7 @@ class ElectoralVoteChart {
         
         let d =[]
         states.forEach(state => {
-            d.push({'name': state.__data__.State,'party':'i'})
+            d.push({'name': state.__data__.State,'party':'i', 'Abbreviation':state.__data__.Abbreviation})
         });
         console.log(d);
         that.trendChart.update(d)

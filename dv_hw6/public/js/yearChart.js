@@ -9,12 +9,13 @@ class YearChart {
      * @param electionInfo instance of ElectionInfo
      * @param electionWinners data corresponding to the winning parties over mutiple election years
      */
-    constructor (electoralVoteChart, tileChart, votePercentageChart, electionWinners) {
+    constructor (electoralVoteChart, tileChart, votePercentageChart, electionWinners, trendChart) {
 
         //Creating YearChart instance
         this.electoralVoteChart = electoralVoteChart;
         this.tileChart = tileChart;
         this.votePercentageChart = votePercentageChart;
+        this.trendChart = trendChart;
         // the data
         this.electionWinners = electionWinners;
         console.log(electionWinners)
@@ -32,6 +33,10 @@ class YearChart {
         this.svg = divyearChart.append("svg")
             .attr("width", this.svgWidth)
             .attr("height", this.svgHeight)
+
+        this.svg.append('g').attr('id', 'yearBrush')
+        this.svg.append('g').classed('yearPoints', true)
+        this.brushed = false;
     };
 
     /**
@@ -70,14 +75,14 @@ class YearChart {
         // ******* TODO: PART I *******
         // Create the chart by adding circle elements representing each election year
 
-        let chartLine = d3.select('.fullview').select('svg').append('line')
+        let chartLine = d3.select('.fullview').select('svg').select('.yearPoints').append('line')
             .attr('x1', 0)
             .attr('y1', 20)
             .attr('x2',this.svgWidth)
             .attr('y2', 20)
             .attr('class', 'lineChart');
 
-        let chart = d3.select('#year-chart').select('svg').selectAll('g').data(this.electionWinners);
+        let chart = d3.select('#year-chart').select('svg').select('.yearPoints').selectAll('g').data(this.electionWinners);
         let chartEnter = chart.enter().append('g')
             .attr('transform','translate(0,10)');
 
@@ -88,6 +93,10 @@ class YearChart {
         let yearScale = d3.scaleLinear()
                         .domain([1940,2016])
                         .range([40,this.svgWidth - 40])
+
+        let brush = d3.brushX().extent([[10,0], [this.svgWidth - 10, 40]]).on("brush end", brushed);
+        this.svg.select('#yearBrush').call(brush);
+        this.brushed = true;
 
         chart.append('circle')
             .attr('cx', d => yearScale(d.YEAR))
@@ -103,6 +112,7 @@ class YearChart {
             .on('click', function(d) {
                 d3.selectAll('circle').classed('selected',false);
                 d3.select(this).classed('selected',true);
+
 
                 //Call the update methods of electoralVotesChart, votePercentageChart, and tileChart
                 d3.csv('data/Year_Timeline_' + d.YEAR + '.csv').then(electionResult => {
@@ -154,7 +164,28 @@ class YearChart {
        //Call the update method of shiftChart and pass the data corresponding to brush selection.
        //HINT: Use the .brush class to style the brush.
 
+       
 
+       function brushed() {
+        let s = d3.event.selection
+        let years = Array.prototype.slice.call(d3.select(".yearPoints").selectAll('circle')._groups[0])
+        
+        years = years.filter(state => {
+            let x = state.cx.baseVal.value
+            let r = state.r.baseVal.value
+            return (x >= s[0] && x < s[1]) ||
+                    ((x+r) > s[0] && (x-r) <= s[1]) ||
+                    ((x-r) <= s[0] && (x+r) >= s[1])
+        })
+        d3.select(".yearPoints").selectAll('circle').classed('highlighted', false)
+        years.forEach(point => {
+            point.className.baseVal += ' highlighted';
+        });
+
+        that.trendChart.updateActiveYears(years.map(a => a.__data__.YEAR));
+       }
+
+      
 
 
 
