@@ -18,7 +18,6 @@ class YearChart {
         this.trendChart = trendChart;
         // the data
         this.electionWinners = electionWinners;
-        console.log(electionWinners)
         
         // Initializes the svg elements required for this chart
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
@@ -112,12 +111,16 @@ class YearChart {
             .on('click', function(d) {
                 d3.selectAll('circle').classed('selected',false);
                 d3.select(this).classed('selected',true);
+                d3.selectAll('.d3-tip')
+                    .style('opacity',0)
+                    .attr('pointer-events','none').select('svg').attr('opacity',0);
+                that.trendChart.pinned = false;
+                that.trendChart.pinText.attr('opacity',0)
+                d3.selectAll('.pinned').classed('pinned',false)
 
-
+                
                 //Call the update methods of electoralVotesChart, votePercentageChart, and tileChart
                 d3.csv('data/Year_Timeline_' + d.YEAR + '.csv').then(electionResult => {
-                    console.log('Triggered Update for year ' + d.YEAR);
-                    console.log(electionResult);
                     that.electoralVoteChart.update(electionResult, that.colorScale);
                     that.tileChart.update(electionResult, that.colorScale);
                     that.votePercentageChart.update(electionResult);
@@ -183,15 +186,39 @@ class YearChart {
         });
 
         that.trendChart.updateActiveYears(years.map(a => a.__data__.YEAR));
-       }
+        if (that.electoralVoteChart.d_brushed && d3.select('#d-brush')._groups[0][0].__brush.selection != null) {
+            let min = d3.select('#d-brush')._groups[0][0].__brush.selection[0][0]
+            let max = d3.select('#d-brush')._groups[0][0].__brush.selection[1][0]
+            d3.select('#d-brush').call(that.electoralVoteChart.d_brush.move,[min,max]);
+        }
+        if (that.electoralVoteChart.r_brushed && d3.select('#r-brush')._groups[0][0].__brush.selection != null) {
+            let min = d3.select('#r-brush')._groups[0][0].__brush.selection[0][0]
+            let max = d3.select('#r-brush')._groups[0][0].__brush.selection[1][0]
+            d3.select('#r-brush').call(that.electoralVoteChart.r_brush.move,[min,max]);
+        }
+        if (that.electoralVoteChart.i_brushed && d3.select('#i-brush')._groups[0][0].__brush.selection != null) {
+            let min = d3.select('#i-brush')._groups[0][0].__brush.selection[0][0]
+            let max = d3.select('#i-brush')._groups[0][0].__brush.selection[1][0]
+            d3.select('#i-brush').call(that.electoralVoteChart.i_brush.move,[min,max]);
+        }
 
-      
+       
+        let points = Array.prototype.slice.call(d3.select('.d3-tip.w').select('svg').select('.shiftPoints').selectAll('circle')._groups[0])
+        points.forEach(circle => {
+            circle.style.fill = d3.select('.'+circle.className.baseVal.toString())._groups[0][0].attributes.fill.value
+        });
 
+        let lines = Array.prototype.slice.call(d3.select('.d3-tip.w').select('svg').select('.shiftPoints').selectAll('line')._groups[0])
+        lines.forEach(line => {
+            line.style.stroke = d3.select('.'+line.className.baseVal.toString())._groups[0][0].attributes.stroke.value
+        });
 
+        let bars = Array.prototype.slice.call(d3.select('.d3-tip.w').select('svg').select('.shiftBars').selectAll('rect')._groups[0])
+        bars.forEach(bar => {
+            bar.style.fill = d3.select('.'+bar.className.baseVal.toString())._groups[0][0].attributes.fill.value
+        });
 
-
-
-
+        };
     };
 
 };

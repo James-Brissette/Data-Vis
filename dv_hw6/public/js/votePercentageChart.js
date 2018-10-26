@@ -77,7 +77,6 @@ class VotePercentageChart {
 	 * @return text HTML content for toop tip
 	 */
 	tooltip_render (tooltip_data) {
-		console.log('test')
 	    let text = "<ul>";
 	    tooltip_data.result.forEach((row)=>{
 			if (row.nominee != ' ') {

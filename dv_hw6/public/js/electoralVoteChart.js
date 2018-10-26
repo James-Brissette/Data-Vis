@@ -39,6 +39,10 @@ class ElectoralVoteChart {
         this.d_brushed = false;
         this.r_brushed = false;
         this.i_brushed = false;
+
+        this.d_brush = 0;
+        this.r_brush = 0;
+        this.i_brush = 0;
     };
 
     /**
@@ -66,7 +70,8 @@ class ElectoralVoteChart {
      */
 
    update (electionResult, colorScale){
-       
+       this.trendChart.linkElectoralVoteChart(this);
+
        // ******* TODO: PART II *******
        // Group the states based on the winning party for the state;
        // then sort them based on the margin of victory
@@ -88,7 +93,6 @@ class ElectoralVoteChart {
 
         let D_EV = d_data.map(a => a.D_EV).reduce(reduce_sum)
         let R_EV = r_data.map(a => a.R_EV).reduce(reduce_sum)
-        console.log(D_EV)
         let I_EV = i_data.map(a => a.I_EV).length == 0 ? 0 : i_data.map(a => a.I_EV).reduce(reduce_sum)
 
         let voteScale = d3.scaleLinear()
@@ -96,10 +100,11 @@ class ElectoralVoteChart {
                             .range([0,this.svgWidth - 100])
 
         let d_brush = d3.brushX().extent([[0,25], [voteScale(+D_EV), 45  + barHeight]]).on("brush end", d_brushed);
+        this.d_brush = d_brush;
         let r_brush = d3.brushX().extent([[0,80], [voteScale(+R_EV), 100  + barHeight]]).on("brush end", r_brushed);
+        this.r_brush = r_brush;
         let i_brush = d3.brushX().extent([[0,135],[voteScale(+I_EV), 155 + barHeight]]).on("brush end", i_brushed);
-        
-        console.log(r_data.map(a => a.R_EV).reduce(reduce_sum),d_data.map(a => a.D_EV).reduce(reduce_sum))
+        this.i_brush = i_brush;
 
         let chart = d3.select('#electoral-vote').select('svg')
 
@@ -141,8 +146,7 @@ class ElectoralVoteChart {
         let r_chartEnter = r_chart.enter().append('rect');
         r_chart.exit().remove();
         r_chart = r_chartEnter.merge(r_chart);
-        console.log('r_chart:')
-        console.log(electionResult.filter(item => item.RD_Difference > 0).sort(function(a,b){return +b.RD_Difference - +a.RD_Difference}))
+        
         r_chart
             .attr('y', 90)
             .attr('x', (d,i) => i - 1 == -1 ? 0 : d3.select(r_chart.nodes()[i-1])._groups['0']['0'].x.baseVal.value + voteScale(d3.select(r_chart.nodes()[i-1])._groups['0']['0'].__data__.R_EV))
@@ -239,7 +243,6 @@ class ElectoralVoteChart {
 
        function d_brushed() {
         let s = d3.event.selection;
-        console.log(s);
         if (s === null) {
             that.trendChart.update([null, 'd']);
             return;
@@ -258,8 +261,11 @@ class ElectoralVoteChart {
         states.forEach(state => {
             d.push({'name': state.__data__.State,'party':'d', 'Abbreviation':state.__data__.Abbreviation})
         });
-        console.log(d);
+        that.trendChart.pinned = false;
+        that.trendChart.pinText.attr('opacity',0)
+        d3.selectAll('.pinned').classed('pinned',false)
         that.trendChart.update(d)
+        
     }
 
     function r_brushed() {
@@ -282,7 +288,9 @@ class ElectoralVoteChart {
         states.forEach(state => {
             d.push({'name': state.__data__.State,'party':'r', 'Abbreviation':state.__data__.Abbreviation})
         });
-        console.log(d);
+        that.trendChart.pinned = false;
+        that.trendChart.pinText.attr('opacity',0)
+        d3.selectAll('.pinned').classed('pinned',false)
         that.trendChart.update(d)
     }
 
@@ -306,6 +314,9 @@ class ElectoralVoteChart {
             d.push({'name': state.__data__.State,'party':'i', 'Abbreviation':state.__data__.Abbreviation})
         });
         console.log(d);
+        that.trendChart.pinned = false;
+        that.trendChart.pinText.attr('opacity',0)
+        d3.selectAll('.pinned').classed('pinned',false)
         that.trendChart.update(d)
     }
 

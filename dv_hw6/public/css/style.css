@@ -44,7 +44,11 @@ h1 {
 }
 
 #trendChart {
-    display: none;
+   display: none;
+}
+
+.pinned {
+    font-weight: bold;
 }
 .nomineeInfoText{
     font-size: 25px;

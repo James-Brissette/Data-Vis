@@ -5,10 +5,10 @@ class TrendChart {
      * Initializes the svg elements required for this chart;
      */
     constructor(){
-
+        this.electoralVoteChart = 0;
         this.margin = {top: 10, right: 20, bottom: 20, left: 50};
 
-        this.stateNames = d3.select('#shiftChart').classed('sideBar',true).select('#stateList').append('svg').attr('height',800)
+        this.stateNames = d3.select('#shiftChart').classed('sideBar',true).select('#stateList').append('svg').classed('.stateList',true).attr('height',800)
         this.d_chart = this.stateNames.append('g')
             .attr('id','d-brushed-states')
             .attr('class','democrat')
@@ -22,7 +22,7 @@ class TrendChart {
         this.tip = d3.tip().attr('class', 'd3-tip')
 			.direction('w')
 			.offset(function() {
-				return [0,0];
+				return ([200,-20]);
             });
             
 
@@ -30,8 +30,6 @@ class TrendChart {
         let years = ['1940','1944','1948','1952','1956','1960','1964','1968','1972','1976','1980','1984', '1988','1992','1996','2000','2004','2008','2012','2016']
         years.forEach(year => {
             d3.csv('data/Year_Timeline_' + year + '.csv').then(electionResult => {
-                console.log('Recorded Year ' + year + ' data to trendChart');
-                
                 let val = {'year': year, 'MaxRD': Math.max(...electionResult.map(a=>+a.RD_Difference)), 'MinRD': Math.min(...electionResult.map(a=>+a.RD_Difference)), 'raw': electionResult}
                 this.trendData.push(val);
             });
@@ -58,11 +56,21 @@ class TrendChart {
             .range(range);
 
         this.yearList = [];
+        this.pinned = false;
+        this.activeCountry = 0;
+        this.selectedStates = [];
+        this.pinText = this.stateNames.append('text').classed('.pin-text', true).text('(pinned)').attr('opacity',0)
     };
 
+    linkElectoralVoteChart(chart) {
+        this.electoralVoteChart = chart;
+    }
     updateActiveYears(yearList) {
         this.yearList = yearList;
-        console.log('Updated!')
+    }
+
+    removeTip() {
+        return this.tip.hide
     }
     /**
      * Creates a list of states that have been selected by brushing over the Electoral Vote Chart
@@ -70,7 +78,7 @@ class TrendChart {
      * @param selectedStates data corresponding to the states selected on brush
      */
     update(selectedStates){
-    console.log(this.trendData)
+        this.selectedState = selectedStates;
     // ******* TODO: PART V *******
     //Display the names of selected states in a list
     //selectedStates = {'name': stateName, 'party': 'd'}
@@ -78,16 +86,16 @@ class TrendChart {
     if (selectedStates[0] == null) {
         d3.select('#' + selectedStates[1] + '-brushed-states').selectAll('text').text('');
         resizeLists();
+        this.removeTip()
         return;
     }
     
     generateChart(this,selectedStates[0]);
     let x = d3.select('#vis')
-    console.log(x._groups[0]) 
     this.tip.html((d) => { 
            return generateChart(that,d);
     });
-    d3.select('#stateList').select('svg').call(this.tip);
+    let listSpan = d3.select('#stateList').select('svg').call(this.tip);
 
     let party = selectedStates[0].party;
     let nameList = d3.select('#' + party + '-brushed-states').selectAll('text').data(selectedStates);
@@ -99,15 +107,40 @@ class TrendChart {
         .attr('x',this.margin.left)
         .attr('y', (d,i) => i*15 + 15)
         .attr('cursor','pointer')
-        .on('mouseenter', this.tip.show)
-        .on('mouseleave', this.tip.hide)
+        .on('click', function(d,i) { 
+                let count = d3.selectAll('.pinned')._groups[0].length;
+                let e = nameList.filter((d,index) => { return index == i })
+                if (count == 0) {
+                    that.pinned = true;
+                    d3.selectAll('.pinned').classed('pinned',false)
+                    e.classed('pinned',true)
+                    that.pinText
+                        .attr('x', e._groups[0][0].x.baseVal[0].value + e._groups[0][0].textLength.baseVal.value + 15)
+                        .attr('y', e._groups[0][0].y.baseVal[0].value)
+                    that.pinText.attr('opacity','1')
+                    that.update(selectedStates)
+
+                    return
+                }
+                
+                if (e._groups[0][0].className.baseVal.indexOf('pinned') == 0) {
+                    //Clicked element has class pinned
+                    that.pinned = false;
+                    e.classed('pinned',false)
+                    that.pinText.attr('opacity','0')
+                    
+                    that.update(selectedStates)
+                    return
+                }
+        })
+        .on('mouseenter', this.pinned ? 
+                            (d3.select('.d3-tip.w').select('svg').select('.stateName').select('text')._groups[0][0].textContent == this.activeCountry ? 
+                            function() {return console.log('butter')} : null ) : this.tip.show)
+        .on('mouseout', this.pinned ? null : this.tip.hide)
 
     resizeLists();
-
     
-
     
-
     
     
     function resizeLists() {
@@ -127,7 +160,6 @@ class TrendChart {
     //Handle brush selection on the year chart and sketch a visualization
     //that encodes the shift informatiomation for all the states on selected years
     
-    
     function generateChart(that, stateData) {
         let xMax = 550;
         let yMax = 350;
@@ -143,6 +175,9 @@ class TrendChart {
             pointData.push(year.raw[year.raw.map(a => a.State).indexOf(stateData.name)]);
         });
         while(pointData[0] == undefined) { pointData.shift(); }
+        pointData.sort(function(a, b) {
+            return a.Year - b.Year
+        } );
         
         let domain = Math.max(Math.max(...pointData.map(a => a.RD_Difference)),Math.abs(Math.min(...pointData.map(a => a.RD_Difference))))
         let yScale = d3.scaleLinear()
@@ -165,26 +200,38 @@ class TrendChart {
         that.beta.select('.xAxis').attr('transform','translate(' + chartshiftX + ',' + ((topY / 2) + 15) + ')').call(xAxis).selectAll('text').remove();
         that.beta.select('.yAxis').attr('transform','translate(' + chartshiftX + ',15)').call(yAxis);
 
-        
-        console.log(pointData)
+
+        let connections = that.beta.select('.shiftPoints').selectAll('line').data(pointData)
+        let connectionsEnter = connections.enter().append('line')
+        connections.exit().remove()
+        connections = connectionsEnter.merge(connections)
+        connections 
+            .attr('x1', (d,i) => i == 0  ? xScale(d.Year) + chartshiftX + 35 : xScale(d.Year - 1) + chartshiftX + 20)
+            .attr('y1', (d,i) => i == 0 ? yScale(d.RD_Difference) + 15 : yScale(+connections._groups[0][i-1].__data__.RD_Difference) + 15)
+            .attr('x2', d => xScale(d.Year) + chartshiftX + 35)
+            .attr('y2', d => yScale(d.RD_Difference) + 15)
+            .attr('class', d=> 'line' + d.Year)
+            .attr('stroke', d => that.colorScale(d.RD_Difference))
+
         let points = that.beta.select('.shiftPoints').selectAll('circle').data(pointData)
         let pointsEnter = points.enter().append('circle')
-        points.exit().remove
+        points.exit().remove()
         points = pointsEnter.merge(points)
         points 
             .attr('cx', d => xScale(d.Year) + chartshiftX + 35)
             .attr('cy', d => yScale(d.RD_Difference) + 15)
             .attr('r', 7)
             .attr('fill', d => that.colorScale(d.RD_Difference))
+            .attr('class', d=> 'circle' + d.Year)
 
-        console.log(that.yearList);
         if (that.yearList.length != 0) {
             points.filter(d => {
                 return that.yearList.indexOf(d.Year) == -1
-            }).attr('fill','#aaa')
+            }).attr('fill','#aaa');
+            connections.filter(d => {
+                return that.yearList.indexOf(d.Year) == -1
+            }).attr('stroke','#aaa')
         }
-
-
 
 
 
@@ -218,20 +265,19 @@ class TrendChart {
         that.beta.select('.xShiftAxis').attr('transform','translate(' + chartshiftX + ',' + ((botY / 2) + chartshiftY) + ')').call(xShiftAxis).selectAll('text').remove();
         that.beta.select('.yShiftAxis').attr('transform','translate(' + chartshiftX + ',' + (chartshiftY) + ')').call(yShiftAxis);
 
-        
-        console.log(barData)
         let shiftBars = that.beta.select('.shiftBars').selectAll('rect').data(barData)
         let shiftBarsEnter = shiftBars.enter().append('rect')
-        shiftBars.exit().remove
+        shiftBars.exit().remove()
         shiftBars = shiftBarsEnter.merge(shiftBars)
         shiftBars 
             .attr('x', d => xShiftScale(+d.Year) + chartshiftX + 30)
             .attr('y', d => d.Direction == 'Right' ? (botY / 2) + chartshiftY - heightScale(+d.Shift) : (botY / 2) + chartshiftY)
             .attr('width', 15)
             .attr('height', d => heightScale(+d.Shift))
+            .attr('class', d=> 'bar' + d.Year)
             .attr('fill', d => d.Direction == 'Right' ? that.colorScale(+d.Shift) : that.colorScale(-d.Shift))
 
-        console.log(that.yearList);
+            
         if (that.yearList.length != 0) {
             shiftBars.filter(d => {
                 return that.yearList.indexOf(d.Year) == -1

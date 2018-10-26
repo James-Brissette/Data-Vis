@@ -86,13 +86,6 @@ class TileChart {
      */
     update (electionResult, colorScale){
         let that = this;
-        let test = electionResult.map(a => [a.Total_EV, a.D_EV, a.R_EV, a.I_EV, a.Year, a.State]);
-        console.log('Testing States')
-        test.forEach(state => {
-            if (state[1] != state[0] && state[2] != state[0] && state[3] != state[0]) {
-                console.log(state[5] + ' in ' + state[4] + ': ' + state)
-            }
-        });
         //for reference:https://github.com/Caged/d3-tip
         //Use this tool tip element to handle any hover over the chart
             this.tip.html((d)=>{
@@ -227,60 +220,6 @@ class TileChart {
             .attr('x', (d) => xScale(+d['Space'] + .5))
             .attr('y', (d) => yScale(+d['Row'] + .75))
             .attr('pointer-events','none');
-
-
-
-
-
-
-
-
-
-
-
-
-        /* let chartTilesEnter = chartTiles.enter().append('rect').classed('tile', true);
-        chartTiles.exit().remove();
-        chartTiles = chartTilesEnter.merge(chartTiles);
-        console.log(xScale(5))
-        chartTiles
-            .attr('x', (d) => xScale(+d['Space']))
-            .attr('y', (d) => yScale(+d['Row']))
-            .attr('width', this.svgWidth/12)
-            .attr('height', this.svgHeight/8)
-            .attr('fill', d => colorScale(+d['RD_Difference']));
-        
-        let chartText = chart.selectAll('text').data(electionResult)
-        let chartTextEnter = chartText.enter().append('text').classed('tilestext', true)
-        chartText.exit().remove()
-        chartText = chartTextEnter.merge(chartText)
-        chartText
-            .text(d => d.Abbreviation)
-            .attr('x', (d) => xScale(+d['Space'] + .5))
-            .attr('y', (d) => yScale(+d['Row'] + .55)) */
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             
     };
