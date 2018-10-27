@@ -109,17 +109,14 @@ h1 {
 .republican{
     fill: #de2d26;
     color: #de2d26;
-    text-anchor:start;
 }
 .democrat{
     fill: #3182bd;
     color: #3182bd;
-    text-anchor:start;
 }
 .independent{
     fill: #45AD6A;
     color: #45AD6A;
-    text-anchor:start;
 }
 
 .votesPercentage{

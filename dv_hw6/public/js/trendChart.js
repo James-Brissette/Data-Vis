@@ -62,6 +62,18 @@ class TrendChart {
         this.pinText = this.stateNames.append('text').classed('.pin-text', true).text('(pinned)').attr('opacity',0)
     };
 
+    chooseClass (party) {
+        if (party == "R"){
+            return "republican";
+        }
+        else if (party== "D"){
+            return "democrat";
+        }
+        else if (party == "I"){
+            return "independent";
+        }
+    }
+
     linkElectoralVoteChart(chart) {
         this.electoralVoteChart = chart;
     }
@@ -161,6 +173,7 @@ class TrendChart {
     //that encodes the shift informatiomation for all the states on selected years
     
     function generateChart(that, stateData) {
+        console.log(stateData)
         let xMax = 550;
         let yMax = 350;
 
@@ -223,6 +236,8 @@ class TrendChart {
             .attr('r', 7)
             .attr('fill', d => that.colorScale(d.RD_Difference))
             .attr('class', d=> 'circle' + d.Year)
+        points.append('title')
+            .text(d => d.RD_Difference)
 
         if (that.yearList.length != 0) {
             points.filter(d => {
@@ -276,7 +291,8 @@ class TrendChart {
             .attr('height', d => heightScale(+d.Shift))
             .attr('class', d=> 'bar' + d.Year)
             .attr('fill', d => d.Direction == 'Right' ? that.colorScale(+d.Shift) : that.colorScale(-d.Shift))
-
+        shiftBars.append('title')
+            .text(d => d.Shift + '% to the ' + d.Direction)
             
         if (that.yearList.length != 0) {
             shiftBars.filter(d => {
@@ -305,7 +321,7 @@ class TrendChart {
             .attr('y', 40)
             .attr('text-anchor', 'middle')
             .text(stateData.name)
-            .attr('class','votesPercentageText');
+            .attr('class','votesPercentageText ' + (stateData.party == 'd' ? 'democrat' : (stateData.party == 'r' ? 'republican' : 'independent')));
 
         that.beta.select('.typeText').select('text')
             .attr('x', 470)
