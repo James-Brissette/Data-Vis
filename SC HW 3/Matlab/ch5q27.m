@@ -1,12 +1,18 @@
-function [ output ] = CubicSpline(x,y,nx)
+function [output] = ch5q27()
 
-h = x(2)-x(1);
+h = pi/20;
+nx = 3;
+x = linspace(0,40*pi/20,41);
+[sinx,y] = cosPiTwenty(41);
+% [sinx,y] = cosPiEights(17);
+
 [m,n] = size(x);
 
 s = zeros(1,nx);
 %extrapolate points 1.0 outside of range to illustrate behavior at end points
-interpolationPoints = linspace(x(1),x(n)+9,nx);
- 
+% interpolationPoints = linspace(x(1),x(n),nx);
+interpolationPoints = [1,2,5];
+
 n = n-1;
 B = zeros(1,n+3);
 
@@ -29,8 +35,10 @@ a(n+2) = y(n+1);
 
 a(3:n+1) = Thomas(A,z);
 %  a(0) & a(n+2)
-a(1) = 2*a(2)-a(3);
-a(n+3) = 2*a(n+2)-a(n+1);
+% a(1) = 2*a(2)-a(3);
+% a(n+3) = 2*a(n+2)-a(n+1);
+a(1) = -sinx(1)*2*h+a(3);
+a(n+3) = sinx(n+1)*2*h+a(n+1);
 
 xx = zeros(n+3,1);
 xx(2:n+2) = x;
@@ -64,9 +72,10 @@ output = s';
 % size(interpolationPoints)
 % size(s)
 % 
-% plot(x,y);
-plot(interpolationPoints,s,'k')
+plot(x,y);
+hold on
+scatter(interpolationPoints,s,'k')
 % legend('x','interp');
-% hold off
+hold off
 end
 

@@ -1,11 +1,12 @@
 function [ output ] = CubicSpline(x,y,nx)
-
+% x = linspace(0,24,13);
 h = x(2)-x(1);
 [m,n] = size(x);
 
 s = zeros(1,nx);
-%extrapolate points 1.0 outside of range to illustrate behavior at end points
-interpolationPoints = linspace(x(1),x(n)+9,nx);
+%extrapolate points .2 outside of range to illustrate behavior at end points
+% interpolationPoints = .5;
+interpolationPoints = linspace(x(1)-1,x(n)+1,nx);
  
 n = n-1;
 B = zeros(1,n+3);
@@ -58,14 +59,14 @@ for i = 1:nx
     s(i) = val;
 end
 
-output = s';
+output = s;
 % size(x)
 % size(y)
 % size(interpolationPoints)
 % size(s)
 % 
 % plot(x,y);
-plot(interpolationPoints,s,'k')
+plot(interpolationPoints,s)
 % legend('x','interp');
 % hold off
 end
