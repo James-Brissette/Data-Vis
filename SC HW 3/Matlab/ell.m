@@ -1,6 +1,5 @@
 function [coefficients] = ell(interp, xs)
 [m,n] = size(xs);
-disp(interp)
 coefficients = zeros(n,1);
 
 for i=1:n

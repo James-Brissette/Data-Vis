@@ -6,7 +6,6 @@ x = linspace(0,24,13);
 y = [59,56,53,54,60,67,72,74,75,74,70,65,61];
 
 nx = 25+9;
-%extrapolate points .2 outside of range to illustrate behavior at end points
 interpolationPoints = linspace(x(1),x(n)+9,nx);
 
 p = zeros(nx,1);
