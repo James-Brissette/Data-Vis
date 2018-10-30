@@ -1,6 +1,5 @@
 function [ output ] = tridiag(a,b,n)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+%Creates an nxn tridiagonal matrix with 'a' along the main diagonal
 
 output = zeros(n);
 output(1,1) = a;

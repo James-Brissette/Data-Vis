@@ -1,4 +1,5 @@
 function [coefficients] = ell(interp, xs)
+%Computes the Lagrange Coefficients
 [m,n] = size(xs);
 coefficients = zeros(n,1);
 

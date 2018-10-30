@@ -1,12 +1,11 @@
 function [ output ] = CubicSpline(x,y,nx)
-% x = linspace(0,24,13);
+
 h = x(2)-x(1);
 [m,n] = size(x);
 
+%s is the output using the cubic spline
 s = zeros(1,nx);
-%extrapolate points .2 outside of range to illustrate behavior at end points
-% interpolationPoints = .5;
-interpolationPoints = linspace(x(1)-1,x(n)+1,nx);
+interpolationPoints = linspace(x(1),x(n)+9,nx);
  
 n = n-1;
 B = zeros(1,n+3);
@@ -26,9 +25,10 @@ a = zeros(1,n+3);
 % a(1) & a(n+1)
 a(2) = y(1);
 a(n+2) = y(n+1);
-%  Solve for middle ai's using Thomas Algorithm
 
+%  Solve for middle ai's using Thomas Algorithm
 a(3:n+1) = Thomas(A,z);
+
 %  a(0) & a(n+2)
 a(1) = 2*a(2)-a(3);
 a(n+3) = 2*a(n+2)-a(n+1);
@@ -59,15 +59,15 @@ for i = 1:nx
     s(i) = val;
 end
 
-output = s;
+output = s';
 % size(x)
 % size(y)
 % size(interpolationPoints)
 % size(s)
 % 
 % plot(x,y);
-plot(interpolationPoints,s)
+plot(interpolationPoints,s,'k')
 % legend('x','interp');
-% hold off
+hold off
 end
 

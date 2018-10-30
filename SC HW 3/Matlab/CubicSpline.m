@@ -3,8 +3,8 @@ function [ output ] = CubicSpline(x,y,nx)
 h = x(2)-x(1);
 [m,n] = size(x);
 
+%s is the output using the cubic spline
 s = zeros(1,nx);
-%extrapolate points 1.0 outside of range to illustrate behavior at end points
 interpolationPoints = linspace(x(1),x(n)+9,nx);
  
 n = n-1;
@@ -25,20 +25,21 @@ a = zeros(1,n+3);
 % a(1) & a(n+1)
 a(2) = y(1);
 a(n+2) = y(n+1);
-%  Solve for middle ai's using Thomas Algorithm
 
+%  Solve for middle ai's using Thomas Algorithm
 a(3:n+1) = Thomas(A,z);
+
 %  a(0) & a(n+2)
 a(1) = 2*a(2)-a(3);
 a(n+3) = 2*a(n+2)-a(n+1);
 
+%new vector xx is the vector x with one additonal point at each end
 xx = zeros(n+3,1);
 xx(2:n+2) = x;
 xx(1) = xx(2)-h;
 xx(n+3) = xx(n+2)+h;
 
 for i = 1:nx
-%     disp(i)
     val = 0;
     for j = 1:n+3
         %Calculate Bi
@@ -51,22 +52,14 @@ for i = 1:nx
         else
             B(j) = 0;
         end
-%          fprintf('Compare i=%d with j=%d.. cx=%d giving B(%d)=%d \n',interpolationPoints(i),xx(j),abs(cx),j,B(j)) 
+        
         val = val + a(j)*B(j);
     end
-%     fprintf('\n')
     s(i) = val;
 end
 
 output = s';
-% size(x)
-% size(y)
-% size(interpolationPoints)
-% size(s)
-% 
-% plot(x,y);
 plot(interpolationPoints,s,'k')
-% legend('x','interp');
-% hold off
+hold off
 end
 
