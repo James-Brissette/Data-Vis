@@ -1,5 +1,5 @@
 function [ output ] = ch5q33()
-n = 20;
+n = 30;
 
 x = linspace(0,1,n);
 h = x(2)-x(1);
@@ -12,7 +12,6 @@ a = y;
 b = zeros(1,n);
 c = zeros(1,n);
 
-a(1) = y(1);
 b(1) = -sin(6*pi*x(1))*6*pi;
 c(1) = (y(2)-y(1)-(h*b(1)))/(h^2);
 
@@ -31,6 +30,7 @@ plot(x,y);
 hold on
 plot(interpPoints,w);
 legend('cos(6pix)','Interpolated Function','Location','Southwest')
+title('n=30')
 hold off
 end
 

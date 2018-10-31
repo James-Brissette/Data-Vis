@@ -1,6 +1,6 @@
 function [output] = ch5q27()
 
-h = pi/8;
+h = pi/20;
 nx = 3;
 x = linspace(0,40*pi/20,41);
 [sinx,y] = cosPiTwenty(41);
@@ -72,9 +72,15 @@ output = s';
 % size(interpolationPoints)
 % size(s)
 % 
+
 plot(x,y);
+set(gca,'xtick',[0 pi/2 pi 3*pi/2 2*pi])
+set(gca,'xticklabel',{'0','\pi/2','\pi','3\pi/2','2\pi'})
+axis([0,2*pi,-1.2,1.2]);
 hold on
 scatter(interpolationPoints,s,'k')
+legend('Clamped Cubic Spline','Interpolation Po,'Location','North')
+
 % legend('x','interp');
 hold off
 end
