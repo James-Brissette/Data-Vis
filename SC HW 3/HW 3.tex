@@ -40,13 +40,29 @@
 		\begin{itemize}
 			\item[5.10]
 				\begin{enumerate} [label={\alph*)}]
-					\item ~
-					\begin{lstlisting} 
-					\end{lstlisting}
-					\item ~
+					\item We can see for $J_0(x) = \frac{1}{\pi}\int_{0}^{\pi}cos(xsinx)ds$ that $\vertJ_0(x)\vert \leq 1$ by noting that the behavior of cosine is such that it is bounded between -1 and 1. This means that the absolute value of cosine will always be less than or equal to 1, and if we apply this to the integral then we can see that $\int_{0}^{\pi}cos(xsinx)ds \leq \int_{0}^{\pi}\pi ds$ and that is visible in the following plot:
+					\begin{center}
+						\includegraphics[width=1\linewidth]{ch5q10}
+					\end{center}
+				where $\int_{0}^{\pi}\pi ds$ is the area of the upper left rectangle. The area of $\frac{1}{\pi}\int_{0}^{\pi}cos(xsinx)ds \leq \frac{1}{\pi}\int_{0}^{\pi}\pi ds = \frac{\pi}{\pi} = 1$ \\
+				
+				We can extend this idea by noting that the derivatives of sin and cos are sin and cos, and so each subsequent derivative of each will yield a function who shares the same property of being bounded between -1 and 1, and the same logic follows for $\vertJ'_0(x)\vert$, $\vertJ''_0(x)\vert$, and so on.
+					\item From Theorem 5.4 we see that $\vert f(x) - g(x) \vert \leq \frac{1}{8}h^2\vert \vert f'' \vert \vert_\infty$ and from part a we show that each subsequent derivative will be less than or equal to 1, so $\vert \vert f'' \vert \vert_\infty = max_{a \leq x \leq b} \vert f''(x) \vert = 1$. Using this to solve for $h$, we see that 
+					$$\frac{1}{8}h^2 \leq 10e-06$$
+					$$h \leq \sqrt{8*10e-06}$$
+					and we have that the interval under consideration is $0 \leq x \leq 10$ so we can relate $h$ and $n$ as follows:
+					$$h = 10/(n-1) \rightarrow n = \frac{10}{h}$$
+					$$n \geq \frac{10}{\sqrt{8*10e-06}} + 1$$
+					$$n \geq 1.119033e+03$$
 					
-					\item ~
-					\item ~
+					\item From Theorem 5.5 we follow the same logic for $\vert \vert f'''' \vert \vert_\infty$ and the error statement thus reads $\vert f(x)-s(x) \vert \leq \frac{5}{384}h^4 \leq 10e-06$, solving for $h$ we see:
+					$$h = \sqrt[4]{\frac{384*10e-06}{5}}$$
+					$$n \geq \frac{10}{\sqrt[4]{\frac{384*10e-06}{5}}} + 1$$
+					$$n \geq 6.107029e+01$$
+					\item From Theorem 5.8 we have $\vert f(x) - p_n(x) \vert \leq \frac{1}{2^n(n+1)!}(\frac{b-a}{2})^{n+1}\vert \vert f^{n+1} \vert \vert_\infty$. Using the same logic as before we deduce $\vert \vert f^{n+1} \vert \vert_\infty = 1$ and solving for $n$ we see:
+					$$ \frac{1}{2^n(n+1)!}(\frac{10}{2})^{n+1} \leq 10e-06 $$
+					Using Matlab to solve for $n$, we see that this equality holds when $n \geq 13$
+					\item Because the Bessel function for higher orders follows the same logic as for lower orders, and because the new variable introduced is with respect to the differentiation variable $ds$, we know that when we integrate it will go away, and so there is no change from the argument introduced in part a, and our answers don't change for parts b through d.
 				\end{enumerate}
 					
 			\item[5.11]
@@ -468,6 +484,19 @@
 	output(i-1,i) = b;
 	output(i,i-1) = b;
 	end          
+	
+	end
+	\end{lstlisting}
+	
+	\begin{lstlisting}
+	function [out] = Vandermonde(x)
+	
+	[m,n] = size(x);
+	out = zeros(n);
+	out(:,1) = 1;
+	for i=2:n
+	out(:,i) = x.^(i-1);
+	end
 	
 	end
 	\end{lstlisting}

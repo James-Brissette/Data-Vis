@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.11)  30 OCT 2018 18:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.29)  30 OCT 2018 20:42
 entering extended mode
 **"./HW 3.tex"
 ("HW 3.tex"
 LaTeX2e <2018-04-01> patch level 5
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
@@ -19,33 +19,33 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) ("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.st
+) ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.st
 y"
 Package: inputenc 2018/04/06 v1.3b Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
- ("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def"
+ ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def"
 File: latin1.def 2018/04/06 v1.3b Input encoding file
 ))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
 sty"
 Package: geometry 2018/04/16 v5.8 Page Geometry
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
 y"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
 ty"
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.
 sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.
 sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
@@ -62,31 +62,31 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks17
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
 cfg"))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.st
 y"
 Package: amsmath 2017/09/02 v2.17a AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.st
 y"
 Package: amstext 2000/06/29 v2.01 AMS text
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty
 "
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
 \ex@=\dimen111
 ))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty
 "
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen112
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty
 "
 Package: amsopn 2016/03/08 v2.02 operator names
 )
@@ -128,7 +128,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.
 sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -136,35 +136,35 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb.s
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb.s
 ty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
 sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
 sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
 ics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
 x.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen120
 \Gin@req@width=\dimen121
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\enumitem\enumitem.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\enumitem\enumitem.
 sty"
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \labelindent=\skip46
@@ -173,7 +173,7 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@inbox=\box28
 \enitdp@description=\count103
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.
 sty"
 \lst@mode=\count104
 \lst@gtempboxa=\box29
@@ -188,32 +188,32 @@ sty"
 \lst@lineno=\count109
 \lst@maxwidth=\dimen126
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.s
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstmisc.s
 ty"
-File: lstmisc.sty 2018/09/02 1.7 (Carsten Heinz)
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 \c@lstnumber=\count110
 \lst@skipnumbers=\count111
 \lst@framebox=\box30
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\listings.
 cfg"
-File: listings.cfg 2018/09/02 1.7 listings configuration
+File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
-Package: listings 2018/09/02 1.7 (Carsten Heinz)
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\color.sty
 "
 Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\color
 .cfg"
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1.
 sty"
-File: lstlang1.sty 2018/09/02 1.7 listings language file
+File: lstlang1.sty 2015/06/04 1.6 listings language file
 ) ("HW 3.aux")
 \openout1 = `"HW 3.aux"'.
 
@@ -265,7 +265,7 @@ LaTeX Font Info:    ... okay on input line 36.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
 ii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count112
@@ -280,39 +280,39 @@ ii"
 \makeMPintoPDFobject=\count117
 \everyMPtoPDFconversion=\toks26
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
 base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
 rr.sty"
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
 y"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
 ekeys.sty"
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
 .sty"
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
 .sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
 ys.sty"
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
 s.sty"
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
 x.sty"
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
@@ -322,7 +322,7 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
 mds.sty"
 Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -341,117 +341,162 @@ G,.JBIG2,.JB2,.eps]
 \c@lstlisting=\count118
 LaTeX Font Info:    Try loading font information for U+msa on input line 37.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 37.
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+! Undefined control sequence.
+<recently read> \vertJ 
+                       
+l.43 ...i}\int_{0}^{\pi}cos(xsinx)ds$ that $\vertJ
+                                                  _0(x)\vert \leq 1$ by noti...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-{C:/Users/James/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<ch5q15.png, id=13, 421.575pt x 316.18124pt>
+<ch5q10.png, id=1, 918.43124pt x 309.40594pt>
+File: ch5q10.png Graphic file (type png)
+<use ch5q10.png>
+Package pdftex.def Info: ch5q10.png  used on input line 45.
+(pdftex.def)             Requested size: 401.5028pt x 135.2609pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+
+ []
+
+! Undefined control sequence.
+<recently read> \vertJ 
+                       
+l.49 ... 1, and the same logic follows for $\vertJ
+                                                  '_0(x)\vert$, $\vertJ''_0(...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<recently read> \vertJ 
+                       
+l.49 ...c follows for $\vertJ'_0(x)\vert$, $\vertJ
+                                                  ''_0(x)\vert$, and so on.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[1
+
+{C:/Users/jtbri/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./ch5q10.pn
+g (PNG copy)>] [2]
+<ch5q15.png, id=21, 421.575pt x 316.18124pt>
 File: ch5q15.png Graphic file (type png)
 <use ch5q15.png>
-Package pdftex.def Info: ch5q15.png  used on input line 93.
+Package pdftex.def Info: ch5q15.png  used on input line 109.
 (pdftex.def)             Requested size: 401.5028pt x 301.13275pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 95--96
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
  []
 
-[2 <./ch5q15.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 121--123
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 130--132
+[3 <./ch5q15.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 137--139
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--143
+Underfull \hbox (badness 10000) in paragraph at lines 146--148
 
  []
 
-[3] [4]
-<ch5q26.png, id=26, 537.50812pt x 456.20438pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--159
+
+ []
+
+[4] [5]
+<ch5q26.png, id=31, 537.50812pt x 456.20438pt>
 File: ch5q26.png Graphic file (type png)
 <use ch5q26.png>
-Package pdftex.def Info: ch5q26.png  used on input line 204.
+Package pdftex.def Info: ch5q26.png  used on input line 220.
 (pdftex.def)             Requested size: 401.5028pt x 340.77412pt.
- [5] [6 <./ch5q26.png (PNG copy)>]
-<ch5q27.png, id=33, 502.87875pt x 423.08063pt>
+ [6] [7 <./ch5q26.png (PNG copy)>]
+<ch5q27.png, id=39, 502.87875pt x 423.08063pt>
 File: ch5q27.png Graphic file (type png)
 <use ch5q27.png>
-Package pdftex.def Info: ch5q27.png  used on input line 237.
+Package pdftex.def Info: ch5q27.png  used on input line 253.
 (pdftex.def)             Requested size: 401.5028pt x 337.78711pt.
- [7]
-<ch5q28.png, id=39, 599.99156pt x 464.4853pt>
+ [8]
+<ch5q28.png, id=43, 599.99156pt x 464.4853pt>
 File: ch5q28.png Graphic file (type png)
 <use ch5q28.png>
-Package pdftex.def Info: ch5q28.png  used on input line 259.
+Package pdftex.def Info: ch5q28.png  used on input line 275.
 (pdftex.def)             Requested size: 401.5028pt x 310.83499pt.
- [8 <./ch5q27.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
+ [9 <./ch5q27.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 
  []
 
-[9 <./ch5q28.png (PNG copy)>]
-<ch5q33_5.png, id=47, 570.63188pt x 438.8897pt>
+[10 <./ch5q28.png (PNG copy)>]
+<ch5q33_5.png, id=51, 570.63188pt x 438.8897pt>
 File: ch5q33_5.png Graphic file (type png)
 <use ch5q33_5.png>
-Package pdftex.def Info: ch5q33_5.png  used on input line 297.
+Package pdftex.def Info: ch5q33_5.png  used on input line 313.
 (pdftex.def)             Requested size: 401.5028pt x 308.80786pt.
-<ch5q33_10.png, id=48, 585.68813pt x 459.21562pt>
+<ch5q33_10.png, id=52, 585.68813pt x 459.21562pt>
 File: ch5q33_10.png Graphic file (type png)
 <use ch5q33_10.png>
-Package pdftex.def Info: ch5q33_10.png  used on input line 300.
+Package pdftex.def Info: ch5q33_10.png  used on input line 316.
 (pdftex.def)             Requested size: 401.5028pt x 314.81305pt.
- [10 <./ch5q33_5.png (PNG copy)>]
-<ch5q33_15.png, id=53, 585.68813pt x 459.21562pt>
+ [11 <./ch5q33_5.png (PNG copy)>]
+<ch5q33_15.png, id=57, 585.68813pt x 459.21562pt>
 File: ch5q33_15.png Graphic file (type png)
 <use ch5q33_15.png>
-Package pdftex.def Info: ch5q33_15.png  used on input line 303.
+Package pdftex.def Info: ch5q33_15.png  used on input line 319.
 (pdftex.def)             Requested size: 401.5028pt x 314.81305pt.
-<ch5q33_30.png, id=54, 585.68813pt x 459.21562pt>
+<ch5q33_30.png, id=58, 585.68813pt x 459.21562pt>
 File: ch5q33_30.png Graphic file (type png)
 <use ch5q33_30.png>
-Package pdftex.def Info: ch5q33_30.png  used on input line 306.
+Package pdftex.def Info: ch5q33_30.png  used on input line 322.
 (pdftex.def)             Requested size: 401.5028pt x 314.81305pt.
- [11 <./ch5q33_10.png (PNG copy)> <./ch5q33_15.png (PNG copy)>] [12 <./ch5q33_3
-0.png (PNG copy)>] [13] [14] [15] [16] [17] [18] ("HW 3.aux") ) 
+ [12 <./ch5q33_10.png (PNG copy)> <./ch5q33_15.png (PNG copy)>] [13 <./ch5q33_3
+0.png (PNG copy)>] [14] [15] [16] [17] [18] [19] ("HW 3.aux") ) 
 Here is how much of TeX's memory you used:
- 5453 strings out of 492973
- 74516 string characters out of 3126692
- 375747 words of memory out of 3000000
- 9248 multiletter control sequences out of 15000+200000
+ 5459 strings out of 492973
+ 74624 string characters out of 3126692
+ 216058 words of memory out of 3000000
+ 9253 multiletter control sequences out of 15000+200000
  11251 words of font info for 43 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,40p,732b,1789s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/James/
-AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:
-/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mex10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/James/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/James/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/James/AppD
-ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/User
-s/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.
-pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr6.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmr8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/James/AppData/Local/Programs/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/James/AppData/Loca
-l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/James/
-AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:
-/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+ 41i,9n,40p,732b,2176s stack positions out of 5000i,500n,10000p,200000b,50000s
+<D:/Users/jtbri/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:
+/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mex10.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmmi6.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/Users/jtbri/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Users/jtbri/AppD
+ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/User
+s/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.
+pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr6.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr8.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Users/jtbri/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><D:/Users/jtbri/AppData/Loca
+l/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Users/jtbri/
+AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><D:
+/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
 mtt10.pfb>
-Output written on "HW 3.pdf" (18 pages, 403196 bytes).
+Output written on "HW 3.pdf" (19 pages, 425802 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
+ 133 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
