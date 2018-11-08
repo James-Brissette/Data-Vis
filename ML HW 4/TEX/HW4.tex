@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setlength\abovedisplayskip{0pt}
+\author{James Brissette}
+\title{CS-6350: HW 4}
+\begin{document}
+	\maketitle
+	
+	\section{PAC Learning}
+		\begin{itemize}
+			\item [1.]
+				\begin{enumerate} [label={\alph*)}]
+					\item  Given N available parts, if we assume that two products made with parts $a$,$b$, and $c$ constitute the same hypothesis irrespective of the order the parts were used, then the total hypothesis space could be thought of in the following way:\\ 
+					
+					Suppose we had $N$ bins of products where the products in each bin were segregated by the number of parts they are made up of. In bin $1$, we have ${N \choose 1}$ or $N$ distinct products each consisting of one part, because there are $N$ total parts to choose from. In bin $2$ we would have ${N \choose 2}$ distinct products since that is how many ways we have to choose 2 products from a collection of size $N$. If we continued this we would follow the same pattern up to bucket $N$ where there is only $1$ way to choose all of the parts (assuming ordering doesn't matter).\\
+					
+					To summarize this mathematically, for a collection of $N$ available parts, we have 
+					$${N \choose 1} + {N \choose 2} + \dots + {N \choose N} = \displaystyle\sum_{k=1}^{N} {N \choose k}$$
+					\item Analyzing an experienced worker who follows both rules, we can take a similar approach, however, here we see that for bin $1$, the worker can now choose to use the whole part, or either of the distinct pieces. This changes our method of counting as follows:\\
+					In bin $1$ the worker now has $N$ whole parts (as in part a), and also has an additional $2$ choices for each part if he decides to use the halves instead. This brings his total choices for each part to $3$ (whole part, first half, or second half). If he only chooses $1$ part, there are $3$ options; if he chooses $2$ parts, he has $3*3$ ways to combine them; and similarly if he chooses $k$ parts, he has $3_1*3_2*3_3* \dots = 3^k$ ways to assemble them. We see that since the worker can assemble $k$ parts $3^k$ different ways, and he has ${N \choose k}$ ways to choose $k$ parts, the total hypothesis space can be written as:
+					
+					$$\displaystyle\sum_{k=1}^{N} 3^k{N \choose k}$$
+					
+					\item From Occam's Razor we have $$m > \frac{1}{\epsilon} \Big( ln(\vert H \vert) + ln\frac{1}{\delta}\Big)$$
+					Having calculated our hypothesis spaces in parts a and b, and knowing that the experienced worker is making the products (taking the hypothesis space from part b) we have that $H=\displaystyle\sum_{k=1}^{6} 3^k{6 \choose k}=4095$, and substituting in what we know yields the following:
+					$$m > \frac{1}{.01} \Big( ln(\vert 4095 \vert) + ln\frac{1}{.01}\Big) > 1.292269e+03 $$
+					for a total of at least 1293 examples.
+					
+				\end{enumerate}
+				
+			\item [2.]
+				If we know that each concept in $C$ is a rectangle with integer valued boundaries, and we know that in a plane bounded by $(0,0)$ and $(n,n)$ that the number of said rectangles is $\Big( \frac{n(n+1)}{2} \Big)^2$, then we can use the fact that the integers $a,b,c,d$ are in the interval (0,20) to deduce that the total number of rectangle in that interval is $\Big( \frac{20(21)}{2} \Big)^2 = 44,100$. Using this result we calculate the upper bound is:
+				$$m > \frac{1}{.01} \Big( ln(\vert 44100 \vert) + ln\frac{1}{.01}\Big) > 1.529939e+03 $$
+				for a total of at least 1530 randomly drawn examples.
+		\end{itemize}
+		
+	\section{Shattering}
+		\begin{enumerate}
+			\item The set of templates $H_n$ does not shatter the set $X_n$. To prove this we simply need to find one configuration of $X_n$ that is not shattered by $H_n$. First turning to the case where $n=3$ we see that were the configuration to be:
+			$$\begin{array}{ccc|c} 
+				0 & 0 & 0 & -1 \\
+				0 & 0 & 1 & -1 \\
+				0 & 1 & 0 & -1 \\
+				0 & 1 & 1 & -1 \\
+				1 & 0 & 0 & -1 \\
+				1 & 0 & 1 & -1 \\
+				1 & 1 & 0 & -1 \\
+				1 & 1 & 1 & -1 
+			\end{array}$$
+		\end{enumerate}
+	
+	\section{VC Dimensions}
+		\begin{itemize}
+			\item [1.]
+				\begin{enumerate} [label={\alph*)}]
+					\item  The VC dimension for the concept class $H_c$ consisting of circles depends on our definition of circles. If we define circles to be "perfect", as in all points along the circles boundaries are equidistant from the center, then the VC dimension is 3. First, we see that perfect circle are expressive enough to shatter one and two points trivially:
+					\begin{center}
+						\includegraphics[width=1\linewidth]{q3a}
+					\end{center}
+					
+					With three points, we start to see some challenges. There are two primary configurations of three points: three colinear points, and three points forming a triangle. Here we see that for the colinear points, there exists a configuration that is not separable, but for the triangle, all labelings are separable:
+					\begin{center}
+						\includegraphics[width=1\linewidth]{q3a_2}
+					\end{center}
+					
+					Now if we are assuming perfect circle, there does not exist a configuration of four points in which ALL of the labelings are correctly classifiable using circles. Since we've shown three colinear points is not shattered by circles, we know there is at least one labeling that can't be correctly seperated if we our four-point configuration included three colinear points. So what's left to try is three points in a triangle with the fourth point located inside the shape, or four points forming two distinct triangles. Noteworthy in this is that neither layout is separable using perfect circles. The left example is clear, but on the right, we see that it is not possible to touch opposite corners without touching all four points:
+					\begin{center}
+						\includegraphics[width=1\linewidth]{q3a_4}
+					\end{center}
+									
+					If, however, we relax our assumptions of circles to include shapes such as ellipses then we could argue the VC dimension further by overcoming the limitation that we can't touch opposite corners without touching all four points. In this case we've already proved that you can shatter 2 points, and every pair of 4 points could be reached independent of the other two.
+					
+					\item For this concept class, we see that for any \textit{individual} point, we can correctly classify the labeling by moving the shaded region given by $x_1 \geq a$,$x_2 \leq b$ on or off the point. However given that this concept class labels everything below and to the right of the point($x_1,x_2$) as positive, we see there is only one configuration of two points that is correctly classifiable, where the slope of the line connecting the two points is positive (e.g. the points are diagonal with one being above and to the right of the other):
+					\begin{center}
+						\includegraphics[width=1\linewidth]{q3b}
+					\end{center}
+					
+					We see this hypothesis class does not shatter two points because it fails to correctly classify them when they are arranged vertically, horizontally, or along a line with a negative slope. However, because it does shatter two points for all labelings where the points are placed along a line with a positive slope, the VC dimension is $\geq 2$.\\
+					
+					Unfortunately we see with three or more points, that this is no longer the case. We've seen that vertical and horizontally aligned points and points along a line with a negative slope fail to be classified correctly, and three points or more points can be generalized as a groups of two points arranged in the same pattern. If any of the two points are aligned in one of the three ways mentioned above, we will be able to find a way to label them such that the concept class can not shatter it. The last case is if they are all colinear and along a line with a positive slope, but in the following plot, we see a labeling that fails to correctly classify, thus the VC dimension is 2:
+					\begin{center}
+						\includegraphics[width=1\linewidth]{q3b_2}
+					\end{center}
+					
+				\end{enumerate}
+				
+			\item [2.]
+				We know that the VC dimension of a hypothesis space $H$ measures the complexity of $H$ by counting the number of instances of $X$ that can be shattered, and while it does not strictly depend on the size of the hypothesis class, we see that if we were to start taking subsets $H_2$ of $H_1$, or in other words if we were to take $H_2 \subseteq H_1$, then it follows that $\vert H_2 \vert \leq \vert H_1 \vert$. If at \textit{any} point our subset does not contain the most expressive hypotheses from the class $H_1$, then the VC dimension of our subset $H_2$ will be less than then our complete hypothesis space $H_1$.\\
+				
+				We also know from Vapnik that the VC dimension of $H$ is bounded by the dimensionality $D$ of the data points in X and the radius/margin of the data set (e.g min $\Big[ D,$ ceiling($\frac{4R^2}{\gamma^2}) \Big]$). From this we see the smaller the radius or the larger the margin becomes, the smaller the VC dimension becomes, which is certainly the case as we start taking subsets.\\
+				
+				Alternatively, if our subset is finite, we know the VC dimension is $\leq log_2 \vert H \vert$ and if we take $H_2 \subseteq H_1$, then $\vert H_2 \vert \leq \vert H_1 \vert$.
+		\end{itemize}
+	
+	\section{The Perceptron Algorithm and its Variants}
+		\begin{itemize}
+			\item [1.]				
+			\item [2.]
+		\end{itemize}
+	
+\end{document}

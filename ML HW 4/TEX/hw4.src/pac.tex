@@ -1,0 +1,60 @@
+\section{PAC Learning}
+\label{sec:pac-learning}
+
+\begin{enumerate}
+\item A factory assembles a product that consist of different
+  parts. Suppose a robot was invented to recognize whether a product
+  contains all the right parts. The rules for making products are
+  very simple: 1) you are free to combine any of the parts as they
+  are 2) you may also cut any of the parts into two distinct pieces
+  before using them.
+
+  You wonder how much effort a robot would need to figure out the
+  what parts are used in the product.
+
+  \begin{itemize}
+  \item\relax [5 points] Suppose that a naive robot has to recognize
+    products made using only rule 1. Given $N$ available parts and
+    each product made out of these constitutes a distinct
+    hypothesis. How large would the hypothesis space be? Brief
+    explain your answer.
+  
+  \item\relax [5 points] Suppose that an experienced worker follows
+    both rules when making a product. How large is the hypothesis
+    space now?  Explain.
+
+  \item\relax [10 points] An experienced worker decides to train the
+    naive robot to discern the makeup of a product by showing it the
+    product samples he has assembled. There are 6 available
+    parts. If the robot has to learn any product at $0.01$ error
+    with probability $99\%$, how many examples would the robot have
+    to see?
+  \end{itemize}
+
+
+  
+\item \relax[20 points] Consider the class $C$ of concepts of the
+  form $(a\leq x \leq b) \land (c \leq y \leq d)$ where $a,b,c,d$
+  are integers in the interval $(0,20)$. Each concept in this class
+  consists of a rectangle with integer valued boundaries and labels
+  all points inside the rectangle as positive and everything outside
+  as negative.
+
+  Give an upper bound on the number of randomly drawn examples
+  needed to ensure that for any function $c$ in the set $C$, a
+  consistent learner that uses $H = C$ will, with probability $99\%$
+  produce a classifier whose error is no more than $0.01$.
+
+  Hint: To answer this question, you could use the fact that in a
+  plane bounded by the points $(0,0)$ and $(n, n)$, the number of
+  distinct rectangles with integer-valued boundaries in the region
+  is $\left(\frac{n(n+1)}{2}\right)^2$.
+  
+\end{enumerate}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "hw"
+%%% End:
