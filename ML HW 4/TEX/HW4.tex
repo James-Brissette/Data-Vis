@@ -2,6 +2,8 @@
 \usepackage[latin1]{inputenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{url}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -98,10 +100,85 @@
 				Alternatively, if our subset is finite, we know the VC dimension is $\leq log_2 \vert H \vert$ and if we take $H_2 \subseteq H_1$, then $\vert H_2 \vert \leq \vert H_1 \vert$.
 		\end{itemize}
 	
-	\section{The Perceptron Algorithm and its Variants}
+	\section{AdaBoost}
 		\begin{itemize}
-			\item [1.]				
-			\item [2.]
+			\item [1.]
+			At the end of round 1 we compute $\epsilon_1$ as $$\displaystyle\sum_{i} D_t (i) \quad where \quad y_i \neq h(x_i) \rightarrow \epsilon_1 = \frac{1}{4} $$ We then use $\epsilon_1$ to solve for $\alpha_1$ as $$\alpha_1 = \frac{1}{2} ln \Big( \frac{1-\epsilon_1}{\epsilon_1} \Big) = 0.5493$$. We then calculate $D_2$ using $$D_2(i) = \frac{D_1(i)}{Z_t}*e^{-\alpha_t y_i h_1(x_i)}$$ Results are as follows:\\
+			
+				\textbf{Round 1:}
+				\begin{center}
+					\begin{tabular}{rccccc}
+						\toprule
+						${\bf x} = [x_1,x_2]$ & $y_i$ & $f_a(x)$ & $D_1$ & $D_{1}(i)y_{i}h_t({\bf x_i})$ & $D_2$ \\
+						\midrule
+						$[1,  1]$             & -1    & 1        & 1/4   & -1/4                          &  .5000     \\
+						$[1, -1]$             & 1     & 1        & 1/4   & 1/4                           &  .1667     \\
+						$[-1,-1]$             & -1    & -1       & 1/4   & 1/4                           &  .1667     \\
+						$[-1, 1]$             & -1    & -1       & 1/4   & 1/4                           &  .1667     \\
+						\bottomrule
+					\end{tabular}
+				\end{center}
+			$\epsilon_1 = 1/4, \alpha_1 = \frac{\ln3}{2}, Z_1 = \frac{\sqrt{3}}{2}$ \\
+			
+			For round 2 we will choose $h_2(x) = f_d(x) = -sgn(x_2)$. At the end of round 2 we compute $\epsilon_2$ as $$\displaystyle\sum_{i} D_t (i) \quad where \quad y_i \neq h(x_i) \rightarrow \epsilon_2 = 0.1667 $$ We then use $\epsilon_2$ to solve for $\alpha_2$ as $$\alpha_2 = \frac{1}{2} ln \Big( \frac{1-\epsilon_2}{\epsilon_2} \Big) = 0.8047$$. We then calculate $Z_2$ as $$Z_2 = \displaystyle\sum_{i=1}^4 D_t(i)*exp[-\alpha_t y_i h_2(x_i)] = 0.7454$$
+			
+			And lastly we calculate $D_3$ using $$D_3(i) = \frac{D_2(i)}{Z_2}*e^{-\alpha_2 y_i h_2(x_i)}$$ Results are as follows:\\
+			
+			\textbf{Round 2:}
+			\begin{center}
+				\begin{tabular}{rccccc}
+					\toprule
+					${\bf x} = [x_1,x_2]$ & $y_i$ & $f_d(x)$ & $D_2$ & $D_{2}(i)y_{i}h_t({\bf x_i})$ & $D_3$ \\
+					\midrule
+					$[1,  1]$             & -1    & -1       & .5000   & .5000                       &  .3000     \\
+					$[1, -1]$             & 1     & 1        & .1667   & .1667                       &  .1000     \\
+					$[-1,-1]$             & -1    & 1        & .1667   & -.1667                      &  .5000     \\
+					$[-1, 1]$             & -1    & -1       & .1667   & .1667                       &  .1000     \\
+					\bottomrule
+				\end{tabular}
+			\end{center}
+			$\epsilon_2 = 0.1667, \alpha_2 = 0.8047, Z_2 = 0.7454$ \\
+			
+			For round 3 we will choose $h_3(x) = f_b(x) = sgn(x_1 - 2)$. At the end of round 3 we compute $\epsilon_3$ as $$\displaystyle\sum_{i} D_t (i) \quad where \quad y_i \neq h(x_i) \rightarrow \epsilon_3 = 0.1000 $$ We then use $\epsilon_3$ to solve for $\alpha_3$ as $$\alpha_3 = \frac{1}{2} ln \Big( \frac{1-\epsilon_3}{\epsilon_3} \Big) = 1.0986$$. We then calculate $Z_3$ as $$Z_3 = \displaystyle\sum_{i=1}^4 D_t(i)*exp[-\alpha_t y_i h_3(x_i)] = 0.6000$$
+			
+			And lastly we calculate $D_4$ using $$D_4(i) = \frac{D_3(i)}{Z_3}*e^{-\alpha_3 y_i h_3(x_i)}$$ Results are as follows:\\
+			
+			\textbf{Round 3:}
+			\begin{center}
+				\begin{tabular}{rccccc}
+					\toprule
+					${\bf x} = [x_1,x_2]$ & $y_i$ & $f_d(x)$ & $D_3$ & $D_{3}(i)y_{i}h_t({\bf x_i})$ & $D_4$ \\
+					\midrule
+					$[1,  1]$             & -1    & -1       & .3000   & .3000                       & .1667      \\
+					$[1, -1]$             & 1     & -1       & .1000   & -.1000                      & .5000      \\
+					$[-1,-1]$             & -1    & -1       & .5000   & .5000                       & .2778      \\
+					$[-1, 1]$             & -1    & -1       & .1000   & .1000                       & .0556      \\
+					\bottomrule
+				\end{tabular}
+			\end{center}
+			$\epsilon_3 = 0.1000, \alpha_3 = 1.0986, Z_3 = 0.6000$ \\
+			
+			For round 4 we would like to choose $h_4(x) = f_c(x) = -sgn(x_1)$ since that weak classifier hasn't been utilized yet but we see that if we do it will incorrectly predict $x_2$ and give us an error $\geq \frac{1}{2}$. Instead we will use $h_4(x) = f_a(x) = sgn(x_1)$.  At the end of round 4 we compute $\epsilon_4$ as $$\displaystyle\sum_{i} D_t (i) \quad where \quad y_i \neq h(x_i) \rightarrow \epsilon_4 = 0.1667$$ We then use $\epsilon_4$ to solve for $\alpha_4$ as $$\alpha_4 = \frac{1}{2} ln \Big( \frac{1-\epsilon_4}{\epsilon_4} \Big) = 0.8047$$. We then calculate $Z_4$ as $$Z_4 = \displaystyle\sum_{i=1}^4 D_t(i)*exp[-\alpha_t y_i h_4(x_i)] = 0.7454$$
+			
+			And lastly we calculate $D_5$ using $$D_5(i) = \frac{D_4(i)}{Z_4}*e^{-\alpha_4 y_i h_4(x_i)}$$ Results are as follows:\\
+			
+			\textbf{Round 4:}
+			\begin{center}
+				\begin{tabular}{rccccc}
+					\toprule
+					${\bf x} = [x_1,x_2]$ & $y_i$ & $f_a(x)$ & $D_4$ & $D_{4}(i)y_{i}h_t({\bf x_i})$ & $D_5$ \\
+					\midrule
+					$[1,  1]$             & -1    & 1        & .1667 & -.1667                        & .5000      \\
+					$[1, -1]$             & 1     & 1        & .5000 & .5000                         & .3000      \\
+					$[-1,-1]$             & -1    & -1       & .2778 & .2778                         & .1667      \\
+					$[-1, 1]$             & -1    & -1       & .0556 & .0556                         & .0333      \\
+					\bottomrule
+				\end{tabular}
+			\end{center}
+			$\epsilon_4 = 0.1667, \alpha_4 = 0.8047, Z_4 = 0.7454$ \\
+			
+			At this point we have a total of 4 rounds and we compute our final hypothesis $H_{final}$ as
+			$$ H_{final} = sgn \Big[ \alpha_1 h_1 + \alpha_2 h_2 + \alpha_3 h_3 + \alpha_4 h_4 \Big]$$
 		\end{itemize}
 	
 \end{document}

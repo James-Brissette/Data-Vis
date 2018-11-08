@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.29)  7 NOV 2018 23:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.29)  3 NOV 2018 12:55
 entering extended mode
 **./HW4.tex
 (HW4.tex
@@ -128,30 +128,6 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
-("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\booktabs\booktabs.
-sty"
-Package: booktabs 2005/04/14 v1.61803 publication quality tables
-\heavyrulewidth=\dimen120
-\lightrulewidth=\dimen121
-\cmidrulewidth=\dimen122
-\belowrulesep=\dimen123
-\belowbottomsep=\dimen124
-\aboverulesep=\dimen125
-\abovetopsep=\dimen126
-\cmidrulesep=\dimen127
-\cmidrulekern=\dimen128
-\defaultaddspace=\dimen129
-\@cmidla=\count103
-\@cmidlb=\count104
-\@aboverulesep=\dimen130
-\@belowrulesep=\dimen131
-\@thisruleclass=\count105
-\@lastruleclass=\count106
-\@thisrulewidth=\dimen132
-) ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\url\url.sty"
-\Urlmuskip=\muskip11
-Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-)
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.
 sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
@@ -185,32 +161,32 @@ Package graphics Info: Driver file: pdftex.def on input line 99.
 x.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen133
-\Gin@req@width=\dimen134
+\Gin@req@height=\dimen120
+\Gin@req@width=\dimen121
 )
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\enumitem\enumitem.
 sty"
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \labelindent=\skip46
-\enit@outerparindent=\dimen135
+\enit@outerparindent=\dimen122
 \enit@toks=\toks23
 \enit@inbox=\box28
-\enitdp@description=\count107
+\enitdp@description=\count103
 ) (HW4.aux)
 \openout1 = `HW4.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -250,16 +226,16 @@ LaTeX Font Info:    ... okay on input line 14.
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
 ii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count108
-\scratchdimen=\dimen136
+\scratchcounter=\count104
+\scratchdimen=\dimen123
 \scratchbox=\box29
-\nofMPsegments=\count109
-\nofMParguments=\count110
+\nofMPsegments=\count105
+\nofMParguments=\count106
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count111
-\MPscratchDim=\dimen137
-\MPnumerator=\count112
-\makeMPintoPDFobject=\count113
+\MPscratchCnt=\count107
+\MPscratchDim=\dimen124
+\MPnumerator=\count108
+\makeMPintoPDFobject=\count109
 \everyMPtoPDFconversion=\toks25
 )
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
@@ -320,145 +296,52 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 15.
+LaTeX Font Info:    Try loading font information for U+msa on input line 13.
 
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 15.
+LaTeX Font Info:    Try loading font information for U+msb on input line 13.
 ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
- []
+! LaTeX Error: \begin{itemize} on input line 33 ended by \end{document}.
 
-
-Package amsmath Warning: Foreign command \atopwithdelims;
-(amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 23.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
-
- []
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.49 \end{document}
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 [1
 
-{C:/Users/jtbri/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<q3a.png, id=14, 421.575pt x 316.18124pt>
-File: q3a.png Graphic file (type png)
-<use q3a.png>
-Package pdftex.def Info: q3a.png  used on input line 66.
-(pdftex.def)             Requested size: 401.5028pt x 301.13275pt.
- [2]
-<q3a_2.png, id=18, 421.575pt x 316.18124pt>
-File: q3a_2.png Graphic file (type png)
-<use q3a_2.png>
-Package pdftex.def Info: q3a_2.png  used on input line 71.
-(pdftex.def)             Requested size: 401.5028pt x 301.13275pt.
+{C:/Users/jtbri/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] (HW4.aux) )
 
-[3 <./q3a.png (PNG copy)> <./q3a_2.png (PNG copy)>]
-<q3a_4.png, id=22, 421.575pt x 316.18124pt>
-File: q3a_4.png Graphic file (type png)
-<use q3a_4.png>
-Package pdftex.def Info: q3a_4.png  used on input line 76.
-(pdftex.def)             Requested size: 401.5028pt x 301.13275pt.
-<q3b.png, id=23, 404.26031pt x 327.47343pt>
-File: q3b.png Graphic file (type png)
-<use q3b.png>
-Package pdftex.def Info: q3b.png  used on input line 83.
-(pdftex.def)             Requested size: 401.5028pt x 325.24405pt.
- [4 <./q3a_4.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 86--87
+(\end occurred inside a group at level 1)
 
- []
-
-<q3b_2.png, id=28, 404.26031pt x 327.47343pt>
-File: q3b_2.png Graphic file (type png)
-<use q3b_2.png>
-Package pdftex.def Info: q3b_2.png  used on input line 90.
-(pdftex.def)             Requested size: 401.5028pt x 325.24405pt.
-[5 <./q3b.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 98--99
-
- []
-
-[6 <./q3b_2.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 106--107
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--122
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 125--126
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--141
-
- []
-
-[7]
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 159--160
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 163--164
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 178--179
-
- []
-
-[8] [9] (HW4.aux) ) 
+### semi simple group (level 1) entered at line 33 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 3301 strings out of 492973
- 47050 string characters out of 3126692
- 121644 words of memory out of 3000000
- 7109 multiletter control sequences out of 15000+200000
- 12012 words of font info for 45 fonts, out of 3000000 for 9000
+ 3132 strings out of 492973
+ 44802 string characters out of 3126692
+ 114822 words of memory out of 3000000
+ 6958 multiletter control sequences out of 15000+200000
+ 9489 words of font info for 36 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,32p,750b,406s stack positions out of 5000i,500n,10000p,200000b,50000s
-<D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmbx10.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/Users/jtbri/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><D:/Users/jtbri/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/Users
-/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.
-pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmmi6.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmmi8.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmr10.pfb><D:/Users/jtbri/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/Users/jtbri/AppData/Loc
-al/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><D:/Users/jtbri
-/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><D:/
-Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-r8.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmsy8.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on HW4.pdf (9 pages, 269695 bytes).
+ 41i,6n,32p,272b,234s stack positions out of 5000i,500n,10000p,200000b,50000s
+<D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Users/jtbri/AppData/Local/Programs
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/Users/jtbri/AppData/Lo
+cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on HW4.pdf (1 page, 46091 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
+ 22 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
