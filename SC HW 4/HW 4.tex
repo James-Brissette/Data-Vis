@@ -254,16 +254,82 @@
 				
 			\item[6.15]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
-					\item 
-					\item 
-					\item
+					\item Since we're given that $v(0) = 0$, and for any interval from $0$ to $t$ we get:
+					\begin{align*}
+					\int_{0}^{t} a(r)dr = v(t) - v(0) = v(t)
+					\end{align*}
+					and we know the trapezoidal rule gives us
+					\begin{align*}
+					\int_{0}^{t} a(r)dr = h\Big(\frac{1}{2}a_0 + \frac{1}{2}a_{t}\Big)
+					\end{align*}
+					we can combine the results to give us the following for the subinterval $t_i\leq t \leq t_{i+1}$
+					\begin{align*}
+					\int_{i}^{i+1} a(r)dr &= v(i+1) - v(i)\\
+					\int_{i}^{i+1} a(r)dr &= h\Big(\frac{1}{2}a_i + \frac{1}{2}a_{i+1}\Big) \\
+					v(i+1) - v(i) &= h\Big(\frac{1}{2}a_i + \frac{1}{2}a_{i+1}\Big)\\
+					v(i+1) &= v(i) + \frac{1}{2}h\Big(a_i + a_{i+1}\Big)
+					\end{align*}
+					The same logic applies to solving for $y_{i+1}$ since we know $y(0) = 0$, and for any interval from $0$ to $t$ we get:
+					\begin{align*}
+					\int_{0}^{t} v(r)dr &= y(t) - y(0) = y(t)
+					\end{align*}
+					On the interval from $t_i\leq t \leq t_{i+1}$ we get:
+					\begin{align*}
+					y(i+1) - y(i) &= h\Big(\frac{1}{2}v_i + \frac{1}{2}v_{i+1}\Big)\\
+					y(i+1) &= y(i) + \frac{1}{2}h\Big(v_i + v_{i+1}\Big)
+					\end{align*}
+					\item Plotting $y(t)$ for $n=10$, $20$, and $40$ yields the following:
+					\begin{center}
+						\includegraphics[width=.75\linewidth]{ch6q15b}
+					\end{center}	
+					\item For each value of $n$, the computed value of $y(t)$ was:
+					$$\begin{array}{c|c|c}
+						n & computed & difference \\ \hline
+						10 & 0.69359564141 & 3.3727e-02\\
+						20 & 0.56714220363 & 1.6018e-01\\
+						40 & 0.70120254590 & 2.6120e-02				
+					\end{array}$$
+					In order to for our error to be less than 10e-8 we solve for n using the trapezoidal error. We also use Matlab to calculate $\vert \vert_\infty \leq 10^{-8}$ as :
+					\begin{align*}
+						\vert f'' \vert \vert_\infty \approx 1.147687e+04
+					\end{align*}
+					Which allows us to solve for $n$ as follows:
+					\begin{align*}
+						\frac{3}{12}h*2\vert \vert f'' \vert \vert_\infty &\leq 10^-8 \\
+						h &\leq \sqrt{\frac{10^{-8}}{11477}*4} \quad where \quad h=\frac{3}{n} \\
+						n &\geq \frac{3}{\sqrt{\frac{10^{-8}}{11477}*4}} \\
+						n &\geq 160,696
+					\end{align*}
 				\end{enumerate}
 			
 			\item[6.18]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
-					\item
+					\item If we look first at $I_M$ we see that the function is evaluated at the midpoints between our known function values. Since Simpson's rule does not use midpoints, we need a way to convert this, and we find that by doubling the step size, our midpoint rule gives us every other function value (e.g. midpoint between $f_1$ and $f_3$, $f_3$ and $f_5$, etc.):
+					\begin{align*}
+						I_M(n) &= h\Big(f_{1+\frac{1}{2}} + f_{2+\frac{1}{2}}+\dots+f_{n+\frac{1}{2}}\Big) \\
+						I_M(n/2) &= 2h\Big(f_2 + f_4+\dots\Big)
+					\end{align*}
+					
+					Combining this result with the trapezoidal rule we show fairly easily that in the proportions outlined in the question, we arrive back at Simpson's rule:
+					
+					\begin{align*}
+						I_S(n) &= \frac{2}{3}I_T(n) + \frac{1}{3}I_M\Big(\frac{n}{2}\Big) \\
+						I_S(n) &= \frac{2}{3}h\Big(\frac{1}{2}f_{1} + f_{2}+\dots+\frac{1}{2}f_{n+1}\Big) + \frac{1}{3}2h\Big(f_2 + f_4+\dots\Big) \\
+						I_S(n) &= \frac{h}{3}\Big(f_{1} + 2f_{2}+2f_3+\dots+f_{n+1}\Big) + \frac{h}{3}\Big(2f_2 + 2f_4+\dots\Big) \\
+						I_S(n) &= \frac{h}{3}\Big(f_{1} + 4f_{2}+2f_3+\dots+f_{n+1}\Big)
+					\end{align*}
+					\item When we look at $I_T\Big(\frac{n}{2}\Big)$ we see a similar trend occur as in part a, where since our number of subdivisions is halved over the same interval, our step subsequently doubles, yielding:
+					\begin{align*}
+						I_T\Big(\frac{n}{2}\Big) &= 2h\Big(\frac{1}{2}f_1 + f_3 + f_5 + \dots+\frac{1}{2}f_{n+1}\Big) \\
+						I_T\Big(\frac{n}{2}\Big) &= h\Big(f_1 + 2f_3 + 2f_5 + \dots+f_{n+1}\Big) \\
+					\end{align*}
+					If we plug this back into the equation given in the question, we see that again for these proportions, again, we get back Simpson's rule:
+					\begin{align*}
+						I_S(n) &= \frac{4}{3}I_T(n) - \frac{1}{3}I_T\Big(\frac{n}{2}\Big) \\
+						I_S(n) &= \frac{4}{3}h\Big(\frac{1}{2}f_{1} + f_{2}+\dots+\frac{1}{2}f_{n+1}\Big) - \frac{1}{3}h\Big(f_1 + 2f_3 + 2f_5 + \dots+f_{n+1}\Big) \\
+						I_S(n) &= \frac{h}{3}\Big(2f_{1} + 4f_{2}+4f_3+\dots+2f_{n+1}\Big) - \frac{h}{3}\Big(f_1 + 2f_3 + 2f_5 + \dots+f_{n+1}\Big) \\
+						I_S(n) &= \frac{h}{3}\Big(f_{1} + 4f_{2}+2f_3+\dots+f_{n+1}\Big)
+					\end{align*}
 				\end{enumerate}
 				
 			\item[6.19]
@@ -275,14 +341,61 @@
 				
 			\item[6.20]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
+					\item It's given that the error involved with Simpson's rule takes the form
+					$$I_S(n) + \alpha h^4 + \beta h^6 + \gamma h^8 + \dots$$
+					and so substituting in the known error for $I_S(n)$ and $I_S(n/2)$ yields the following:
+					\begin{align*}
+						I_R &= \frac{1}{15}\Big[ 16I_S(2n)-I_S\Big] \\
+						I_R &= \frac{1}{15}\Big[ 16(\alpha\frac{h}{2}^4 + \beta\frac{h}{2}^6 + \gamma\frac{h}{2}^8+\dots) - (\alpha h^4 + \beta h^6 + \gamma h^8+\dots)\Big] \\
+						I_R &= \frac{1}{15}\Big[ \alpha\frac{16h^4}{16} + \beta\frac{16h^6}{64} + \gamma\frac{h}{2}^8+\dots) - (\alpha h^4 + \beta h^6 + \gamma h^8+\dots)\Big] \\
+						I_R &= \frac{1}{15}\Big[ \alpha h^4 + \beta\frac{h^6}{4} + \gamma\frac{h}{2}^8+\dots) - (\alpha h^4 + \beta h^6 + \gamma h^8+\dots)\Big] \\ 
+						I_R &= \frac{1}{15}\Big[ \beta\frac{h^6}{4} + \gamma\frac{h}{2}^8+\dots) - (\beta h^6 + \gamma h^8+\dots)\Big]
+					\end{align*}
+					We assume here that since the number of sub intervals is doubled, the step size is necessarily halved. Also, we see the $\alpha$ error term is eliminated, leaving the dominant term here as $h^6$ meaning $I_R = O(h^6)$
 					\item 
 					\item
 				\end{enumerate}
 				
 			\item[6.21]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
+					\item Since we're solving for three unknowns, we need at least 3 equations. These are given in the book in Table 6.5 as:
+					$$\begin{array}{|c|c|c|}
+						k & f(x) & \displaystyle\int_{x_i}^{x_{i+1}} f(x)dx) \\ \hline
+						0 & 1 & h \\
+						1 & x & h\Big(x_i + \frac{1}{2}h\Big) \\
+						2 & x^2 & h\Big(x_i^2 + hx_i + \frac{1}{3}h^2 \Big)
+					\end{array}$$
+					
+					First taking $k=0$ we solve for $w_1$:
+					\begin{align*}
+						h &= w_1 + w_2 \\
+						w_1 &= h - w_2
+					\end{align*}
+					
+					Using our second formula we solve for $w_2$ remembering that in the problem, $z$ is given as $x_i + \alpha h$ where we are to solve for $\alpha$:
+					\begin{align*}
+						h\Big(x_i + \frac{1}{2}h\Big) &= w_1x_i + w_2z \\
+						&= (h-w_2)x_i + w_2x \\
+						hx_i + \frac{1}{2}h^2 &= hx_i-w_2x_i+w2_z \\
+						\frac{1}{2}h^2 &= -w_2x_i+w_2z \\
+						\frac{h^2}{2} &= w_2(z - x_i) \\
+						\frac{h^2}{2} &= w_2(x_i + \alpha h - x_i) \\
+						\frac{h^2}{2} &= w_2(\alpha h) \\
+						w_2 &= \frac{h}{2\alpha}
+					\end{align*}
+					
+					Using our third formula and having equations in place for $w_1$ and $w_2$ we can solve for $\alpha$ as follows:
+					\begin{align*}
+					h\Big(x_i^2 + hx_i + \frac{1}{3}h^2 \Big) &= w_1x_i^2 + w_2z^2 \\
+					&= (h-w_2)x_i^2 + w_2z^2 \\
+					&= hx_i^2-w_2x_i^2 + w_2(x_i+\alpha h)^2 \\
+					&= hx_i^2-w_2x_i^2 + w_2(x_i^2 + 2x_i \alpha h + \alpha^2 h^2) \\
+					&= hx_i^2 + w_2(2x_i \alpha h + \alpha^2 h^2) \\
+					&= hx_i^2 + \frac{h}{2\alpha}(2x_i \alpha h + \alpha^2 h^2) \\
+					hx_i^2 + h^2x_i+\frac{h^3}{3} &= hx_i^2 + h^2x_i+\frac{h^3\alpha}{2} \\
+					\frac{h^3}{3} &= \frac{h^3\alpha}{2} \\
+					\alpha &= \frac{2}{3}
+					\end{align*}
 					\item
 				\end{enumerate}
 		\end{itemize}	
