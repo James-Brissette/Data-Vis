@@ -99,22 +99,25 @@ def average_cross_validate(epochs):
     print('')
     return average_acc
 
-def average_train(epochs,rate,w,b, avg_w, avg_b, training_set, dev_set, mistakes):
+def average_train(epochs,rate,w,b, avg_w, avg_b, training_set, dev_set, mistakes, testData):
     tracker = {}
     for i in range(epochs):
         print('Starting epoch ' + str(i))
         np.random.shuffle(training_set)
         w,b, avg_w, avg_b, mistakes = average_perceptron(training_set, rate, w, b, avg_w, avg_b, mistakes)
         accuracy = 1 - (predict(dev_set,avg_w,avg_b) / len(dev_set))
-        tracker[i] = [accuracy]
+        tracker[i] = [accuracy, (avg_w,avg_b)]
     
 #    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+        
+    
     print('### Test for Average Perceptron ###')
     print("Total Mistakes across 20 epochs: " + str(mistakes))
     
     idx = list(tracker.values()).index(max(tracker.values()))
+    predictAndLabel(testData,tracker[idx][1][0],tracker[idx][1][1])
     print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
-#    print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+#    print("Accuracy on Test set: " + str((1 - (predict(testData,tracker[idx][1][0],tracker[idx][1][1]) / len(testData)))))
     print('')
     return tracker
 
@@ -138,6 +141,35 @@ def predict(data,w,b):
         
         if (yi * pred) <= 0:
             mistakes += 1
+        
+        counter = counter + 1
+        if (counter % 250 == 0):
+            print('        Prediction ' + str(counter) + ' completed')
+            
+    return mistakes
+
+def predictAndLabel(data,w,b):
+    counter = 0
+    mistakes = 0
+    for example in data:
+        yi = 0;
+        pred = 0
+        for key in list(example[2].keys()):
+            if key == 'label':
+                yi = example[2][key];
+            else:
+                if (key in list(w.keys())):
+                    pred += w[key]*example[2][key]
+                else:
+                    w[key] = np.random.randint(-10000,10000) / 1000000.
+                    pred += w[key]*example[2][key]
+        pred += b
+        
+        if (yi * pred) <= 0:
+            mistakes += 1
+            example[1] = yi*-1
+        else:
+            example[1] = yi
         
         counter = counter + 1
         if (counter % 250 == 0):
@@ -171,6 +203,38 @@ def loadData(fpath):
         output.append(row)
     return output
 
+def loadTestData(fpath):
+    temp_data = []
+    ids = [];
+    output = []
+    data = {}
+    data_file = open(fpath)
+    data_id = open(fpath+'.id')
+    
+    for line in data_file:
+        temp_data.append(line)
+        
+    for line in data_id:
+        ids.append(line)
+    
+    
+    for i in range(len(temp_data)):
+        data[i] = temp_data[i].replace('\n','').split(' ')
+        
+    for i in range(len(data)):
+        row = {}
+        row['label'] = int(data[i][0])
+        if (row['label'] == 0):
+            row['label'] = -1;
+            
+        for j in range(len(data[i])):
+            if j == 0:
+                continue
+            parse = data[i][j].split(':')
+            row[int(parse[0])] = float(parse[1])
+        output.append([ids[i].replace('\n',''), 0, row])
+    return output
+
 def generateCVFolds(data, numFolds):
     np.random.shuffle(data)
     n = len(data)
@@ -185,6 +249,8 @@ def generateCVFolds(data, numFolds):
 test = []
 CVFolds = []
 data = loadData(DATA_DIR + 'data.train')
+testData = loadTestData(DATA_DIR + 'data.eval.anon')
+
 generateCVFolds(data,5)
 
 
@@ -197,4 +263,4 @@ avg_b = 0
 
 
 #accuracy = average_cross_validate(5)
-tracker = average_train(20,1,w,b,avg_w, avg_b,data[5000:5100],CVFolds[0][0][100:300], mistakes)
+tracker = average_train(20,.1,w,b,avg_w, avg_b,data[0:20000],data[20000:25000], mistakes,testData)
