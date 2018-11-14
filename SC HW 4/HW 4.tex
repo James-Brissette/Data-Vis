@@ -192,64 +192,100 @@
 				\begin{enumerate} [label={\alph*)}]
 					\item Using the trapezoidal rule, we know our error terms looks like the following (evaluated at $erf(2)$):
 					\begin{align*}
-						\Biggl \vert \frac{2}{\sqrt{\pi}} \int_{0}^{2}e^{-s^2}ds \Biggl\vert &\leq \frac{2}{12}h^2 \vert \vert (4x^2-2)e^{-x^2} \vert \vert_\infty
+						\Biggl \vert \frac{2}{\sqrt{\pi}} \int_{0}^{2}e^{-s^2}ds \Biggl\vert &\leq \frac{2}{12}h^2 \Big\vert \Big\vert \frac{(8x^2-4)e^{-x^2}}{\sqrt{\pi}} \Big\vert \Big\vert_\infty
 					\end{align*}
-					Taking the norm of $\vert \vert f'' \vert \vert_\infty$ to be $.8925$ (solved using MATLAB), we solve for $h$:
+					Taking the norm of $\vert \vert f'' \vert \vert_\infty$ to be $2.256758$ (solved using MATLAB), we solve for $h$:
 					\begin{align*}
-						\frac{2}{12}h^2 (.8925) &\leq 10^{-6}\\
-						h &\leq \sqrt{\frac{10^{-6}}{.8925}*6} \\
-						h &\leq  2.592815e-03
+						\frac{2}{12}h^2 (2) &\leq 10^{-6}\\
+						h &\leq \sqrt{\frac{10^{-6}}{2.256758}*6} \\
+						h &\leq  1.6305468e-03 \\
+						h &\leq 0.0016
 					\end{align*}
+					Solving for $n$ this gives us approximately $1227$ sub intervals necessary to reach a error $\leq 10^{-6}$ 
 					\item Issue with this MATLAB code. Not particularly close to the true value..
 							\begin{lstlisting}
-						function [output] = ch6q8()
-						% Solves for h using the trapezoidal rule
-						x = 2;
-						IT = 0;
-						
-						erf2 = 0.995322265;
-						
-						error = 1;
-						n = 200000;
-						while abs(error) > 10e-7
-						% while n < 10
-						h = x/n;
-						%     fprintf('N = %d; Step size is %d; ',n, h);
-						IT = (.5*exp(0) + .5*(1/exp((2)^2)));
-						%     fprintf('Intermediate eval at ');
-						for i = 1:n-1
-						IT = IT + (1/ exp((i*h)^2));
-						%         fprintf('x = %d; ',(i)*h);
-						end
-						IT = IT * h;
-						error = erf2 - IT
-						n = n+1;
-						end
-						end
+function [error] = ch6q8(n)
+% Solves for h using the trapezoidal rule
+a = 0;
+b = 2;
+x = linspace(a,b,n+1);
+h = x(3)-x(2);
+
+trueError = 0.995322265;
+
+IT = f(x);
+IT(1) = .5*IT(1);
+IT(n+1) = .5*IT(n+1);
+IT = IT*h;
+
+error = abs(trueError - sum(IT));
+
+end
+
+function y=f(x)
+    y = 2/sqrt(pi).*exp(-x.*x);
+end
 						\end{lstlisting}
+						
+						Using the above code we are able to find an error of $9.807542619477694e-06$ with as little as $n=53$ sub intervals. This perhaps highlights that $h$ is our worst case scenario, when in practice, rarely are we dealing with worst case.
+						
 					\item Using Simpson's rule, we know our error terms looks like the following (evaluated at $erf(2)$):
 					\begin{align*}
 					\Biggl \vert \frac{2}{\sqrt{\pi}} \int_{0}^{2}e^{-s^2}ds \Biggl\vert &\leq \frac{2}{90}h^4 \vert \vert f'''' \vert \vert_\infty
 					\end{align*}
 					In this case, finding $f''''$ is not as trivial, so we include the process:
 					\begin{align*}
-						\frac{d^2}{dx^2}f(x) &= (4x^2-2)e^{-x^2} \\
-						\frac{d^3}{dx^3}f(x) &= -2x(4x^2-2)e^{-x^2} + 8xe^{-x^2} \\
-						 &= (-8x^3+12x)e^{-x^2} \\
-						\frac{d^4}{dx^4}f(x) &= (-24x^2+12)e^{-x^2} + -2x(-8x^3+12x)e^{-x^2} \\
-						&= (-16x^4 - 48x^2 +12)e^{-x^2} 
+						\frac{d^2}{dx^2}f(x) &= \frac{(8x^2-4)e^{-x^2}}{\sqrt{\pi}} \\
+						\frac{d^3}{dx^3}f(x) &= \frac{-2x(8x^2-4)}{\sqrt{\pi}}e^{-x^2} + \frac{(16x)}{\sqrt{\pi}}e^{-x^2} \\
+						 &= \frac{e^{-x^2}}{\sqrt{\pi}}\big(16x-16x^3+8x) \\
+						 &= \frac{e^{-x^2}}{\sqrt{\pi}}\big(-16x^3+24x) \\
+						\frac{d^4}{dx^4}f(x) &= \Big(\frac{16}{\sqrt{\pi}}e^{-x^2} + \frac{-32x^2}{\sqrt{\pi}}e^{-x^2} \Big) + \Big(\frac{-48x^2}{\sqrt{\pi}}e^{-x^2} + \frac{32x^4}{\sqrt{\pi}}e^{-x^2} \Big) + \Big(\frac{8}{\sqrt{\pi}}e^{-x^2} - \frac{16x^2}{\sqrt{\pi}}e^{-x^2} \Big) \\
+						&= \frac{e^{-x^2}\big(32x^4 - 96x^2 + 24 \big)}{\sqrt{\pi}}
 					\end{align*}
-					If we plot each these curves we can see at $f''''$ the maximum value is obtained when $x=0$ and $\vert \vert f'''' \vert \vert_\infty = 12$:
-					\begin{center}
-						\includegraphics[width=1\linewidth]{ch6q8c}
-					\end{center}
-					Taking the norm of $\vert \vert f'''' \vert \vert_\infty$ to be $12$ (solved using MATLAB), we solve for $h$:
+					
+					Taking the norm of $\vert \vert f'''' \vert \vert_\infty$ to be $13.54055$ or $\frac{24}{\sqrt{pi}}$ (solved using MATLAB and observing the plot below), we solve for $h$:
 					\begin{align*}
-					\frac{2}{90}h^4 (12) &\leq 10^{-6} \\
-					h &\leq \sqrt[4]{\frac{10^{-6}}{12}*\frac{90}{2}} \\
-					h &\leq 4.4005587e-02
+					\frac{2}{90}h^4 (13.54055) &\leq 10^{-6} \\
+					h &\leq \sqrt[4]{\frac{10^{-6}}{13.54055}*\frac{90}{2}} \\
+					h &\leq 4.269667464679832e-02
 					\end{align*}
-					\item Using the same code from part B adapted for Simpson's rule...
+					
+					Plotting the curve we see:
+					\begin{center}
+						\includegraphics[width=.75\linewidth]{ch6q8c2}
+					\end{center}
+					\item Using the same code from part B adapted for Simpson's rule, we have that we need $48$ sub intervals for an error less than $10^{-6}$. At $n=48$ we have an error of $1.3824814e-08$
+					\begin{lstlisting}
+function [error] = ch6q8d(n)
+% Solves for h using Simpson's rule
+a = 0;
+b = 2;
+x = linspace(a,b,n+1);
+h = x(3)-x(2);
+
+trueError = 0.995322265;
+c = ones(1,n+1);
+
+for i=2:n
+    if mod(i,2)==0 
+        c(i) = 4;
+    else
+        c(i) = 2;
+    end
+end
+
+IT = f(x);
+IT = c.*IT;
+IT = IT*h/3;
+
+error = abs(trueError - sum(IT));
+
+end
+
+function y=f(x)
+    y = 2/sqrt(pi).*exp(-x.*x);
+end
+					\end{lstlisting}
 				\end{enumerate}
 				
 			\item[6.15]
@@ -334,9 +370,35 @@
 				
 			\item[6.19]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
-					\item 
-					\item
+					\item We know from the trapezoidal rule that we have
+					$$I_T = h\Big(\frac{1}{2}f_{i-1} + f_i + \frac{1}{2}f_{i+1}\Big)$$ However, since we don't know the value of $f$ at $x_i$ we need to find a way to exclude it during out calculation. We do this by increasing the step size $h$ so we evaluate only at the end points $x_{i-1}$ and $x_{i+1}$:
+					\begin{align*}
+						I_T &= 2h\Big(\frac{1}{2}f_{i-1} + \frac{1}{2}f_{i+1}\Big) \\
+						&= h\Big(f_{i-1} + f_{i+1}\Big)
+					\end{align*}					 
+					\item If we use linear interpolation to find a value for $f_i$ we see from the plot below that $f_i$ takes the value:
+					\begin{center}
+						$f_i = \frac{f_{i+1}+f_{i-1}}{2}$ \\
+						\includegraphics[width=1\linewidth]{ch6q19b}
+					\end{center}
+					If we take this value of $f_i$ and substitute it into Simpson's rule we get, by simplifying, the following:
+					\begin{align*}
+						I_S &= \frac{h}{3}\Big(f_{i-1} + 4f_i + f_{i+1}\Big) \\
+						&= \frac{h}{3}\Big(f_{i-1} + 4\big(\frac{f_{i+1}+f_{i-1}}{2}\big) + f_{i+1}\Big) \\
+						&= \frac{h}{3}\Big(f_{i-1} + 2\big(f_{i+1}+f_{i-1}\big) + f_{i+1}\Big) \\
+						&= \frac{h}{3}\Big(3f_{i-1} + 3f_{i+1}\Big) \\
+						&= h\Big(f_{i-1} + f_{i+1}\Big)
+					\end{align*}
+					We see this is the same result we reached in part (a)
+					\item If we assume there are constants $A$ and $B$, we can plug these into Simpson's rule to solve for the weights that maximize precision as follows:
+					\begin{align*}
+						I_S &= \frac{h}{3}\Big(f_{i-1} + 4f_i + f_{i+1}\Big) \\
+						&= \frac{h}{3}\Big(f_{i-1} + 4\big(Af_{i-1} + Bf_{i+1}\big) + f_{i+1}\Big) \\
+						&= \frac{h}{3}\Big((4A+1)f_{i-1} + (4B+1)f_{i+1}\Big) \\
+						&= \frac{(4A+1)h}{3}f_{i-1} + \frac{(4B+1)h}{3}f_{i+1}
+					\end{align*}
+					where $$w_1 = \frac{(4A+1)h}{3}, \quad w_2 = \frac{(4B+1)h}{3}$$ Here we also note that $w_1$ and $w_2$ appear to be symmetric, differing only by their respective values of $A$ and $B$, which are likely to be symmetric around some point.
+					
 				\end{enumerate}
 				
 			\item[6.20]
@@ -352,8 +414,36 @@
 						I_R &= \frac{1}{15}\Big[ \beta\frac{h^6}{4} + \gamma\frac{h}{2}^8+\dots) - (\beta h^6 + \gamma h^8+\dots)\Big]
 					\end{align*}
 					We assume here that since the number of sub intervals is doubled, the step size is necessarily halved. Also, we see the $\alpha$ error term is eliminated, leaving the dominant term here as $h^6$ meaning $I_R = O(h^6)$
-					\item 
-					\item
+					\item Here we have that the error associated with $f(x)$ is equal to $$\int_a^b f(x)dx = I(n) + \alpha h^2 + \beta h^3 + \gamma h^4 + \dots$$
+					By adjusting the step size within the same interval to account for increased numbers of $n$ sub intervals we solve for $I_R$ as
+					\begin{align*}
+						I_R &= \frac{1}{21}\Big[32I(4n) - 12I(2n) + I(n)\Big] \\
+						&= \frac{1}{21}\Big[32\Big(\alpha \big( \frac{h}{4}\big)^2 + \beta\big(\frac{h}{4}\big)^3 + \gamma\big(\frac{h}{4}\big)^4\Big) - 12\Big(\alpha\big(\frac{h}{2}\big)^2 + \beta\big(\frac{h}{2}\big)^3 + \gamma\big(\frac{h}{2}\big)^4\Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big] \\
+						&= \frac{1}{21}\Big[32\Big(\alpha \frac{h^2}{16} + \beta\frac{h^3}{64} + \gamma\frac{h^4}{256}\Big) - 12\Big(\alpha\frac{h^2}{4} + \beta\frac{h^3}{8} + \gamma\frac{h^4}{16}\Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big] \\
+						&= \frac{1}{21}\Big[\Big(2\alpha h^2 + \frac{1}{2}\beta h^3 + \frac{1}{8}\gamma h^4\Big) - \Big(3\alpha h^2 + \frac{3}{2}\beta h^3 + \frac{3}{4}\gamma h^4 \Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big]
+					\end{align*}
+					Combining like terms we reduce this to
+					\begin{align*}
+						I_R &= \frac{1}{21}\Big[\Big(2\alpha h^2 - 3\alpha h^2 + \alpha h^2 \Big) + \Big( \frac{1}{2}\beta h^3 - \frac{3}{2}\beta h^3 + \beta h^3 \Big) + \Big( \frac{1}{8}\gamma h^4 - \frac{3}{4}\gamma h^4 + \gamma h^4 \Big) \Big] \\ 
+						&= \frac{1}{21}\Big[\Big( \frac{3}{8} \gamma h^4\Big)\Big]
+					\end{align*}
+					From this we see that the $\alpha$ and $\beta$ terms cancel out and we are left with an error that is $O(h^4)$
+					
+					\item Here we have that the error associated with $f(x)$ is equal to $$\int_a^b f(x)dx = I(n) + \alpha h^2 + \beta h^3 + \gamma h^4 + \dots$$
+					Again, by adjusting the step size within the same interval to account for increased numbers of $n$ sub intervals we solve for $I_R$ as
+					\begin{align*}
+						I_R &= \frac{1}{12}\Big[27I(3n) - 16I(2n) + I(n)\Big] \\
+						&= \frac{1}{12}\Big[27\Big(\alpha \big( \frac{h}{3}\big)^2 + \beta\big(\frac{h}{3}\big)^3 + \gamma\big(\frac{h}{3}\big)^4\Big) - 16\Big(\alpha\big(\frac{h}{2}\big)^2 + \beta\big(\frac{h}{2}\big)^3 + \gamma\big(\frac{h}{2}\big)^4\Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big] \\
+						&= \frac{1}{12}\Big[27\Big(\alpha \frac{h^2}{9} + \beta\frac{h^3}{27} + \gamma\frac{h^4}{81}\Big) - 16\Big(\alpha\frac{h^2}{4} + \beta\frac{h^3}{8} + \gamma\frac{h^4}{16}\Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big] \\
+						&= \frac{1}{12}\Big[\Big(3\alpha h^2 + \beta h^3 + \frac{1}{3}\gamma h^4\Big) - \Big(4\alpha h^2 + 2\beta h^3 + \gamma h^4 \Big) + \Big(\alpha h^2 + \beta h^3 + \gamma h^4\Big)\Big]
+					\end{align*}
+					Combining like terms we reduce this to
+					\begin{align*}
+						I_R &= \frac{1}{12}\Big[\Big(3\alpha h^2 - 4\alpha h^2 + \alpha h^2 \Big) + \Big(\beta h^3 - 2\beta h^3 + \beta h^3 \Big) + \Big( \frac{1}{3}\gamma h^4 - \gamma h^4 + \gamma h^4 \Big) \Big] \\ 
+						&= \frac{1}{12}\Big[\Big( \frac{1}{3} \gamma h^4\Big)\Big]
+					\end{align*}
+					From this we see that the $\alpha$ and $\beta$ terms cancel out and we are left with an error that is $O(h^4)$
+					
 				\end{enumerate}
 				
 			\item[6.21]
@@ -396,7 +486,12 @@
 					\frac{h^3}{3} &= \frac{h^3\alpha}{2} \\
 					\alpha &= \frac{2}{3}
 					\end{align*}
-					\item
+					\item From Theorem 6.5 we have $$E_G = Kh^{2\ell + 1}f^{(2\ell)}\big(\eta\big)$$ where $K$ is given to be $$\frac{(\ell!)^4}{(2\ell +1)[(2\ell)!]^3}$$ Since we have 2-point Gaussian quadrature but one of the points is fixed, we are left with $\ell = 1$. Plugging this into our equation for $K$ we see:
+					\begin{align*}
+						K &= \frac{(1!)^4}{(2+1)[(2)!]^3} \\
+						  &= \frac{1}{(3)(2)^3} \\
+						  &= \frac{1}{24}
+					\end{align*}
 				\end{enumerate}
 		\end{itemize}	
 	

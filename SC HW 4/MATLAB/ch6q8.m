@@ -1,25 +1,22 @@
-function [output] = ch6q8()
+function [error] = ch6q8b(n)
 % Solves for h using the trapezoidal rule
-x = 2;
-IT = 0;
+a = 0;
+b = 2;
+x = linspace(a,b,n+1);
+h = x(3)-x(2);
 
-erf2 = 0.995322265;
+trueError = 0.995322265;
 
-error = 1;
-n = 200000;
-while abs(error) > 10e-7
-% while n < 10
-    h = x/n;
-%     fprintf('N = %d; Step size is %d; ',n, h);
-    IT = (.5*exp(0) + .5*(1/exp((2)^2)));
-%     fprintf('Intermediate eval at ');
-    for i = 1:n-1
-        IT = IT + (1/ exp((i*h)^2));
-%         fprintf('x = %d; ',(i)*h);
-    end
-    IT = IT * h;
-    error = erf2 - IT
-    n = n+1;
+IT = f(x);
+IT(1) = .5*IT(1);
+IT(n+1) = .5*IT(n+1);
+IT = IT*h;
+
+error = abs(trueError - sum(IT));
+
 end
+
+function y=f(x)
+    y = 2/sqrt(pi).*exp(-x.*x);
 end
 
