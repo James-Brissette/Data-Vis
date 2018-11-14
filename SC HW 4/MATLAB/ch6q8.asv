@@ -1,24 +1,24 @@
-function [output] = ch6q8(n)
+function [error] = ch6q8b(n)
 % Solves for h using the trapezoidal rule
 a = 0;
 b = 2;
+
+trueError = .995322265;
+
 x = linspace(a,b,n+1);
+h = x(2) - x(1);
 
-IT = 0;
-trueError = 0.995322265;
+IT = y(x);
+IT(1) = .5*IT(1);
+IT(n+1) = .5*IT(n+1);
+IT = IT.*h;
 
-IT = .5*f(x(1));
-for i=2:n
-    IT = IT + f(x(i));
-end
-IT = IT + .5*f(x(1));
-
-error = abs
-
+error = a
 
 end
 
 function y=f(x)
-    y = 2\sqrt(pi)*exp(-x*x);
+   y = 2/sqrt(pi).*exp(-x.*x);
 end
+
 
