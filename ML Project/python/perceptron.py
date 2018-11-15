@@ -11,6 +11,33 @@ import matplotlib.pyplot as plt
 DATA_DIR = '../movie-ratings/data-splits/'
 np.random.seed(1234)
 
+def simple_perceptron(data, rate, w, b, mistakes):
+    for example in data:
+        yi = 0;
+        pred = 0
+        for key in list(example.keys()):
+            if key == 'label':
+                yi = example[key];
+            else:
+                if (key in list(w.keys())):
+                    pred += w[key]*example[key]
+                else:
+                    w[key] = np.random.randint(-10000,10000) / 1000000.
+                    pred += w[key]*example[key]
+        pred += b
+        
+        if (yi * pred) <= 0:
+            mistakes += 1
+            for key in list(example.keys()):
+                if key == 'label':
+                    continue
+                else:
+                    w[key] += rate*yi*example[key]
+            b += rate*yi
+            
+#    print('Total Updates = ' + str(mistakes))
+    return w, b, mistakes
+
 def average_perceptron(data, rate, w, b, avg_w, avg_b, mistakes):
     counter = 0
     for example in data:
@@ -105,22 +132,46 @@ def average_train(epochs,rate,w,b, avg_w, avg_b, training_set, dev_set, mistakes
         print('Starting epoch ' + str(i))
         np.random.shuffle(training_set)
         w,b, avg_w, avg_b, mistakes = average_perceptron(training_set, rate, w, b, avg_w, avg_b, mistakes)
-        accuracy = 1 - (predict(dev_set,avg_w,avg_b) / len(dev_set))
-        tracker[i] = [accuracy, (avg_w,avg_b)]
+#        accuracy = 1 - (predict(dev_set,avg_w,avg_b) / len(dev_set))
+#        tracker[i] = [accuracy, (avg_w,avg_b)]
     
 #    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
         
     
     print('### Test for Average Perceptron ###')
-    print("Total Mistakes across 20 epochs: " + str(mistakes))
+#    print("Total Mistakes across 20 epochs: " + str(mistakes))
     
-    idx = list(tracker.values()).index(max(tracker.values()))
-    predictAndLabel(testData,tracker[idx][1][0],tracker[idx][1][1])
-    print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
+#    idx = list(tracker.values()).index(max(tracker.values()))
+    predictAndLabel(testData,avg_w,avg_b)
+#    print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
 #    print("Accuracy on Test set: " + str((1 - (predict(testData,tracker[idx][1][0],tracker[idx][1][1]) / len(testData)))))
     print('')
     return tracker
 
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++ SIMPLE PERCEPTRON ++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
+def simple_train(epochs,rate,w,b,training_set,dev_set,mistakes,testData):
+    tracker = {}
+    for i in range(epochs):
+        np.random.shuffle(training_set)
+        w,b, mistakes = simple_perceptron(training_set, rate, w, b, mistakes)
+#        accuracy = 1 - (predict(dev_set,w,b) / len(dev_set))
+#        tracker[i] = [accuracy, (w,b)]
+    
+    
+#    plt.plot(np.arange(1,epochs+1,1),[i[0] for i in tracker.values()])
+    print('### Test for Simple Perceptron ###')
+#    print("Total Mistakes across 20 epochs: " + str(mistakes))
+    
+#    idx = list(tracker.values()).index(max(tracker.values()))
+    predictAndLabel(testData,w,b)
+#    print("Max accuracy on Dev set: " + str(tracker[idx][0]) + ' at epoch ' + str(idx +1))
+#    print("Accuracy on Test set: " + str((1 - (predict(test_set,tracker[idx][1][0],tracker[idx][1][1]) / len(test_set)))))
+#    print('')
+    return tracker
 
 def predict(data,w,b):
     counter = 0
@@ -149,7 +200,7 @@ def predict(data,w,b):
     return mistakes
 
 def predictAndLabel(data,w,b):
-    counter = 0
+    counter = 1
     mistakes = 0
     for example in data:
         yi = 0;
@@ -171,10 +222,10 @@ def predictAndLabel(data,w,b):
         else:
             example[1] = yi
         
-        counter = counter + 1
+        
         if (counter % 250 == 0):
             print('        Prediction ' + str(counter) + ' completed')
-            
+        counter = counter + 1
     return mistakes
 
 
@@ -263,4 +314,9 @@ avg_b = 0
 
 
 #accuracy = average_cross_validate(5)
-tracker = average_train(20,.1,w,b,avg_w, avg_b,data[0:20000],data[20000:25000], mistakes,testData)
+tracker = average_train(1,1,w,b,avg_w, avg_b,data,data[20000:25000], mistakes,testData)
+#tracker = simple_train(1,1,w,b,data,data[20000:20500], mistakes,testData)
+
+f = open('test-submission2.txt','w')
+f.write(repr([item[0:2] for item in testData]))
+f.close()
