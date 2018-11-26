@@ -1,0 +1,83 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+ language=MatLab,
+ aboveskip=3mm,
+ belowskip=3mm,
+ showstringspaces=false,
+ columns=flexible,
+ basicstyle={\small\ttfamily},
+ numbers=none,
+ numberstyle=\tiny\color{gray},
+ keywordstyle=\color{blue},
+ commentstyle=\color{dkgreen},
+ stringstyle=\color{mauve},
+ breaklines=true,
+ breakatwhitespace=true,
+ tabsize=3
+}
+
+\setlength\abovedisplayskip{0pt}
+\author{James Brissette}
+\title{CS-6210: HW 5}
+\begin{document}
+	\maketitle
+	
+	\section{Chapter 2}
+		\begin{itemize}
+			\item[2.6]
+				\begin{enumerate} [label={\alph*)}]
+					\item Using the bisection method, we can calculate the value of $\sqrt{\alpha}$ by looking first at the non-linear form of the function:
+					\begin{align*}
+						x &= \sqrt{\alpha} \\
+						f(\alpha) &\equiv x^2 - \alpha = 0
+					\end{align*}
+					
+					Using this equation we can use the bisection method to choose two points. We make sure the points we choose, $a_1$ and $b_1$, yield solutions on either side of the x-axis (e.g. $f(a)f(b) < 0$) to ensure there is a zero somewhere in between (an assumption we can only make if the function is continuous and smooth). We then take the bisection at point $c_1$ where $c_i$ is defined as $(a_i+b_i)/2$ and identify the sub interval that contains the zero (e.g. changes signs) and update our points. If it's in the left interval, $b_2$ becomes $c_1$ and $a_2 = a_1$ or else if it's in the right interval, $a_2 = c_1$ and $b_2 = c_1$.
+					
+					We repeat this process until our error is below our tolerance.
+				\end{enumerate}
+			\item[2.8]
+				\begin{enumerate} [label={\alph*)}]
+					\item Based on the rate of convergence of the computed solution in the data table, this looks like the Newton method. We see our first iteration gives us an error of $2.5e-01$, followed by $2.5e-02$, $3.04e-04$, $4.64e-08$ and $1e-15$. Given an initial starting point close to the solution the Newton method converges at a rate of $\gamma\approx2$ and we see that here in these results.
+					**Calculate the iterative error here**
+				\end{enumerate}
+			\item[2.21]
+				\begin{enumerate} [label={\alph*)}]
+					\item 
+				\end{enumerate}
+			\item[2.22]
+				\begin{enumerate} [label={\alph*)}]
+					\item 
+				\end{enumerate}
+			\item[2.25]
+				\begin{enumerate} [label={\alph*)}]
+					\item 
+				\end{enumerate}
+					
+			 	
+		\end{itemize}
+		
+	\section{Chapter 8}
+		\begin{itemize}
+			\item[8.6]
+				\begin{enumerate}
+					\item Starting with $y=v_1x^{v_2}$, we can re-write $y$ in terms of $x$ as $g(x)=v_1x^{v_2}$. Taking the log of both sides, we get the form given in $8.29$:
+					$$G(X) = V_1 + V_2X$$
+					Taking the log of the right side we see $G(X) = log(v_1) + v_2log(x)$, and accordingly we see $V_1=log(v_1)$, $X = log(X)$, and $V_2 = v_2$. From $X = log(x)$ we conclude that for any $X_i = log(x_i$ and from taking the log of the left side of the equation, $G(X) = log(g(x)) = log(y) = Y$ and so $Y_i = log(y_i)$
+				\end{enumerate}
+		\end{itemize}	
+\end{document}
