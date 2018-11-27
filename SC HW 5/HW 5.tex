@@ -127,8 +127,24 @@ end
 					
 					\item There are a few things that seem to be potential issues. First, calculating the square root every time requires solving both the first and second derivatives which may not be feasible on complicated functions and which otherwise may be very computationally expensive. Next, the $\pm$ introduces additional logic that must be evaluated to determine which sign to use. Third, given the author's comment that this approximation may be more accurate when you are close to the solution, it begs the question whether these additional calculations will amplify your error when poor initial starting points are selected.
 					
-					\item Given that you are close to the solution, it depends on what side of the root you are on. On the one hand you may need to add the add the sqrt term to get closer, or else you may need to subtract it off. However, if you are close to the solution, it may not matter given the rate of convergence for the Newton method.
+					\item Because you are close to the solution, you run into an issue where your function appears linear. This problem makes manifest in the second derivative beginning to approximate zero, however, we see that we can rearrange terms in order to alleviate this.
+					\begin{align*}
+						x &= x_i - \frac{f'(x_i)\pm \sqrt{f'(x_i)^2-2f''(x_i)f(x_i)}}{f''(x_i)} \\
+						x &= x_i - \frac{f'(x_i)}{f''(x_i)} \pm\frac{\sqrt{f'(x_i)^2-2f''(x_i)f(x_i)}}{f''(x_i)}
+					\end{align*}
+					We can get rid of this issue by find a way to cancel the $f''$ terms in the denominator. We do this by factoring out the $f'^2$ term in the square root.
+					\begin{align*}
+						x &= x_i - \frac{f'(x_i)\pm \sqrt{f'(x_i)^2-2f''(x_i)f(x_i)}}{f''(x_i)} \\
+						x &= x_i - \frac{f'(x_i)}{f''(x_i)} \pm\frac{\sqrt{f'(x_i)^2\Big(1-\frac{2f''(x_i)f(x_i)}{f'(x_i)^2}\Big)}}{f''(x_i)} \\
+						x &= x_i - \frac{f'(x_i)}{f''(x_i)} \pm \frac{\vert f'(x_i)\vert}{f''(x_i)} *\frac{\sqrt{1-\frac{2f''(x_i)f(x_i)}{f'(x_i)^2}}}{f''(x_i)}
+					\end{align*}
+					We can approximate $\sqrt{1-x}$ as $1-\frac{1}{2}x$ using a Taylor expansion. Substituting this result into the numerator, we see:
+					\begin{align*}
+						x &= x_i - \frac{f'(x_i)}{f''(x_i)} \pm \frac{\vert f'(x_i)\vert}{f''(x_i)} *\frac{1-\frac{f''(x_i)f(x_i)}{f'(x_i)^2}}{f''(x_i)} \\
+						x &= x_i - \frac{f'(x_i)}{f''(x_i)} \pm \frac{\vert f'(x_i)\vert}{f''(x_i)}-\frac{f(x_i)}{f'(x_i)} \\
+					\end{align*}
 					
+					Now we can see that in order to get rid of the absolute value symbol, when $f'>0$ then the numerator is positive and we can get rid of it, no problem. If $f'<0$ then the absolute value would indicate we need to subtract subtract the negative so we still have a positive value in the numerator. Depending on what sign $f'$ takes we will want to select the sign that allows us to cancel out both terms.
 					\item We know from the Newton Method that $x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}$. By rearranging the terms we can solve for the equation given in the problem as follows:
 					\begin{align*}
 						x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)} \\
@@ -146,7 +162,11 @@ end
 				\end{enumerate}
 			\item[2.25]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
+					\item After some arithmetic, one finds that the derivative of $\frac{1-e^{-10x}}{1+e^{-10x}}$ is $\frac{20e^{10x}}{(e^{10x}+1)^2}$. Examining this expression at all values of x, we see that that for very large values (in absolute magnitude) the expression approaches 0, and that for small values of $x$ it is strictly positive. This can be seen from the below plot as well.
+					
+					\item If we use Newton's method to solve for the next value of $x$ where $x_0=1$ we see:
+					$$1 - \frac{\big(1-e^{-10}\big)\big(e^{10}+1\big)^2}{\big(1+e^{-10}\big)\big(20e^{10}\big)} = -1100.323287$$
+					
 				\end{enumerate}
 					
 			 	

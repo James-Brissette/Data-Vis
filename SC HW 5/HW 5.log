@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.11)  26 NOV 2018 17:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.4)  27 NOV 2018 10:29
 entering extended mode
 **"./HW 5.tex"
 ("HW 5.tex"
@@ -353,12 +353,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [3] [4] ("HW 5.aux") ) 
 Here is how much of TeX's memory you used:
  5373 strings out of 492973
- 73517 string characters out of 3126692
+ 73517 string characters out of 3126693
  345747 words of memory out of 3000000
  9178 multiletter control sequences out of 15000+200000
  10905 words of font info for 42 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,12n,40p,648b,2277s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,14n,40p,648b,2277s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/t
 ype1/public/amsfonts/cm/cmbx12.pfb><C:/Users/James/AppData/Local/Programs/MiKTe
 X 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/James/AppData/Local/P
@@ -376,7 +376,7 @@ cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/James
 cmsy6.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/
 amsfonts/cm/cmsy8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/t
 ype1/public/amsfonts/cm/cmtt10.pfb>
-Output written on "HW 5.pdf" (4 pages, 156201 bytes).
+Output written on "HW 5.pdf" (4 pages, 161859 bytes).
 PDF statistics:
  71 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
