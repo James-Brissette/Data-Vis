@@ -49,19 +49,100 @@
 					Using this equation we can use the bisection method to choose two points. We make sure the points we choose, $a_1$ and $b_1$, yield solutions on either side of the x-axis (e.g. $f(a)f(b) < 0$) to ensure there is a zero somewhere in between (an assumption we can only make if the function is continuous and smooth). We then take the bisection at point $c_1$ where $c_i$ is defined as $(a_i+b_i)/2$ and identify the sub interval that contains the zero (e.g. changes signs) and update our points. If it's in the left interval, $b_2$ becomes $c_1$ and $a_2 = a_1$ or else if it's in the right interval, $a_2 = c_1$ and $b_2 = c_1$.
 					
 					We repeat this process until our error is below our tolerance.
+					
+					\item Using Newton's method, we similarly solve in terms of $x$ in order to get our equation into a form in which we can differentiate it. Newton's method follows the form:
+					$$x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}$$
+					Following this, we can substitute out equation into $f$ and its calculated derivative into $f'$ and calculate the next value of $x$. For example, using the function given in the problem, starting with $\alpha=36$ and $x=5$ we could iterate through and solve as follows:
+					$$\begin{array}{c|c}
+						x & error \\ \hline
+						5 & 11 \\
+						6.100000000000000e+00 & -1.209999999999994e+00 \\
+						6.000819672131148e+00 & -9.836737436181409e-03 \\
+						6.000000055980886e+00 &  -6.717706284575797e-07 \\
+						6.000000000000001e+00 & -1.421085471520200e-14 \\
+						6 & 0
+					\end{array}$$
 				\end{enumerate}
+				See below for the MATLAB script used to generate this example:
+				\begin{lstlisting}
+function [output] = ch2q6(x0,alpha)
+tol = 1e-16;
+error = 1e10;
+x = x0;
+while abs(error) > tol
+    f = x^2 - alpha;
+    fp = 2*x;
+    x = x - (f / fp);
+    error = 0 - (x^2 - alpha)
+end
+output = x;
+end
+				\end{lstlisting}
 			\item[2.8]
 				\begin{enumerate} [label={\alph*)}]
-					\item Based on the rate of convergence of the computed solution in the data table, this looks like the Newton method. We see our first iteration gives us an error of $2.5e-01$, followed by $2.5e-02$, $3.04e-04$, $4.64e-08$ and $1e-15$. Given an initial starting point close to the solution the Newton method converges at a rate of $\gamma\approx2$ and we see that here in these results.
-					**Calculate the iterative error here**
+					\item Based on the rate of convergence of the computed solution in the data table, this looks like the Newton method. We see our first iteration gives us an error of $2.5e-01$, followed by $2.5e-02$, $3.04e-04$, $4.64e-08$ and $1e-15$. Using the formula given in $2.15$, the calculated $\gamma$ here is approximately $2.66096$, $2.19537$, $2.085077$, and $2.045413$ for each respective iterative error. We know that given an initial starting point close to the solution the Newton method converges at a rate of $\gamma\approx2$ what we see here are results consistent with what we would expect from this method.
 				\end{enumerate}
 			\item[2.21]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
+					\item Since we are given a function $f$ for which we know there must be some value $y$ such that plugging $y$ into $f$ we get zero, and we are given a function $y+x=e^{-6y}$ that is difficult to solve for $y$ in terms of $x$, we can use bisection to solve for the value of $y$ in the first equation that is necessary for us to get plugging in some value of $x$ into the second. This will allow us to find the correct value of $x$.
+					
+					The first step is to find the value of $y$ that gives us $f=0$, and to do this we take a starting interval for our bisection to look over. We can quickly see that in the trivial case if we plug in $0$ we get $1$ and this gives us a convenient upper bound, $b$. If we plug in $-1$ we see we get $-3$ and this is a convenient lower bound, $a$. We might also have found this by plotting the curve and estimating these bounds.
+					
+					We then begin bisecting the interval until we find the correct value of $y$ and we subsequently plug that into our second function to solve for the appropriate value of $x$.
+					
+					\item Using Newton's method is a little more challenging in that we need to solve for the first derivative. By writing $f$ as $f(y(x))$ we see that we want to solve for $f$ in terms of $x$. If we take the function $y+x=e^{-6y}$ and solve it for $y$ it gives us an equation that we then use in place of $f$ in Newton's method. Since $y$ is solved in terms of $x$ we differentiate it for the denominator and we proceed to solve.
+					
+					\item Using the method described in part $a$ I used the following script to solve for $y$ and then subsquently used that $y$ to solve for $x$. This gave me a value of $y=-3.221853546260856e-01$ and $x=7.233170030518265e+00$
+					\begin{lstlisting}
+function [output] = ch2q21()
+a = -1;
+b = 0;
+c = (a+b)/2;
+
+tol = 1e-16;
+error = 1e10;
+
+while abs(error) > tol
+    if (a^3 + 3*a + 1)*(c^3 + 3*c + 1) < 0
+        b = c;
+    else
+        a = c;
+    end
+    c = (a + b)/2;
+    error = 0 - (c^3 + 3*c + 1);
+end
+output = c;
+end
+					\end{lstlisting}
 				\end{enumerate}
 			\item[2.22]
 				\begin{enumerate} [label={\alph*)}]
-					\item 
+					\item The second-order Taylor approximation centered at $x_i$ takes the form
+					$$f(x) = f(x_i) + f'(x_i)(x-x_i) + \frac{1}{2}f''(x_i)(x-x_i)^2$$
+					Using the quadratic formula to solve for $x$ we have
+					\begin{align*}
+						(x-x_i) &= \frac{-f'(x_i)\pm \sqrt{f'(x_i)^2-2f''(x_i)f(x_i)}}{f''(x_i)} \\
+						x &= x_i - \frac{f'(x_i)\pm \sqrt{f'(x_i)^2-2f''(x_i)f(x_i)}}{f''(x_i)}
+					\end{align*}
+					
+					\item There are a few things that seem to be potential issues. First, calculating the square root every time requires solving both the first and second derivatives which may not be feasible on complicated functions and which otherwise may be very computationally expensive. Next, the $\pm$ introduces additional logic that must be evaluated to determine which sign to use. Third, given the author's comment that this approximation may be more accurate when you are close to the solution, it begs the question whether these additional calculations will amplify your error when poor initial starting points are selected.
+					
+					\item Given that you are close to the solution, it depends on what side of the root you are on. On the one hand you may need to add the add the sqrt term to get closer, or else you may need to subtract it off. However, if you are close to the solution, it may not matter given the rate of convergence for the Newton method.
+					
+					\item We know from the Newton Method that $x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}$. By rearranging the terms we can solve for the equation given in the problem as follows:
+					\begin{align*}
+						x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)} \\
+						x_{i+1} - x_i &=  - \frac{f(x_i)}{f'(x_i)} \\
+						(x_{i+1} - x_i)(x_{i+1} - x_i) &=  - (x_{i+1} - x_i) \frac{f(x_i)}{f'(x_i)} \\
+						(x_{i+1} - x_i)^2 &=  - (x_{i+1} - x_i) \frac{f(x_i)}{f'(x_i)}
+					\end{align*}
+					Substituting this into our second-order Taylor approximation gives the following:
+					\begin{align*}
+						0 &= f(x_i) + f'(x_i)(x_{i+1}-x_i) - \frac{1}{2}f''(x_i)(x_{i+1} - x_i) \frac{f(x_i)}{f'(x_i)} \\
+						0 &= f(x_i) + (x_{i+1}-x_i)\Big[f'(x_i) - \frac{1}{2}f''(x_i)\frac{f(x_i)}{f'(x_i)}\Big] \\
+						x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i) - \frac{1}{2}f''(x_i)\frac{f(x_i)}{f'(x_i)}}*\frac{2f'(x_i)}{2f'(x_i)}\\
+						x_{i+1} &= x_i - \frac{2f(x_i)f'(x_i)}{2f'(x_i)^2 - f''(x_i)f(x_i)}
+					\end{align*}
 				\end{enumerate}
 			\item[2.25]
 				\begin{enumerate} [label={\alph*)}]
