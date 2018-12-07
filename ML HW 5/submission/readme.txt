@@ -1,0 +1,1 @@
+Takes a few minutes to run, running shell script outputs results to a file called 'out.txt'
