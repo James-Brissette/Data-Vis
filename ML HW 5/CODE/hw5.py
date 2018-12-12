@@ -28,19 +28,21 @@ def SVM(data, rate, w, b, C, mistakes):
                     pred += w[key]*example[key]
         pred += b
         #print('prediction: ' + str(pred) + '; yi: ' + str(yi))
+        
+        for key in list(w.keys()):
+           if key == 'label':
+               continue
+           else:
+               w[key] = (1-rate)*w[key]
+            
         if (yi * pred) <= 1:
             #mistakes += 1
             for key in list(example.keys()):
                 if key == 'label':
                     continue
                 else:
-                    w[key] = (1-rate)*w[key] + rate*C*yi*example[key]
-        else:
-            for key in list(example.keys()):
-                if key == 'label':
-                    continue
-                else:
-                    w[key] = (1-rate)*w[key]
+                    w[key] += rate*C*yi*example[key]
+
         b += rate*yi
             
 #    print('Total Updates = ' + str(mistakes))
@@ -547,11 +549,11 @@ CVFolds = []
 data = loadData(DATA_DIR + 'train.liblinear')
 mistakes = 0
 
-tracker = SVM_cross_validate(1);
-tracker = SVM_train(30,1,{},0, 100, data, dev_set, mistakes, test_set)
-tracker = logisticRegression_cross_validate(1)
+#tracker = SVM_cross_validate(1);
+#tracker = SVM_train(30,.0001,{},0, 100, data, dev_set, mistakes, test_set)
+#tracker = logisticRegression_cross_validate(1)
 tracker = logisticRegression_train(10,1,{},0, 10000, data, dev_set, mistakes, test_set)
-tracker = crossValidateBayes(data, {}, {}, 0,0,dev_set)
+#tracker = crossValidateBayes(data, {}, {}, 0,0,dev_set)
 
 
 
