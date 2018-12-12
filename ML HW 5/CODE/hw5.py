@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Wed Dec 12 01:36:42 2018
+
+@author: jtbri
+"""
+
+# -*- coding: utf-8 -*-
+"""
 @author: James Brissette
 """
 
@@ -48,35 +55,37 @@ def SVM(data, rate, w, b, C, mistakes):
 #    print('Total Updates = ' + str(mistakes))
     return w, b, mistakes
 
-def NBayes(data, a, b):
-    countp = {}
-    countn = {}
-    pp = [i['label'] for i in data].count(1)#/len(data)
-    pn = [i['label'] for i in data].count(-1)
+def NBayes(data, numFeatures):
+
+    ap = np.zeros(numFeatures,int)
+    an = np.zeros(numFeatures,int)
+    bp = np.zeros(numFeatures,int)
+    bn = np.zeros(numFeatures,int)
+    
     for sample in data:
         if sample['label'] == 1:
+            bp += 1
             for key in sample.keys():
-                if key != 'label':
+                if key != 'label' and key != 'b':
                     if sample[key] == 1:
-                        if (key in list(a.keys())):
-                            a[key] += 1
-                        else:
-                            a[key] = 1
+                        bp[int(key)-1] -= 1
+                        ap[int(key)-1] += 1
         else:
+            bn += 1
             for key in sample.keys():
-               if key != 'label':
+               if key != 'label' and key != 'b':
                     if sample[key] == 1:
-                        if (key in list(b.keys())):
-                            b[key] += 1
-                        else:
-                            b[key] = 1
+                        bn[int(key)-1] -= 1
+                        an[int(key)-1] += 1
                         
 #    for key in a.keys():
 #        a[key] /= [i['label'] for i in data].count(1)
 #    for key in b.keys():
 #        b[key] /= [i['label'] for i in data].count(-1)
     
-    return a, b, pp, pn
+    
+    
+    return ap, an, bp, bn, p, n
 
 def logisticRegression(data,w,b,rate,tradeoff):
     for example in data:
@@ -165,6 +174,7 @@ def SVM_cross_validate(epochs):
     
     optimal = [[list(average_acc.keys())[list(average_acc.values()).index(j)], list(j.keys())[list(j.values()).index(max(j.values()))], max(j.values())] for j in [average_acc[i] for i in list(average_acc.keys())]]
     print('Optimal Parameters: rate=' + str(max([i[0] for i in optimal])) + ' C=' + str(max([i[1] for i in optimal])))
+    print('Optimal: ' + str(optimal))
     print('Precision for optimal: ' + str(pr[max([i[0] for i in optimal])][max([i[1] for i in optimal])][0]) + '; Recall for optimal: ' + str(pr[max([i[0] for i in optimal])][max([i[1] for i in optimal])][1]))
     print('Cross-Validation accuracy: F1 = ' + str(max([i[2] for i in optimal])))
     print('')
@@ -368,38 +378,33 @@ def predict(data,w,b):
                 
     return [TP,FP,FN]
 
-def predictBayes(a,b,pp,pn,lam,data):
+def predictBayes(data, ap, an, bp, bn, p, n):
     TP = 0
     FP = 0
     FN = 0
     
-    
+    pred = 0
     for example in data:
         yi = 0;
-        pred = 0
-        predictPlus = 1
-        predictMinus = 1
+        predictPlus = p
+        predictMinus = n
+        
+        yi = example['label']
         for key in list(example.keys()):
             if key == 'label':
-                yi = example[key]
+                continue
             else:
-                if (key in list(a.keys())):
-                    probp = (a[key] + lam)/(pp + 2*lam)
+                if key == '1':
+                    predictPlus *= ap[int(key)-1]
+                    predictMinus *= an[int(key)-1]
                 else:
-                    probp = 0
+                    predictPlus *= bp[int(key)-1]
+                    predictMinus *= bn[int(key)-1]
                     
-                if (key in list(b.keys())):
-                    probn = (b[key] + lam)/(pn + 2*lam)
-                else:
-                    probn = 0
-                
-                predictPlus *= probp
-                predictMinus *= probn
-                
-                if pp*predictPlus > pn*predictMinus:
-                    pred = 1
-                else:
-                    pred = -1
+        if  predictPlus >= predictMinus :
+            pred = 1
+        else:
+            pred = -1
         
         if (yi * pred) > 0:
             TP += 1
@@ -407,7 +412,42 @@ def predictBayes(a,b,pp,pn,lam,data):
             if (yi == -1):
                 FP += 1
             else:
-                FN += 1  
+                FN += 1
+                
+#    for example in data:
+#        yi = 0;
+#        pred = 0
+#        predictPlus = 1
+#        predictMinus = 1
+#        for key in list(example.keys()):
+#            if key == 'label':
+#                yi = example[key]
+#            else:
+#                if (key in list(a.keys())):
+#                    probp = (a[key] + lam)/(pp + 2*lam)
+#                else:
+#                    probp = 0
+#                    
+#                if (key in list(b.keys())):
+#                    probn = (b[key] + lam)/(pn + 2*lam)
+#                else:
+#                    probn = 0
+#                
+#                predictPlus *= probp
+#                predictMinus *= probn
+#                
+#                if pp*predictPlus > pn*predictMinus:
+#                    pred = 1
+#                else:
+#                    pred = -1
+#        
+#        if (yi * pred) > 0:
+#            TP += 1
+#        elif (yi * pred) <= 0:
+#            if (yi == -1):
+#                FP += 1
+#            else:
+#                FN += 1  
                 
     return [TP,FP,FN]
     
@@ -448,14 +488,14 @@ def predictLogistic(data,w,b):
     out = [TP,FP,FN]
     return [TP,FP,FN]
     
-def crossValidateBayes(data,a,b,pp,pn,dev_set):
+def crossValidateBayes(data,dev_set,numFeatures):
     cvfolds = 5
     training_set = []
     validation_set = []
     F1 = 0;
     
-    average_acc = {5:0, 3:0, 2.5:0, 2.25:0, 2:0, 1.5:0, 1:0, 0.5:0, 0:0}
-    pr = {5:[0,0], 3:[0,0], 2.5:[0,0], 2.25:[0,0], 2:[0,0], 1.5:[0,0], 1:[0,0], 0.5:[0,0], 0:[0,0]}
+    average_acc = {5:0, 3:0, 2.5:0, 2.25:0, 2:0, 1.5:0, 1:0, 0.5:0, 0.1:0}
+    pr = {5:[0,0], 3:[0,0], 2.5:[0,0], 2.25:[0,0], 2:[0,0], 1.5:[0,0], 1:[0,0], 0.5:[0,0], 0.1:[0,0]}
     
     print('### Cross Validation for Naive Bayes ###')
     for i in range(cvfolds):
@@ -467,15 +507,28 @@ def crossValidateBayes(data,a,b,pp,pn,dev_set):
             else:
                 training_set += loadData(CV_DIR + '/training0' + str(j) + '.data')
                 
-        a,b,pp,pn = NBayes(training_set,{},{})        
+        ap, an, bp, bn, p, n = NBayes(training_set,numFeatures)        
 #        a,b,pp,pn = NBayes([{'label': 1, '10': 1.0, '12': 1.0, '15': 1.0, '18': 1.0, '31': 1.0, '36': 1.0, '48': 1.0, '59': 1.0, '70': 1.0, '79': 1.0, '90': 1.0, '100': 1.0, '125': 1.0, '140': 1.0, '163': 1.0, '185': 1.0, '200': 1.0}, {'label': 1, '9': 1.0, '11': 1.0, '14': 1.0, '18': 1.0, '29': 1.0, '36': 1.0, '48': 1.0, '59': 1.0, '68': 1.0, '79': 1.0, '89': 1.0, '103': 1.0, '120': 1.0, '143': 1.0, '160': 1.0, '180': 1.0, '200': 1.0}, {'label': -1, '10': 1.0, '11': 1.0, '14': 1.0, '18': 1.0, '29': 1.0, '35': 1.0, '46': 1.0, '57': 1.0, '68': 1.0, '79': 1.0, '90': 1.0, '104': 1.0, '124': 1.0, '143': 1.0, '163': 1.0, '183': 1.0, '203': 1.0}, {'label': 1, '9': 1.0, '11': 1.0, '14': 1.0, '18': 1.0, '30': 1.0, '35': 1.0, '46': 1.0, '57': 1.0, '68': 1.0, '79': 1.0, '90': 1.0, '103': 1.0, '123': 1.0, '143': 1.0, '163': 1.0, '183': 1.0, '204': 1.0}, {'label': -1, '10': 1.0, '12': 1.0, '14': 1.0, '18': 1.0, '33': 1.0, '36': 1.0, '45': 1.0, '56': 1.0, '67': 1.0, '78': 1.0, '89': 1.0, '100': 1.0, '120': 1.0, '140': 1.0, '160': 1.0, '193': 1.0, '203': 1.0}],{},{})
         
-        for lam in [5,3,2.5,2.25, 2,1.5,1,.5,0]:
+        for lam in [5,3,2.5,2.25, 2,1.5,1,.5,0.1]:
 #            print('  Running for lambda = ' + str(lam))
             avgF1 = 0;
-                        
+                       
+            
+            p = [i['label'] for i in training_set].count(1) + numFeatures*lam
+            n = [i['label'] for i in training_set].count(-1) + numFeatures*lam
+            
+            ap = (ap + lam) / p
+            an = (an + lam) / n
+            bp = (bp + lam) / p
+            bn = (bn + lam) / n
+            
+            pn = p+n
+            p = p / (pn)
+            n = n / (pn)
+    
             np.random.shuffle(validation_set)
-            mistakes = predictBayes(a,b,pp,pn,lam,validation_set)
+            mistakes = predictBayes(validation_set, ap, an, bp, bn, p, n)
             
             #mistakes = [TP,FP,FN]
             p = mistakes[0]/(mistakes[0]+mistakes[1])
@@ -490,9 +543,24 @@ def crossValidateBayes(data,a,b,pp,pn,dev_set):
             pr[lam][1] = r / cvfolds
         
     
-    a,b,pp,pn = NBayes(data,{},{}) 
+    ap, an, bp, bn, p, n =  NBayes(data,numFeatures)
+    lam = 5
+    
+    p = [i['label'] for i in data].count(1) + numFeatures*lam
+    n = [i['label'] for i in data].count(-1) + numFeatures*lam
+    
+    ap = (ap + lam) / p
+    an = (an + lam) / n
+    bp = (bp + lam) / p
+    bn = (bn + lam) / n
+    
+    pn = p+n
+    p = p / (pn)
+    n = n / (pn)
+    
+    
     np.random.shuffle(test_set)
-    mistakes = predictBayes(a,b,pp,pn,0,test_set)
+    mistakes = predictBayes(test_set, ap, an, bp, bn, p, n)
     
     p = mistakes[0]/(mistakes[0]+mistakes[1])
     r = mistakes[0]/(mistakes[0]+mistakes[2])
@@ -552,9 +620,80 @@ mistakes = 0
 #tracker = SVM_cross_validate(1);
 #tracker = SVM_train(30,.0001,{},0, 100, data, dev_set, mistakes, test_set)
 #tracker = logisticRegression_cross_validate(1)
-tracker = logisticRegression_train(10,1,{},0, 10000, data, dev_set, mistakes, test_set)
-#tracker = crossValidateBayes(data, {}, {}, 0,0,dev_set)
+#tracker = logisticRegression_train(10,1,{},0, 10000, data, dev_set, mistakes, test_set)
 
 
+numFeatures = 219;
 
-#NBayes(data[0:5],{},{})
+#NBayes([{'label':0,'x1':0,'x2':0},{'label':0,'x1':0,'x2':1},{'label':0,'x1':1,'x2':0},{'label':1,'x1':1,'x2':1}])
+#[{'label':0,'x1':0,'x2':0, 'x3':0},{'label':0,'x1':0,'x2':0, 'x3':1},{'label':0,'x1':0,'x2':1, 'x3':0},{'label':0,'x1':0,'x2':1, 'x3':1},  {'label':0,'x1':1,'x2':0, 'x3':0},{'label':0,'x1':1,'x2':0, 'x3':1},{'label':0,'x1':1,'x2':1, 'x3':0},{'label':0,'x1':1,'x2':1, 'x3':1}]
+#ap, an, bp, bn, p, n = NBayes([{'label':-1},{'label':-1,'2':1},{'label':-1,'1':1},{'label':1,'1':1,'2':1}],2,0.1)
+
+#NBayes([{'label':1},{'label':0,'3':1},{'label':1,'2':1},{'label':1,'2':1, '3':1},  {'label':1,'1':1},{'label':0,'1':1,'3':1},{'label':0,'1':1,'2':1},{'label':0,'1':1,'2':1, '3':1}],3)
+#ap, an, bp, bn, p, n = NBayes(data,numFeatures,10)
+#tracker = crossValidateBayes(data, dev_set, numFeatures)
+#mistakes = predictBayes(testData, ap, an, bp, bn, p, n)
+#    
+#p = mistakes[0]/(mistakes[0]+mistakes[1])
+#r = mistakes[0]/(mistakes[0]+mistakes[2])
+#
+#if (p == 0 and r == 0):
+#    F1 = 0;
+#else:
+#    F1 = 2*(p*r)/(p+r);
+    
+#att = {}
+#for e in data:
+#    for key in e.keys():
+#        if key in att.keys() or key == 'label' or key == 'b':
+#            continue
+#        else:
+#            att[key]=0
+#            
+#for e in testData:
+#    for key in e.keys():
+#        if key in att.keys() or key == 'label' or key == 'b':
+#            continue
+#        else:
+#            att[key]=0
+#numFeatures = max([int(i) for i in list(att.keys())])
+            
+for lam in range(0,100,2):        
+    ap, an, bp, bn, p, n =  NBayes(data,numFeatures)
+    lam = lam / 10;
+    
+    p = [i['label'] for i in data].count(1) + numFeatures*lam
+    n = [i['label'] for i in data].count(-1) + numFeatures*lam
+    
+    ap = (ap + lam) / p
+    an = (an + lam) / n
+    bp = (bp + lam) / p
+    bn = (bn + lam) / n
+    
+    pn = p+n
+    p = p / (pn)
+    n = n / (pn)
+    
+    
+    np.random.shuffle(test_set)
+    mistakes = predictBayes(test_set, ap, an, bp, bn, p, n)
+    
+    p = mistakes[0]/(mistakes[0]+mistakes[1])
+    r = mistakes[0]/(mistakes[0]+mistakes[2])
+    
+    if (p == 0 and r == 0):
+        F1 = 0;
+    else:
+        F1 = 2*(p*r)/(p+r);
+                
+    print('@lam=' + str(lam) + ' F1 = ' + str(F1))
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
