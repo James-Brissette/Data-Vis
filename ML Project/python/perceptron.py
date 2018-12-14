@@ -414,32 +414,32 @@ minimum = min(IG_dict.values())
 maximum = max(IG_dict.values())
 normalizedIG = {}
 
-cutoff = 0.01
+cutoff = 0.002
 best = {}
-for cutoff in [.01,.009,.008,.007,.006,.005,.004,.003,.002,.001]:
-    normalizedIG = {}
-    for att in IG_dict:
-        if (IG_dict[att] - minimum)/(maximum - minimum) >= cutoff:
-            normalizedIG[att] = (IG_dict[att] - minimum)/(maximum - minimum)
-#    print('At cutoff =',str(cutoff),'len = ',str(len(normalizedIG)))
-
-    trimmedData = []
-    for example in data:
-        entry = {}
-        for key in example:
-            if key == 'label':
-                entry[key] = example[key]
-            else:
-                if key in normalizedIG.keys():
-                    entry[key] = example[key]
-        trimmedData.append(entry)
-    
-    np.random.shuffle(data)
-    tracker = simple_train(20,.01,trimmedData,data[20000:25000], mistakes,testData,cutoff)
-    best[cutoff] = [i[0] for i in tracker.values()]
+#for cutoff in [.01,.009,.008,.007,.006,.005,.004,.003,.002,.001]:
+normalizedIG = {}
+for att in IG_dict:
+    if (IG_dict[att] - minimum)/(maximum - minimum) >= cutoff:
+        normalizedIG[att] = (IG_dict[att] - minimum)/(maximum - minimum)
+print('At cutoff =',str(cutoff),'len = ',str(len(normalizedIG)))
+#
+#    trimmedData = []
+#    for example in data:
+#        entry = {}
+#        for key in example:
+#            if key == 'label':
+#                entry[key] = example[key]
+#            else:
+#                if key in normalizedIG.keys():
+#                    entry[key] = example[key]
+#        trimmedData.append(entry)
+#    
+#    np.random.shuffle(data)
+#    tracker = simple_train(20,.01,trimmedData,data[20000:25000], mistakes,testData,cutoff)
+#    best[cutoff] = [i[0] for i in tracker.values()]
 #accuracy = simple_cross_validate(1, trimmedData)
 
-tracker = simple_train(20,.01,trimmedData,data[20000:25000], mistakes,testData,cutoff)
+#tracker = simple_train(20,.01,trimmedData,data[20000:25000], mistakes,testData,cutoff)
 #accuracy = average_cross_validate(30, trimmedData)
 #tracker = average_train(20,.01,trimmedData,data[20000:25000], mistakes,testData,cutoff)
 #f = open('test-submission3.txt','w')
