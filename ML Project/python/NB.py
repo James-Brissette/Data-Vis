@@ -100,7 +100,7 @@ def predictBayes(data, ap, an, bp, bn, p, n):
             mistakes += 1
         
         counter = counter + 1
-        if (counter % 250 == 0):
+#        if (counter % 250 == 0):
 #            print('        Prediction ' + str(counter) + ' completed')
                 
     return mistakes
@@ -223,7 +223,7 @@ numFeatures = 74481;
 #tracker = SVM_train(30,1.5,{},0, 10000, data, dev_set, mistakes, test_set)
 #tracker = logisticRegression_cross_validate(1)
 #tracker = logisticRegression_train(10,.1,{},0, 10000, data, dev_set, mistakes, test_set)
-tracker = crossValidateBayes(data,dev_set,numFeatures)
+#tracker = crossValidateBayes(data,dev_set,numFeatures)
 
 def loadTestData(fpath):
     temp_data = []
@@ -323,9 +323,9 @@ def predictAndLabel(data,ap, an, bp, bn, p, n):
 #else:
 #    F1 = 2*(p*r)/(p+r);
             
-print('Accuracy =' + str(mistakes / len(dev_set)))
+#print('Accuracy =' + str(mistakes / len(dev_set)))
 
-
+entropy = np.zeros(numFeatures)
 
 
 
@@ -392,12 +392,45 @@ print('Accuracy =' + str(mistakes / len(dev_set)))
 #            
 #print('@lam=' + str(lam) + ' F1 = ' + str(F1))
             
-            
-            
-            
-            
-            
-            
+#===================================================          
+ap, an, bp, bn = NBayes(data,numFeatures)
+a = ap + an
+b = bp + bn
+omega = 1e-20
+pap = ap / a
+pan = an / a
+hsa = -pan*np.log2((pan+omega))-pap*np.log2((pap+omega))
+
+pbp = bp / b
+pbn = bn / b
+hsb = -pbn*np.log2((pbn+omega))-pbp*np.log2((pbp+omega))
+
+hs = -.5*np.log2(.5)-.5*np.log2(.5)
+IG = 1 - (a/len(data))*hsa - (b/len(data))*hsb
+IG_dict = {i:IG[i] for i in range(0,len(IG))}
+
+minimum = min(IG_dict.values())
+maximum = max(IG_dict.values())
+normalizedIG = {}
+
+for cutoff in [.001,.002,.003,.004,.005,.006,.007,.008,.009,.01]:
+    normalizedIG = {}
+    for att in test:
+        if (test[att] - minimum)/(maximum - minimum) >= cutoff:
+            normalizedIG[att] = (test[att] - minimum)/(maximum - minimum)
+    print('At cutoff =',str(cutoff),'len = ',str(len(normalizedIG)))
+
+trimmedData = []
+for example in data:
+    entry = {}
+    for key in example:
+        if key == 'label':
+            entry[key] = example[key]
+        else:
+            if key in normalizedIG.keys():
+                entry[key] = example[key]
+    trimmedData.append(entry)
+    
             
             
             
