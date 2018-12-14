@@ -31,7 +31,7 @@ def SVM(data, rate, w, b, C, mistakes):
                 if (key in list(w.keys())):
                     pred += w[key]*example[key]
                 else:
-                    w[key] = np.random.randint(-10000,10000) / 1000000.
+                    w[key] = 0
                     pred += w[key]*example[key]
         pred += b
         #print('prediction: ' + str(pred) + '; yi: ' + str(yi))
@@ -49,9 +49,12 @@ def SVM(data, rate, w, b, C, mistakes):
                     continue
                 else:
                     w[key] += rate*C*yi*example[key]
+            b += (1-rate)*b + rate*C*yi
+        else:
+            b += (1-rate)*b# + (1-rate)*C*yi
 
-        b += rate*yi
-            
+#        print(w)
+#        print(b)
 #    print('Total Updates = ' + str(mistakes))
     return w, b, mistakes
 
@@ -85,7 +88,7 @@ def NBayes(data, numFeatures):
     
     
     
-    return ap, an, bp, bn, p, n
+    return ap, an, bp, bn
 
 def logisticRegression(data,w,b,rate,tradeoff):
     for example in data:
@@ -101,14 +104,23 @@ def logisticRegression(data,w,b,rate,tradeoff):
                     w[key] = np.random.randint(-10000,10000) / 1000000.
                     ywTx += w[key]*example[key]
                 
-                
+        
+        for key in list(w.keys()):
+           if key == 'label':
+               continue
+           else:
+               w[key] = (1-rate)*w[key]
+               
         for key in list(example.keys()):
             if key == 'label':
                 yi = example[key];
-                b += rate*yi
+                b *= (1-rate)
             else:
-                w[key] = rate*((-yi*example[key]*np.exp(-ywTx))/(1+np.exp(-ywTx))+(2*w[key]/tradeoff))
+                w[key] += rate*((example[key]/(1+np.exp(-ywTx)*example[key])))#+(2*w[key]/tradeoff))
+        b += rate*(rate*(yi/(1+np.exp(-ywTx))))
         
+#        weight=((1-(((rate/(1+i))*2)/margin))*weight)+((((rate/(1+i))*label)/(1+math.exp(label*predict)))*example)
+#              bias = ((1-(((rate/(1+i))*2)/margin))*bias)+(((rate/(1+i))*label)/(1+math.exp(label*predict)))
     return w, b, mistakes
 
 def SVM_cross_validate(epochs):
@@ -193,8 +205,16 @@ def SVM_train(epochs,rate,w,b, C, training_set, dev_set, mistakes, test_set):
         mistakes = predict(dev_set,w,b)
                 
         #mistakes = [TP,FP,FN]
-        p = mistakes[0]/(mistakes[0]+mistakes[1])
-        r = mistakes[0]/(mistakes[0]+mistakes[2])
+        if mistakes[0]+mistakes[1] == 0:
+            p = 1
+        else:
+            p = mistakes[0]/(mistakes[0]+mistakes[1])
+        
+        if mistakes[0]+mistakes[2] == 0:
+            r = 1
+        else:
+            r = mistakes[0]/(mistakes[0]+mistakes[2])
+        
         if (p == 0 and r == 0):
             F1 = 0;
         else:
@@ -214,8 +234,13 @@ def SVM_train(epochs,rate,w,b, C, training_set, dev_set, mistakes, test_set):
     mistakes = predict(test_set,tracker[idx][1][0],tracker[idx][1][1])
                 
     #mistakes = [TP,FP,FN]
-    p = mistakes[0]/(mistakes[0]+mistakes[1])
+    if mistakes[0]+mistakes[1] == 0:
+        p = 1
+    else:
+        p = mistakes[0]/(mistakes[0]+mistakes[1])
+    
     r = mistakes[0]/(mistakes[0]+mistakes[2])
+        
     if (p == 0 and r == 0):
         F1 = 0;
     else:
@@ -353,6 +378,7 @@ def predict(data,w,b):
     TP = 0
     FP = 0
     FN = 0
+    TN = 0
     
     for example in data:
         yi = 0;
@@ -364,18 +390,24 @@ def predict(data,w,b):
                 if (key in list(w.keys())):
                     pred += w[key]*example[key]
                 else:
-                    w[key] = np.random.randint(-10000,10000) / 1000000.
+                    w[key] = 0
                     pred += w[key]*example[key]
-        pred += b
-        
-        if (yi * pred) > 0:
-            TP = TP + 1
-        elif (yi * pred) <= 0:
-            if (yi == -1):
-                FP = FP + 1
+        #pred += b
+        #print(pred)  
+        if pred > 0:
+            if yi == 1:
+                TP = TP + 1
             else:
-                FN = FN + 1  
+                FP = FP + 1
                 
+        else:
+            if yi == 1:
+                FN = FN + 1
+            else:
+                TN = TN + 1
+            
+    o = [TP,FP,FN]
+    print(o)
     return [TP,FP,FN]
 
 def predictBayes(data, ap, an, bp, bn, p, n):
@@ -386,14 +418,22 @@ def predictBayes(data, ap, an, bp, bn, p, n):
     pred = 0
     for example in data:
         yi = 0;
-        predictPlus = p
-        predictMinus = n
+        predictPlus =p
+        predictMinus =n
+#        predictPlus = np.log(p)
+#        predictMinus = np.log(n)
         
         yi = example['label']
         for key in list(example.keys()):
             if key == 'label':
                 continue
             else:
+#                if key == '1':
+#                    predictPlus += np.log(ap[int(key)-1])
+#                    predictMinus += np.log(an[int(key)-1])
+#                else:
+#                    predictPlus += np.log(bp[int(key)-1])
+#                    predictMinus += np.log(bn[int(key)-1])
                 if key == '1':
                     predictPlus *= ap[int(key)-1]
                     predictMinus *= an[int(key)-1]
@@ -406,14 +446,29 @@ def predictBayes(data, ap, an, bp, bn, p, n):
         else:
             pred = -1
         
-        if (yi * pred) > 0:
-            TP += 1
-        elif (yi * pred) <= 0:
-            if (yi == -1):
-                FP += 1
+        
+#        if (yi * pred) > 0:
+#            TP += 1
+#        elif (yi * pred) <= 0:
+#            if (yi == -1):
+#                FP += 1
+#            else:
+#                FN += 1
+        
+        print(str(predictPlus))
+        print(str(predictMinus))
+        print(pred)
+        print(yi)
+        
+        if pred > 0:
+            if yi == 1:
+                TP = TP + 1
             else:
-                FN += 1
-                
+                FP = FP + 1
+                    
+        else:
+            if yi == 1:
+                FN = FN + 1
 #    for example in data:
 #        yi = 0;
 #        pred = 0
@@ -457,7 +512,6 @@ def predictLogistic(data,w,b):
     TP = 0
     FP = 0
     FN = 0
-    
     
     for example in data:
         yi = 0;
@@ -546,13 +600,13 @@ def crossValidateBayes(data,dev_set,numFeatures):
     ap, an, bp, bn, p, n =  NBayes(data,numFeatures)
     lam = 5
     
-    p = [i['label'] for i in data].count(1) + numFeatures*lam
-    n = [i['label'] for i in data].count(-1) + numFeatures*lam
+    p = [i['label'] for i in data].count(1)
+    n = [i['label'] for i in data].count(-1)
     
-    ap = (ap + lam) / p
-    an = (an + lam) / n
-    bp = (bp + lam) / p
-    bn = (bn + lam) / n
+    ap = (ap + lam) / (p + 2*lam)
+    an = (an + lam) / (n + 2*lam)
+    bp = (bp + lam) / (p + 2*lam)
+    bn = (bn + lam) / (n + 2*lam)
     
     pn = p+n
     p = p / (pn)
@@ -618,14 +672,47 @@ data = loadData(DATA_DIR + 'train.liblinear')
 mistakes = 0
 
 #tracker = SVM_cross_validate(1);
-#tracker = SVM_train(30,.0001,{},0, 100, data, dev_set, mistakes, test_set)
+#tracker = SVM_train(30,1.5,{},0, 10000, data, dev_set, mistakes, test_set)
 #tracker = logisticRegression_cross_validate(1)
-#tracker = logisticRegression_train(10,1,{},0, 10000, data, dev_set, mistakes, test_set)
+tracker = logisticRegression_train(10,.1,{},0, 10000, data, dev_set, mistakes, test_set)
 
 
-numFeatures = 219;
 
-#NBayes([{'label':0,'x1':0,'x2':0},{'label':0,'x1':0,'x2':1},{'label':0,'x1':1,'x2':0},{'label':1,'x1':1,'x2':1}])
+
+#numFeatures = 2;
+#
+#ap, an, bp, bn = NBayes([{'label':-1},{'label':-1,'2':1},{'label':-1,'1':1},{'label':1,'1':1,'2':1}],2)
+#
+#lam = 0.1
+#data = [{'label':-1},{'label':-1,'2':1},{'label':-1,'1':1},{'label':1,'1':1,'2':1}]
+#
+#p = [i['label'] for i in data].count(1) 
+#n = [i['label'] for i in data].count(-1)
+#
+#ap = (ap + lam) / (p + 2*lam)
+#an = (an + lam) / (n + 2*lam)
+#bp = (bp + lam) / (p + 2*lam)
+#bn = (bn + lam) / (n + 2*lam)
+#
+#
+#p = (p + lam) / (len(data) + 2*lam)
+#n = (n + lam) / (len(data) + 2*lam)
+#
+#mistakes = predictBayes([{'label':1,'1':1,'2':1}], ap, an, bp, bn, p, n)
+#p = mistakes[0]/(mistakes[0]+mistakes[1])
+#r = mistakes[0]/(mistakes[0]+mistakes[2])
+#
+#if (p == 0 and r == 0):
+#    F1 = 0;
+#else:
+#    F1 = 2*(p*r)/(p+r);
+#            
+#print('@lam=' + str(lam) + ' F1 = ' + str(F1))
+
+
+
+
+
 #[{'label':0,'x1':0,'x2':0, 'x3':0},{'label':0,'x1':0,'x2':0, 'x3':1},{'label':0,'x1':0,'x2':1, 'x3':0},{'label':0,'x1':0,'x2':1, 'x3':1},  {'label':0,'x1':1,'x2':0, 'x3':0},{'label':0,'x1':1,'x2':0, 'x3':1},{'label':0,'x1':1,'x2':1, 'x3':0},{'label':0,'x1':1,'x2':1, 'x3':1}]
 #ap, an, bp, bn, p, n = NBayes([{'label':-1},{'label':-1,'2':1},{'label':-1,'1':1},{'label':1,'1':1,'2':1}],2,0.1)
 
@@ -657,36 +744,37 @@ numFeatures = 219;
 #        else:
 #            att[key]=0
 #numFeatures = max([int(i) for i in list(att.keys())])
-            
-for lam in range(0,100,2):        
-    ap, an, bp, bn, p, n =  NBayes(data,numFeatures)
-    lam = lam / 10;
-    
-    p = [i['label'] for i in data].count(1) + numFeatures*lam
-    n = [i['label'] for i in data].count(-1) + numFeatures*lam
-    
-    ap = (ap + lam) / p
-    an = (an + lam) / n
-    bp = (bp + lam) / p
-    bn = (bn + lam) / n
-    
-    pn = p+n
-    p = p / (pn)
-    n = n / (pn)
-    
-    
-    np.random.shuffle(test_set)
-    mistakes = predictBayes(test_set, ap, an, bp, bn, p, n)
-    
-    p = mistakes[0]/(mistakes[0]+mistakes[1])
-    r = mistakes[0]/(mistakes[0]+mistakes[2])
-    
-    if (p == 0 and r == 0):
-        F1 = 0;
-    else:
-        F1 = 2*(p*r)/(p+r);
-                
-    print('@lam=' + str(lam) + ' F1 = ' + str(F1))
+   
+####################################################         
+#ap, an, bp, bn =  NBayes(data,numFeatures)
+#lam = 2
+#
+#p = [i['label'] for i in data].count(1) 
+#n = [i['label'] for i in data].count(-1)
+#
+#
+#ap = (ap + lam) / (p + numFeatures*lam)
+#an = (an + lam) / (n + numFeatures*lam)
+#bp = (bp + lam) / (p + numFeatures*lam)
+#bn = (bn + lam) / (n + numFeatures*lam)
+#
+#pn = p+n
+#p = p / (pn)
+#n = n / (pn)
+#
+#
+#np.random.shuffle(test_set)
+#mistakes = predictBayes(test_set, ap, an, bp, bn, p, n)
+
+#p = mistakes[0]/(mistakes[0]+mistakes[1])
+#r = mistakes[0]/(mistakes[0]+mistakes[2])
+#
+#if (p == 0 and r == 0):
+#    F1 = 0;
+#else:
+#    F1 = 2*(p*r)/(p+r);
+#            
+#print('@lam=' + str(lam) + ' F1 = ' + str(F1))
             
             
             
