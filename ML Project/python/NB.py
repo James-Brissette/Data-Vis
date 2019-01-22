@@ -297,7 +297,7 @@ def predictAndLabel(data,ap, an, bp, bn, p, n):
 
 
 
-#ap, an, bp, bn = NBayes(data,numFeatures)
+ap, an, bp, bn = NBayes(data,numFeatures)
 
 #lam = 0.1
 #data = [{'label':-1},{'label':-1,'2':1},{'label':-1,'1':1},{'label':1,'1':1,'2':1}]
@@ -325,7 +325,7 @@ def predictAndLabel(data,ap, an, bp, bn, p, n):
             
 #print('Accuracy =' + str(mistakes / len(dev_set)))
 
-entropy = np.zeros(numFeatures)
+#entropy = np.zeros(numFeatures)
 
 
 
@@ -334,7 +334,7 @@ entropy = np.zeros(numFeatures)
 
 #NBayes([{'label':1},{'label':0,'3':1},{'label':1,'2':1},{'label':1,'2':1, '3':1},  {'label':1,'1':1},{'label':0,'1':1,'3':1},{'label':0,'1':1,'2':1},{'label':0,'1':1,'2':1, '3':1}],3)
 #ap, an, bp, bn, p, n = NBayes(data,numFeatures,10)
-#tracker = crossValidateBayes(data, dev_set, numFeatures)
+tracker = crossValidateBayes(data, dev_set, numFeatures)
 #mistakes = predictBayes(testData, ap, an, bp, bn, p, n)
 #    
 #p = mistakes[0]/(mistakes[0]+mistakes[1])
@@ -393,44 +393,44 @@ entropy = np.zeros(numFeatures)
 #print('@lam=' + str(lam) + ' F1 = ' + str(F1))
             
 #===================================================          
-ap, an, bp, bn = NBayes(data,numFeatures)
-a = ap + an
-b = bp + bn
-omega = 1e-20
-pap = ap / a
-pan = an / a
-hsa = -pan*np.log2((pan+omega))-pap*np.log2((pap+omega))
-
-pbp = bp / b
-pbn = bn / b
-hsb = -pbn*np.log2((pbn+omega))-pbp*np.log2((pbp+omega))
-
-hs = -.5*np.log2(.5)-.5*np.log2(.5)
-IG = 1 - (a/len(data))*hsa - (b/len(data))*hsb
-IG_dict = {i:IG[i] for i in range(0,len(IG))}
-
-minimum = min(IG_dict.values())
-maximum = max(IG_dict.values())
-normalizedIG = {}
-
-for cutoff in [.001,.002,.003,.004,.005,.006,.007,.008,.009,.01]:
-    normalizedIG = {}
-    for att in test:
-        if (test[att] - minimum)/(maximum - minimum) >= cutoff:
-            normalizedIG[att] = (test[att] - minimum)/(maximum - minimum)
-    print('At cutoff =',str(cutoff),'len = ',str(len(normalizedIG)))
-
-trimmedData = []
-for example in data:
-    entry = {}
-    for key in example:
-        if key == 'label':
-            entry[key] = example[key]
-        else:
-            if key in normalizedIG.keys():
-                entry[key] = example[key]
-    trimmedData.append(entry)
-    
+#ap, an, bp, bn = NBayes(data,numFeatures)
+#a = ap + an
+#b = bp + bn
+#omega = 1e-20
+#pap = ap / a
+#pan = an / a
+#hsa = -pan*np.log2((pan+omega))-pap*np.log2((pap+omega))
+#
+#pbp = bp / b
+#pbn = bn / b
+#hsb = -pbn*np.log2((pbn+omega))-pbp*np.log2((pbp+omega))
+#
+#hs = -.5*np.log2(.5)-.5*np.log2(.5)
+#IG = 1 - (a/len(data))*hsa - (b/len(data))*hsb
+#IG_dict = {i:IG[i] for i in range(0,len(IG))}
+#
+#minimum = min(IG_dict.values())
+#maximum = max(IG_dict.values())
+#normalizedIG = {}
+#
+#for cutoff in [.001,.002,.003,.004,.005,.006,.007,.008,.009,.01]:
+#    normalizedIG = {}
+#    for att in test:
+#        if (test[att] - minimum)/(maximum - minimum) >= cutoff:
+#            normalizedIG[att] = (test[att] - minimum)/(maximum - minimum)
+#    print('At cutoff =',str(cutoff),'len = ',str(len(normalizedIG)))
+#
+#trimmedData = []
+#for example in data:
+#    entry = {}
+#    for key in example:
+#        if key == 'label':
+#            entry[key] = example[key]
+#        else:
+#            if key in normalizedIG.keys():
+#                entry[key] = example[key]
+#    trimmedData.append(entry)
+#    
             
             
             

@@ -59,6 +59,11 @@ def SVM(data, rate, w, b, C, mistakes):
         counter += 1
         
         if (counter % 250 == 0):
+            temp = {}
+            for att in w:
+                if np.abs(w[att]) > 1e-3:
+                    temp[att] = w[att]
+            w = temp
             print('        Example ' + str(counter) + ' seen -- weight vector has ' + str(len(w)) + ' elements')
 #        print(w)
 #        print(b)
@@ -68,7 +73,7 @@ def SVM(data, rate, w, b, C, mistakes):
 
 #========================== SVM CROSS VALIDATION ===========================
 def SVM_cross_validate(epochs):
-    cvfolds = 5
+    cvfolds = 1
     training_set = []
     validation_set = []
     avgF1 = 0;
@@ -78,12 +83,6 @@ def SVM_cross_validate(epochs):
                    .01  : {100000:0, 10000:0, 1000:0, 100:0 ,10:0, 1:0}, \
                    .001 : {100000:0, 10000:0, 1000:0, 100:0 ,10:0, 1:0}, \
                    .0001: {100000:0, 10000:0, 1000:0, 100:0 ,10:0, 1:0}}
-
-    pr = {1    : {100000:[0,0], 10000:[0,0], 1000:[0,0], 100:[0,0] ,10:[0,0], 1:[0,0]}, \
-                   0.1  : {100000:[0,0], 10000:[0,0], 1000:[0,0], 100:[0,0] ,10:[0,0], 1:[0,0]}, \
-                   .01  : {100000:[0,0], 10000:[0,0], 1000:[0,0], 100:[0,0] ,10:[0,0], 1:[0,0]}, \
-                   .001 : {100000:[0,0], 10000:[0,0], 1000:[0,0], 100:[0,0] ,10:[0,0], 1:[0,0]}, \
-                   .0001: {100000:[0,0], 10000:[0,0], 1000:[0,0], 100:[0,0] ,10:[0,0], 1:[0,0]}}
     
     optimal = [0,0,-1]
     
@@ -97,8 +96,8 @@ def SVM_cross_validate(epochs):
             else:
                 training_set += loadData(CV_DIR + '/training0' + str(j) + '.data')
                 
-        for rate in [1,0.1,0.01,0.001,0.0001]:
-            for C in [100000, 10000, 1000, 100, 10, 1]:
+        for rate in [0.1]:#,0.01,0.001,0.0001]:
+            for C in [10000, 1000, 100, 10]:
 #                print('  Running for rate = ' + str(rate) + ',  C = ' + str(C))
                 avgF1 = 0;
                 w = {}
@@ -113,26 +112,12 @@ def SVM_cross_validate(epochs):
                 np.random.shuffle(validation_set)
                 mistakes = predict(validation_set,w,b)
                 
-                #mistakes = [TP,FP,FN]
-                p = mistakes[0]/(mistakes[0]+mistakes[1])
-                r = mistakes[0]/(mistakes[0]+mistakes[2])
-                if (p == 0 and r == 0):
-                    F1 = 0;
-                else:
-                    F1 = 2*(p*r)/(p+r);
-                
-                avgF1 += F1 / epochs;
-                
-                average_acc[rate][C] += (avgF1) / cvfolds
-                pr[rate][C][0] += p / cvfolds
-                pr[rate][C][1] += r / cvfolds
+                average_acc[rate][C] += (mistakes) / cvfolds
         
     
     optimal = [[list(average_acc.keys())[list(average_acc.values()).index(j)], list(j.keys())[list(j.values()).index(max(j.values()))], max(j.values())] for j in [average_acc[i] for i in list(average_acc.keys())]]
     print('Optimal Parameters: rate=' + str(max([i[0] for i in optimal])) + ' C=' + str(max([i[1] for i in optimal])))
-    print('Optimal: ' + str(optimal))
-    print('Precision for optimal: ' + str(pr[max([i[0] for i in optimal])][max([i[1] for i in optimal])][0]) + '; Recall for optimal: ' + str(pr[max([i[0] for i in optimal])][max([i[1] for i in optimal])][1]))
-    print('Cross-Validation accuracy: F1 = ' + str(max([i[2] for i in optimal])))
+    print('Cross-Validation accuracy: ' + str(mistakes / len(validation_set)))
     print('')
     return average_acc
 
