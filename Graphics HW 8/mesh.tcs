@@ -1,0 +1,19 @@
+#version 410 core
+#extension GL_ARB_tessellation_shader : enable
+
+// define the number of CPs in the output patch
+layout (vertices = 4) out;
+
+
+void main() {    
+	#define id gl_InvocationID
+    gl_out[id].gl_Position = gl_in[id].gl_Position;
+
+	int lvl = 2;
+    gl_TessLevelOuter[0] = lvl;
+	gl_TessLevelOuter[1] = lvl;
+	gl_TessLevelOuter[2] = lvl;
+	gl_TessLevelOuter[3] = lvl;
+	gl_TessLevelInner[0] = lvl;
+	gl_TessLevelInner[1] = lvl;
+}
