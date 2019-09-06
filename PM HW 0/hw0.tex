@@ -28,11 +28,11 @@
 			\begin{align*}
 				p(A \cap B) &\leq p(A)
 			\end{align*}
-			Again, we can imagine sketching out two sets and observing that at either extreme, $0 \leq p(A \cap B) \leq 1$
+			Again, we can imagine sketching out two sets and observing that at either extreme, $0 \leq p(A \cap B) \leq 1$. Under conditions of independence, we know $p(A \cap B) = p(A)p(B)$ and furthermore since we know $0 \leq p(B) \leq 1$ it follows that when $p(B) = 0$, $p(A \cap B) = 0$ and when $p(B) = 1$, $p(A \cap B) = p(A)$. Given this, we can see the for any value of $p(B)$ we have that $0 \leq p(A \cap B) \leq p(A)$ and so $p(A \cap B) \leq p(A)$.
 			\begin{align*}
-				p(A \cup B) &\leq p(A)
+				p(A \cap B) &\leq p(B)
 			\end{align*}
-			explain
+			We just showed when you hold $p(A)$ constant and vary $p(B)$ you get the $p(A \cap B) \leq p(A)$. Using that same logic and the fact that under conditions of independence, $p(A \cap B) = p(A)p(B)$, if we hold $p(B)$ constant and vary only the value of $p(A)$ it follows naturally from above that $p(A \cap B) \leq p(B)$.
 		
 	
 			\item For the following induction, we will first prove the base case when $i=2$, and then the general case using $i=n-1$
@@ -214,7 +214,7 @@
 				\end{align*}
 				
 				\item If $f(x) = x^T A^{-1}x$ where $A \succ 0$ then the Frenchel conjugate is defined as follows:
-				$$g(\lambda) &= \max_x \lambda x - x^T A^{-1}x$$ where
+				$$g(\lambda) = \max_x \lambda x - x^T A^{-1}x$$ where
 				\begin{align*}
 				\frac{\partial x^T A^{-1}x}{\partial x} &= 2A^{-1}x \\
 				\lambda - 2A^{-1}x &= 0 \\
