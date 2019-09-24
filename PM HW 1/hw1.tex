@@ -1,0 +1,93 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\setlength\abovedisplayskip{0pt}
+\author{James Brissette}
+\title{CS-6190: Homework 1}
+\begin{document}
+	\maketitle
+	
+	\section{Warm Up}
+		\begin{enumerate}
+			\item To get $p(x_1)$ from $x = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$ we need to use a fair bit of wizardry, and assume $\Sigma = \begin{bmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22}\end{bmatrix}$, so $\Sigma^{-1} = V = \begin{bmatrix} V_{11} & V_{12} \\ V_{21} & V_{22}\end{bmatrix}$. Furthermore, we know that $x^TAx = \sum_i \sum_j x_iA_{ij}x_j$, so the term in our multivariate gaussian exponent becomes: 
+			\begin{align*}
+				&\Big(\frac{1}{2\pi}\Big)^{\frac{k}{2}} \frac{1}{| \Sigma |^\frac{1}{2}} exp \big[ \frac{1}{2}x^T\Sigma^{-1}x \big] \\
+				&= x_1^T V_{11} x_1 + x_1^T V_{12} x_2 + x_2^T V_{21} x_1 + x_2^T V_{22} x_2
+			\end{align*}
+			When we go through and tediously complete the square we get something that looks like the following:
+			\begin{align*}
+			x^T \Sigma^{-1}x = (x_2 + V_{22}^{-1}V_{21}x_1)^T V_{22}(X_2 + V_{22}^{-1}V_{21}x_1) +x_1^T(V_{11}-V_{21}^T V_{22}^{-1}V_{21})x_1
+			\end{align*}
+			and with some guidance from various sources that illustrate that $f(x) = f(x_{2}|x_{1})f(x_{1})$, we can simplify this and recover the marginal distribution of $x_1$ as follows:
+			\begin{align*}
+				f(x_{2} | x_{1}) &\propto exp(x_2 + V_{22}^{-1}V_{21}x_1)^T V_{22}(X_2 + V_{22}^{-1}V_{21}x_1) \\
+				f(x_1) &\propto exp((x_1^T - \mu)^T(V_{11}-V_{21}^T V_{22}^{-1}V_{21})(x_1-\mu)) \\
+			X_1 &\mathtt{\sim} \mathcal{N}(\mu, (V_{11}-V_{21}^T V_{22}^{-1}V_{21}))
+			\end{align*}
+			Which turns out to be exactly $X_1 &\mathtt{\sim} \mathcal{N}(\mu, \Sigma_{11})$
+			\item
+			\item
+			\item We know that $KL(q||p) = \int \big[ log(q(x)) - log(p(x)) \big] p(x) dx$. If we expand out each term we get:
+			\begin{align*}
+				&\int log \Big[ \frac{1}{2| \Lambda |}exp(\frac{1}{2}(x-m)^T \Lambda^{-1}(x-m)) \Big] - log \Big[ \frac{1}{2| \Sigma |}exp(\frac{1}{2}(x-\mu)^T \Sigma^{-1}(x-\mu)) \Big] p(x)dx \\
+				&= \int \Big[ \frac{1}{2} log \frac{| \Lambda |}{| \Sigma |} - \frac{1}{2}(x-m)^T \Lambda^{-1} (x-m) + \frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu) \Big] p(x) dx \\
+				&= \frac{1}{2} log \frac{| \Lambda |}{| \Sigma | }-tr\big[ E[(x-\mu)(x-\mu)^T] \Sigma^{-1}\big] + \frac{1}{2} E[(x-m)^T \Lambda^{-1}(x-m)]
+			\end{align*}
+			and we know from the matrix cookbook that $E(x^TAx) = tr(A\Sigma)+m^TAm$:
+			\begin{align*}
+				&= \frac{1}{2} log \frac{| \Lambda |}{| \Sigma | }-tr\big[ I_d \big] + \frac{1}{2} (m-\mu) + \frac{1}{2}tr(\Lamda^{-1}\Sigma)) \\
+				&= \frac{1}{2} \big[log \frac{| \Lambda |}{| \Sigma | } - d + tr(\Lambda^{-1}\Sigma) + (m-\mu)^T \Lambda^{-1}(m-\mu)\big]
+			\end{align*}
+			\item So if we use a fair bit of what is in the lecture notes, this isn't too bad. We know that $\nabla log(Z(\eta)) = \frac{\nabla Z(\eta)}{Z(\eta)}$, that $Z(\eta)= \int h(x)exp(u(x)^T \eta)dx$ and that $\nabla Z(\eta) = \int h(x) exp(u(x)^T\eta) u(x) dx$.
+			
+			If we combine terms to simplify the gradient by taking $\frac{1}{Z(\eta)}$ to be $exp(-log(Z(\eta)))$ we can combine terms and calculate the second derivative as follows:
+			\begin{align*}
+				\nabla log(Z(\eta)) &= \int u(x) h(x) exp(u(x)^T\eta - log(Z(\eta))) \\
+				\nabla^2 \frac{log(Z(\eta))}{d\eta} &= \int u(x) h(x) exp(u(x)^T\eta - log(Z(\eta)))(u(x)-\nabla log(Z(\eta))
+			\end{align*}
+			
+			And we can simplify $u(x)exp(u(x)^T\eta - log(Z(\eta))) = \mathbb{E}[u(x)]$ which gives us:
+			
+			\begin{align*}
+			&= \int u(x)^2 exp(u(x)^T\eta - log(Z(\eta)) - u(x)\mathbb{E}[u(x)]exp(u(x)^T\eta - log(Z(\eta))) \\
+			&= \mathbb{E}[u(x)^2] - \mathbb{E}[u(x)]^2 \\
+			&= \mathbb{V}[u(x)]
+			\end{align*}
+			
+			\item I've never heard of negative Variance, so the covariance matrix must all be positive, meaning it's positive semi-definite, meaning it's convex.
+			\item In order to calculate the mutual information in terms of the entropy of two random variables, we'll start with the definition for Mutual Information:
+			\begin{align*}
+				I &= -\int \int p(x,y) log \frac{p(x)p(y)}{p(x,y)} \\
+				&= -\int \int p(x,y) \Big[ log \frac{p(y)}{p(x,y)} + log(p(x)) \Big] \\
+				&= -\int \int p(x,y) * log \frac{p(y)}{p(x,y)} + \int \int p(x,y) log(p(x)) \\
+				&= -\int \int p(y) p(x|y) * log (p(x|y)) + \int \int p(x,y) log(p(x)) \\
+				&= -\int p(y) \int p(x|y) * log (p(x|y)) + \int log(p(x)) \int p(x,y)  \\
+				&= -\int p(y) * H(x|y) + \int log(p(x)) * p(x)  \\
+				&= -\int p(y) * H(x|y) \quad  + H(x)  \\
+				&= -H(x|y) + H(x)  \\
+				&= H(x) - H(x|y)
+			\end{align*}
+			\item 
+			\begin{enumerate}
+				\item
+				\item
+				\item
+			\end{enumerate}
+			\item
+			\item Yes.
+			\item 
+			\begin{enumerate}
+				\item 
+				\item
+				\item
+				\item
+			\end{enumerate}
+					
+		\end{enumerate}
+\end{document}

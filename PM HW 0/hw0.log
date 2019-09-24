@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.9.4)  5 SEP 2019 11:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.29)  9 SEP 2019 22:04
 entering extended mode
 **./hw0.tex
 (hw0.tex
 LaTeX2e <2018-04-01> patch level 5
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\article.cls"
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\size11.clo"
 File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count80
@@ -19,33 +19,33 @@ File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) ("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.st
+) ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\inputenc.st
 y"
 Package: inputenc 2018/04/06 v1.3b Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
- ("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def"
+ ("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\latin1.def"
 File: latin1.def 2018/04/06 v1.3b Input encoding file
 ))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
 sty"
 Package: geometry 2018/04/16 v5.8 Page Geometry
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\keyval.st
 y"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.s
 ty"
 Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.
 sty"
 Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.
 sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
@@ -62,31 +62,31 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen110
 \Gm@dimlist=\toks17
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\geometry\geometry.
 cfg"))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsmath.st
 y"
 Package: amsmath 2017/09/02 v2.17a AMS math features
 \@mathmargin=\skip43
 
 For additional information on amsmath, use the `?' option.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amstext.st
 y"
 Package: amstext 2000/06/29 v2.01 AMS text
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty
 "
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
 \ex@=\dimen111
 ))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty
 "
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen112
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty
 "
 Package: amsopn 2016/03/08 v2.02 operator names
 )
@@ -128,7 +128,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.
 sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -136,35 +136,35 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb.s
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\amssymb.s
 ty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphicx.
 sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphics.
 sty"
 Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\graph
 ics.cfg"
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 99.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-def\pdfte
 x.def"
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen120
 \Gin@req@width=\dimen121
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\enumitem\enumitem.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\enumitem\enumitem.
 sty"
 Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \labelindent=\skip46
@@ -173,7 +173,7 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@inbox=\box28
 \enitdp@description=\count103
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\booktabs\booktabs.
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\booktabs\booktabs.
 sty"
 Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \heavyrulewidth=\dimen123
@@ -244,7 +244,7 @@ LaTeX Font Info:    ... okay on input line 13.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.mk
 ii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count108
@@ -259,39 +259,39 @@ ii"
 \makeMPintoPDFobject=\count113
 \everyMPtoPDFconversion=\toks25
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-
 base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\infware
 rr.sty"
 Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 )
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.st
 y"
 Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvdefin
 ekeys.sty"
 Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds
 .sty"
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 )))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\kvoptions
 .sty"
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\kvsetke
 ys.sty"
 Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\etexcmd
 s.sty"
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\ifluate
 x.sty"
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
@@ -301,7 +301,7 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\generic\oberdiek\pdftexc
 mds.sty"
 Package: pdftexcmds 2018/01/30 v0.27 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -319,11 +319,11 @@ G,.JBIG2,.JB2,.eps]
 )
 LaTeX Font Info:    Try loading font information for U+msa on input line 14.
 
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 14.
-("C:\Users\James\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+("D:\Users\jtbri\AppData\Local\Programs\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 Underfull \hbox (badness 10000) in paragraph at lines 26--28
@@ -332,34 +332,79 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--28
 
 [1
 
-{C:/Users/James/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-[3] [4] [5] [6] (hw0.aux) ) 
+{C:/Users/jtbri/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+[3] [4]
+! Undefined control sequence.
+<argument> ...\frac {1}{2}tr((a-Amu)^T -(S\SigmaS 
+                                                  ^T) d(S \Sigma S^T)(S \Sig...
+l.237 				\end{align*}
+                      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> ...^{-1}(a-A\mu ))(a-Amu)^T -(S\SigmaS 
+                                                  ^T) S d\Sigma 
+l.237 				\end{align*}
+                      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> ...\frac {1}{2}tr((a-Amu)^T -(S\SigmaS 
+                                                  ^T) d(S \Sigma S^T)(S \Sig...
+l.237 				\end{align*}
+                      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+<argument> ...^{-1}(a-A\mu ))(a-Amu)^T -(S\SigmaS 
+                                                  ^T) S d\Sigma 
+l.237 				\end{align*}
+                      
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[5] [6] (hw0.aux) ) 
 Here is how much of TeX's memory you used:
- 3197 strings out of 492973
- 45658 string characters out of 3126693
+ 3198 strings out of 492973
+ 45704 string characters out of 3126692
  125561 words of memory out of 3000000
- 7017 multiletter control sequences out of 15000+200000
+ 7018 multiletter control sequences out of 15000+200000
  11382 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,13n,32p,466b,498s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/James/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/James/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Jam
-es/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmmi8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmr10.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr12.pfb><C:/Users/James/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/James/AppData/Local/Pr
-ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/James/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/
-James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmsy6.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsy8.pfb><C:/Users/James/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on hw0.pdf (6 pages, 159005 bytes).
+<D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmbx12.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/Users/jtbri/AppData/Local/Prog
+rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/Users/jtbri/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><D:/Users
+/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.p
+fb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr10.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr17.pfb><D:/Users/jtbri/AppData/Local/Programs/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><D:/Users/jtbri/AppData/Local
+/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><D:/Users/jtbri/Ap
+pData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/U
+sers/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
+y6.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmsy8.pfb><D:/Users/jtbri/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/amsfonts/symbols/msbm10.pfb>
+Output written on hw0.pdf (6 pages, 160392 bytes).
 PDF statistics:
  77 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

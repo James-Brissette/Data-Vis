@@ -197,7 +197,7 @@
 				\nabla^2 f &= \frac{(a * b^2 * -c) - (a^2 * 2b * -c^2)}{b^4} \\
 				&= \frac{(a * b * -c) + (a^2 * 2 * c^2)}{b^3}
 				\end{align*}
-				\item 
+				\item We know the log of the sigmoid function is concave, and from the second derivative we can deduce similar. So the -log would be convex.
 			\end{enumerate}
 			\item
 			\begin{enumerate}
@@ -222,7 +222,21 @@
 				\end{align*}
 			\end{enumerate}
 		
-			\item 
+			\item
+			\begin{enumerate}
+				\item
+				\begin{align*}
+				-\frac{1}{2}log\vert S\Sigma S^T \vert &- \frac{1}{2}tr((a-A\mu)^T(S\Sigma S^T)^{-1}(a-A\mu)) \\
+				-\frac{1}{2}d log \vert S\Sigma S^T \vert &= -\frac{1}{2}tr(S \Sigma S^T)^{-1}d(S\Sigma S^T) \\
+				&= -\frac{1}{2}tr((S \Sigma S^T)^{-1} S d\sigma S^T) \\
+				&= -\frac{1}{2} tr(S^T(S \Sigma	S^T)^{-1}S d\Sigma) \\
+				d(-\frac{1}{2}tr((a-A&\mu)^T(S\Sigma S^T)^{-1}(a-A\mu))\\
+				&= -\frac{1}{2}tr((a-Amu)^T d(S \Sigma S^T)^{-1}(a-A\mu)) \\
+				&= -\frac{1}{2}tr((a-Amu)^T -(S\SigmaS^T) d(S \Sigma S^T)(S \Sigma S^T)^{-1}(a-A\mu)) \\
+				&= -\frac{1}{2}tr(S^T(S \Sigma S^T)^{-1}(a-A\mu))(a-Amu)^T -(S\SigmaS^T) S d\Sigma
+				\end{align*}
+				\item 
+			\end{enumerate}
 			\item If we first define a second function $h(z) = log(|X+zV|)$ s.t. $X+zV$ is a positive definite matrix, then the following holds true:
 			\begin{align*}
 			h(z) &= log(|X+zV|) \\

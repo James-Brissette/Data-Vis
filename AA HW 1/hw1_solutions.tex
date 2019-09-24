@@ -58,9 +58,62 @@
 		
 		\item
 		\begin{enumerate}
-			\item
-			\item
-			\item
+			\item Solving the recurrance using the Akra Bazzi method, we make the following assumptions. The recurrance is of the form $f(n) = g(n) + \sum_{i=1}^{k} a_tT(b_i n)$ where $n \geq 1$ is a real number, $c$ is a constant s.t. $c \geq \frac{1}{b_i}$ and $\frac{1}{1 - b_i}$ for all $i \geq 1$, and $i \leq k$, $a_i > 0$, $b_i \leq 1$ and $b_i > 0$, $k \geq 1$ is a constant. and $g(n)$ is a non-negative function satisfying the polynomial growth condition $p: \sum_{i=1}^{k} a_i b_{i}^p = 1$.
+			
+			First solving for a value of $p$, we get:
+			\begin{align*}
+				\sum_{i=1}^{k} a_i b_{i}^p &= 2(\frac{1}{2})^p + 1(\frac{1}{3})^p = 1 \\
+				&= 2^{1-p} + 3^{-p} = 1 \\
+				p &\approx 1.3646  
+			\end{align*}
+			
+			Then we solve by substituting into:
+			\begin{align*}
+				T(n) &\in \Theta(n^p (1 + \int_{1}^{n} \frac{g(u)}{u^{p+1}} du)) \\
+				T(n) &\in \Theta(n^{1.3646} (1 + \int_{1}^{n} \frac{g(u)}{u^{2.3646}} du)) \\
+				T(n) &\in \Theta(n^{1.3646} (n(0.73281 - \frac{0.73281}{n^{1.3646}} + 1)))
+			\end{align*}
+			Which appears to approximate something like $\Theta(n^{2.xxxx})$ or something just over $n^2$, but I'll stick with the more exact solution.
+			\item Here, using plug-and-chug we can see the recurrence take the form:
+			\begin{align*}
+				T(n) &= nT(n^{\frac{1}{2}})^2 \\
+				&= n\big(n(T(n^{\frac{1}{4}})^2\big)^2 \\
+				&= n\Big(n\big(n(T(n^{\frac{1}{8}})^2\big)^2\Big)^2 \\
+				&= n^r T\Big(n^\frac{1}{2^r}\Big)^{2^r}
+			\end{align*}
+			
+			Using this we substitute to find the value of $r$ that satisfies our equation in both base cases:
+			\begin{align*}
+				n^{\frac{1}{2^r}} &= 2 \\
+				\frac{1}{2^r} log(n) &= 1 \\
+				log(n) &= 2^r \\
+				log (log (n)) &= r
+			\end{align*}
+			
+			And plugging back in we get:
+			\begin{align*}
+			n^r T\Big(n^\frac{1}{2^r}\Big)^{2^r} = n^{log(log(n))}T(2)^{log(n)}
+			\end{align*}
+			
+			Since our base case if $T(1)$ and not $T(2)$ we need to substitute and resolve:
+			
+			\begin{align*}
+			T(2) &= 2T(1)^2 \\
+			\text{T(1)=4:\space} n^{log(log(n))}T(2)^{log(n)} &= n^{log(log(n))}32^{log(n)}\\
+			&= n^{log(log(n))}n^5\\
+			\text{T(1)=16:\space} n^{log(log(n))}T(2)^{log(n)} &= n^{log(log(n))}512^{log(n)}\\
+			&= n^{log(log(n))}n^9\\
+			\end{align*}
+			
+			\item If the divide step is proportional to the total number of elements, we need to consider it, but it ultimately won't have as large or as meaningful an effect as the combine step. The combine step dominates here as for very large $N$ the runtime is proportional to the product of the combinations in this step. What you quickly discover is that for large $N$ the comparison between two sub-divisions and three becomes a comparison between $(\frac{N}{2})^2$ and $(\frac{N}{3})^3$:
+			\begin{align*}
+				(\frac{N}{2})^2 &\le (\frac{N}{3})^3 \\
+				N^2&\le N^3
+			\end{align*}
+			\begin{enumerate}
+				\item As we see from the above, as $N$ grows large, the small constants in each term cease to have a meaningful effect and we can discard them. This would mean that in either breakdown we would end up with $O(N^2)$.
+				\item Again, clearly when choosing between $O(n^2)$ and $O(n^3)$ we would rather choose the former and go with two subdivisions
+			\end{enumerate}
 		\end{enumerate}
 		
 		\item One alternative algorithm to consider is first starting with the smallest set $s$ where $\min\limits_{1\leq i \leq t} s_i$. We know that this has the smallest number of elements to consider, and since we want the union across all sets, if it is not in this set, then we do not consider it. We make the assumption here that we are not taking into account pre-processing time and as a result assume that all the sets are already in sorted order. If this is the case then we can perform a binary search across every set, looking to see which elements in $s$ are also present elsewhere. If we do this, we get that our search step takes $s*log(s_i)$ for each $s_i$. If we sum these across, we see that
