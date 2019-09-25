@@ -30,9 +30,26 @@
 				f(x_1) &\propto exp((x_1^T - \mu)^T(V_{11}-V_{21}^T V_{22}^{-1}V_{21})(x_1-\mu)) \\
 			X_1 &\mathtt{\sim} \mathcal{N}(\mu, (V_{11}-V_{21}^T V_{22}^{-1}V_{21}))
 			\end{align*}
-			Which turns out to be exactly $X_1 &\mathtt{\sim} \mathcal{N}(\mu, \Sigma_{11})$
+			Which turns out to be exactly $X_1 \mathtt{\sim} \mathcal{N}(\mu, \Sigma_{11})$
 			\item
-			\item
+			\item We can simplify this equation by using the definition of Expected value and some Matrix Cookbook trace tricks:
+			\begin{align*}
+			H(x) &= -\int p(x)log(p(x)) dx \\
+			&= -\int \mathcal{N}(x|\mu,\Sigma)*log\mathcal{N}(x|\mu,\Sigma) \\
+			&= -\mathbb{E}\Big(log\mathcal{N}(x|\mu,\Sigma)\Big) \\
+			&= -\mathbb{E}\Big(log[2\pi^{\frac{d}{2}}|\Sigma|^{-\frac{1}{2}}exp\big(-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)\big)]\Big)\\
+			&= -\mathbb{E}(-\frac{d}{2}log(2\pi)) -\mathbb{E}(-\frac{1}{2}log|\Sigma|)-\mathbb{E}(-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}\mathbb{E}((x-\mu)^T \Sigma^{-1} (x-\mu)) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}\mathbb{E}(tr((x-\mu)^T \Sigma^{-1} (x-\mu))) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}\mathbb{E}(tr(\Sigma^{-1} (x-\mu)(x-\mu)^T )) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}tr(\mathbb{E}(\Sigma^{-1} (x-\mu)(x-\mu)^T )) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}tr(\Sigma^{-1}\mathbb{E}( (x-\mu)(x-\mu)^T )) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}tr(\Sigma^{-1}\Sigma) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{1}{2}tr(I_d) \\
+			&= \frac{d}{2}log(2\pi) + \frac{1}{2}log|\Sigma| + \frac{d}{2} \\
+			&= \frac{d}{2}(1+log(2\pi)) + \frac{1}{2}log|\Sigma|
+\end{align*}						
+			
 			\item We know that $KL(q||p) = \int \big[ log(q(x)) - log(p(x)) \big] p(x) dx$. If we expand out each term we get:
 			\begin{align*}
 				&\int log \Big[ \frac{1}{2| \Lambda |}exp(\frac{1}{2}(x-m)^T \Lambda^{-1}(x-m)) \Big] - log \Big[ \frac{1}{2| \Sigma |}exp(\frac{1}{2}(x-\mu)^T \Sigma^{-1}(x-\mu)) \Big] p(x)dx \\
@@ -42,7 +59,7 @@
 			and we know from the matrix cookbook that $E(x^TAx) = tr(A\Sigma)+m^TAm$:
 			\begin{align*}
 				&= \frac{1}{2} log \frac{| \Lambda |}{| \Sigma | }-tr\big[ I_d \big] + \frac{1}{2} (m-\mu) + \frac{1}{2}tr(\Lamda^{-1}\Sigma)) \\
-				&= \frac{1}{2} \big[log \frac{| \Lambda |}{| \Sigma | } - d + tr(\Lambda^{-1}\Sigma) + (m-\mu)^T \Lambda^{-1}(m-\mu)\big]
+				&= \frac{1}{2} \big[log \frac{| \Lambda |}{| \Sigma | } - d + tr(\Lambda^{-1}\Sigma) + (m- \mu)^T \Lambda^{-1}(m- \mu)\big]
 			\end{align*}
 			\item So if we use a fair bit of what is in the lecture notes, this isn't too bad. We know that $\nabla log(Z(\eta)) = \frac{\nabla Z(\eta)}{Z(\eta)}$, that $Z(\eta)= \int h(x)exp(u(x)^T \eta)dx$ and that $\nabla Z(\eta) = \int h(x) exp(u(x)^T\eta) u(x) dx$.
 			
@@ -75,8 +92,24 @@
 			\end{align*}
 			\item 
 			\begin{enumerate}
-				\item
-				\item
+				\item Dirichlet: \\
+				\begin{align*}
+					&= \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\dots \Gamma(\alpha_k)}	\prod_{k=1}^K \mu_k^{a_k-1}	\\
+					&= log(\Gamma(\alpha_0)) -\dots + \sum_{k=1}^K (a_k -1)(log(\mu_k)) \\
+					&= log(\Gamma(\alpha_0)) -\dots + (a_k -1)^T(log(\mu_k)) \\
+					&= exp(\eta^T T(x) + log(\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\dots \Gamma(\alpha_k)}))
+				\end{align*}
+				where $\eta = (\vec{a}+\vec{1})$, $T(x) = log(\vec{\mu})$ and $log(Z(\eta)) = log(\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\dots \Gamma(\alpha_k)})$
+				\item Gamma: \\
+				\begin{align*}
+					Gam(\lambda |a,b) &= \frac{1}{\Gamma(a)}b^a\lambda^{a-1}exp(-b\lambda) \\
+					&= exp(log(\frac{1}{\Gamma(a)}b^a\lambda^{a-1}exp(-b\lambda)))
+				\end{align*}
+				After taking the log, we have an idea that based on the function values, we have $\eta(\Theta) = \frac{1}{\Gamma(a)}$, $T(x) = b^a \lambda^{a-1}$. After simplifying and rearranging terms we get:
+				\begin{align*}
+					exp(-b\lambda + a*log(b) + (a-1)log(\lambda) - log(\Gamma(a)))
+				\end{align*}
+				from which we can deduce that $\eta(a,\lambda) = (-b,a)^T$ and $T(b) = (b, log(b))^T$
 				\item
 			\end{enumerate}
 			\item
